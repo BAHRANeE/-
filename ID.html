@@ -105,10 +105,12 @@
             margin-top: 20px;
         }
     </style>
+    <!-- Adding jsPDF and html2canvas libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 </head>
 <body>
+
     <div class="container">
         <h1>Enter Information to Generate Your Account</h1>
 
@@ -137,22 +139,20 @@
             <button onclick="saveInfo()">Submit</button>
         </div>
 
-        <!-- Download as Image button -->
-        <div class="button-container">
-            <button onclick="downloadImage()">Download as Image</button>
-        </div>
-
         <!-- Download as PDF button -->
         <div class="button-container">
             <button onclick="downloadPDF()">Download as PDF</button>
         </div>
 
+        <!-- Download as Image button -->
+        <div class="button-container">
+            <button onclick="downloadImage()">Download as Image</button>
+        </div>
+
         <div id="resultContainer" class="result-container"></div>
-        <div id="resultImage" style="display:none;"></div>
     </div>
 
     <script>
-        // Store information for reuse
         let userData = {};
 
         function generateInfo() {
@@ -161,25 +161,20 @@
             var birthDate = document.getElementById("birthDate").value;
             var idExpirationDate = document.getElementById("idExpirationDate").value;
 
-            // Validate that the personal ID is 9 digits
             if (personalId.length !== 9 || isNaN(personalId)) {
                 return;
             }
 
-            // Validate that all other fields are filled
             if (!fullName || !birthDate || !idExpirationDate) {
                 return;
             }
 
-            // Generate Steerda Code randomly based on name parts
             var customCode = fullName.charAt(0).toUpperCase() + fullName.split(" ")[1].charAt(0).toUpperCase() +
                              birthDate.slice(5,7) + idExpirationDate.slice(5,7);
 
-            // Generate Primary and Secondary IDs based on birth date and expiration date
             var primaryId = "ID ONE: " + fullName.charAt(0).toUpperCase() + birthDate.slice(5,7) + idExpirationDate.slice(-2);
             var secondaryId = "ID TWO: " + birthDate.slice(8,10) + fullName.charAt(1).toUpperCase() + idExpirationDate.slice(2,4);
 
-            // Store the data in userData object using personal ID as the key
             userData[personalId] = {
                 fullName: fullName,
                 birthDate: birthDate,
@@ -190,15 +185,13 @@
             };
         }
 
-        // Display information when "Submit" is clicked
         function saveInfo() {
             var personalId = document.getElementById("personalId").value;
             if (userData[personalId]) {
                 var resultContainer = document.getElementById("resultContainer");
 
-                // Add result in an attractive manner at the bottom of the page
                 var resultHTML = `
-                    <div class="result" id="resultImage">
+                    <div class="result">
                         <h2>Account Information</h2>
                         <p><span>Full Name:</span> ${userData[personalId].fullName}</p>
                         <p><span>Date of Birth:</span> ${userData[personalId].birthDate}</p>
@@ -214,26 +207,11 @@
             }
         }
 
-        // Download Image using html2canvas
-        function downloadImage() {
-            var resultContainer = document.getElementById("resultImage");
-            html2canvas(resultContainer).then(function(canvas) {
-                var imgData = canvas.toDataURL('image/png');
-                var link = document.createElement('a');
-                link.href = imgData;
-                link.download = 'account_information.png';
-                link.click();
-            });
-        }
-
-        // Download PDF using jsPDF
         function downloadPDF() {
             var personalId = document.getElementById("personalId").value;
             if (userData[personalId]) {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
-                doc.setFont('helvetica', 'bold');
-                doc.setTextColor(0, 123, 255);
                 var resultHTML = `
                     Account Information\n
                     Full Name: ${userData[personalId].fullName}\n
@@ -243,12 +221,29 @@
                     ${userData[personalId].primaryId}\n
                     ${userData[personalId].secondaryId}
                 `;
+                doc.setTextColor(0, 102, 204);
                 doc.text(resultHTML, 10, 10);
                 doc.save('account_information.pdf');
             } else {
                 alert("Please enter a valid personal ID.");
             }
         }
+
+        function downloadImage() {
+            var resultContainer = document.getElementById("resultContainer");
+            if (resultContainer.innerHTML) {
+                html2canvas(resultContainer).then(function(canvas) {
+                    var image = canvas.toDataURL("image/png");
+                    var link = document.createElement('a');
+                    link.href = image;
+                    link.download = 'account_information.png';
+                    link.click();
+                });
+            } else {
+                alert("Please generate account information first.");
+            }
+        }
     </script>
+
 </body>
 </html>
