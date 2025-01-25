@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حساب ستيردا سبيكال account seteerdaa sbecall</title>
+    <stitle>حساب ستيردا سبيكال account seteerdaa sbecall</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -214,11 +214,20 @@
         // تحميل الصورة باستخدام html2canvas
         function downloadImage() {
             var resultContainer = document.getElementById("resultContainer");
+
+            // التأكد من أن المحتوى جاهز للتحويل إلى صورة
+            if (resultContainer.innerHTML === "") {
+                alert("لا توجد معلومات لعرضها.");
+                return;
+            }
+
             html2canvas(resultContainer).then(function(canvas) {
                 var link = document.createElement('a');
                 link.download = 'info_image.png'; // اسم الصورة
                 link.href = canvas.toDataURL();
                 link.click();
+            }).catch(function(error) {
+                console.error("Error capturing the image: ", error);
             });
         }
     </script>
