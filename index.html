@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <stitle>حساب ستيردا سبيكال account seteerdaa sbecall</title>
+    <title>حساب ستيردا سبيكال account seteerdaa sbecall</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -107,8 +107,8 @@
         }
     </style>
 
-    <!-- إضافة مكتبة html2canvas لتحويل المحتوى إلى صورة -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <!-- إضافة مكتبة jsPDF لتحويل المحتوى إلى PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -140,9 +140,9 @@
             <button onclick="saveInfo()">تم</button>
         </div>
 
-        <!-- زر تنزيل الصورة -->
+        <!-- زر تنزيل PDF -->
         <div class="button-container">
-            <button onclick="downloadImage()">تنزيل المعلومات كصورة</button>
+            <button onclick="downloadPDF()">تنزيل المعلومات كـ PDF</button>
         </div>
 
         <div id="resultContainer" class="result-container"></div>
@@ -211,24 +211,26 @@
             }
         }
 
-        // تحميل الصورة باستخدام html2canvas
-        function downloadImage() {
-            var resultContainer = document.getElementById("resultContainer");
-
-            // التأكد من أن المحتوى جاهز للتحويل إلى صورة
-            if (resultContainer.innerHTML === "") {
-                alert("لا توجد معلومات لعرضها.");
-                return;
+        // تحميل PDF باستخدام jsPDF
+        function downloadPDF() {
+            var personalId = document.getElementById("personalId").value;
+            if (userData[personalId]) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                var resultHTML = `
+                    معلومات التسجيل\n
+                    اسم المستخدم: ${userData[personalId].fullName}\n
+                    تاريخ الميلاد: ${userData[personalId].birthDate}\n
+                    تاريخ انتهاء البطاقة: ${userData[personalId].idExpirationDate}\n
+                    رمز سيتردا: ${userData[personalId].customCode}\n
+                    ID الأول: ${userData[personalId].primaryId}\n
+                    ID الثاني: ${userData[personalId].secondaryId}
+                `;
+                doc.text(resultHTML, 10, 10);
+                doc.save('info.pdf');
+            } else {
+                alert("الرجاء إدخال رقم شخصي صحيح.");
             }
-
-            html2canvas(resultContainer).then(function(canvas) {
-                var link = document.createElement('a');
-                link.download = 'info_image.png'; // اسم الصورة
-                link.href = canvas.toDataURL();
-                link.click();
-            }).catch(function(error) {
-                console.error("Error capturing the image: ", error);
-            });
         }
     </script>
 
