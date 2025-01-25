@@ -1,263 +1,227 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أهمية زواج الشاب البالغ عند الشيعة الاثنا عشرية</title>
+    <title>صفحة المعلومات</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            font-family: "Arial", sans-serif;
-            background-color: #141414;
-            color: #eaeaea;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
             margin: 0;
             padding: 0;
-            line-height: 1.8;
+            direction: rtl;
+            color: #333;
         }
-        header {
-            background-color: #008000;
-            color: #fff;
-            text-align: center;
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #ffffff;
             padding: 40px;
-        }
-        header h1 {
-            font-size: 4vw;
-            margin: 0;
-        }
-        nav {
-            background-color: #000;
-            color: #fff;
-            padding: 15px;
-            display: flex;
-            justify-content: space-around;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        nav a {
-            color: #eaeaea;
-            text-decoration: none;
-            font-size: 1.5vw;
-            padding: 10px 20px;
-            border: 1px solid transparent;
-        }
-        nav a:hover {
-            border: 1px solid #008000;
-            border-radius: 5px;
-        }
-        .content {
-            max-width: 1200px;
-            margin: auto;
-            background-color: #1e1e1e;
-            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-        section {
-            margin-bottom: 50px;
-        }
-        h2 {
-            color: #f0d75e;
-            margin-bottom: 20px;
-            font-size: 3vw;
-        }
-        h3 {
-            color: #eaeaea;
-            margin-bottom: 10px;
-            font-size: 2vw;
-        }
-        p {
-            text-align: justify;
-            margin-bottom: 30px;
-            font-size: 1.5vw;
-        }
-        ul, ol {
-            margin: 10px 30px;
-            font-size: 1.5vw;
-        }
-        blockquote {
-            font-style: italic;
-            background-color: #2b2b2b;
-            padding: 15px;
-            border-left: 4px solid #008000;
-            margin: 20px 0;
-            color: #f0f0f0;
-        }
-        footer {
-            background-color: #000;
-            color: white;
+        h1 {
             text-align: center;
-            padding: 20px;
-            margin-top: 30px;
+            color: #007bff;
+            margin-bottom: 30px;
+            font-size: 28px;
         }
-        .highlight {
-            color: #f0d75e;
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
             font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 16px;
         }
-        .button {
-            display: inline-block;
-            padding: 15px 30px;
-            margin: 20px 0;
-            background-color: #008000;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.5vw;
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-top: 5px;
         }
-        .button:hover {
-            background-color: #005000;
+        .form-group input:focus {
+            border-color: #007bff;
         }
-
-        /* Responsive Design for different screen sizes */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 6vw;
-            }
-            nav a {
-                font-size: 4vw;
-            }
-            h2 {
-                font-size: 5vw;
-            }
-            h3 {
-                font-size: 4vw;
-            }
-            p, ul, ol {
-                font-size: 4vw;
-            }
-            .button {
-                font-size: 4vw;
-                padding: 12px 25px;
-            }
+        .result {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 18px;
+            position: relative;
         }
-        @media (max-width: 480px) {
-            header h1 {
-                font-size: 8vw;
-            }
-            nav a {
-                font-size: 5vw;
-            }
-            h2 {
-                font-size: 7vw;
-            }
-            h3 {
-                font-size: 5vw;
-            }
-            p, ul, ol {
-                font-size: 5vw;
-            }
-            .button {
-                font-size: 5vw;
-                padding: 10px 20px;
-            }
+        .result h2 {
+            color: #007bff;
+            text-align: center;
+            font-size: 24px;
+        }
+        .result p {
+            margin: 15px 0;
+            color: #333;
+        }
+        .result p span {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .result button {
+            padding: 8px 16px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+        .result button:hover {
+            background-color: #e60000;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 12px 24px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .button-container button:hover {
+            background-color: #218838;
+        }
+        .result-container {
+            margin-top: 20px;
         }
     </style>
+
+    <!-- إضافة مكتبة html2canvas لتحويل المحتوى إلى صورة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>أهمية زواج الشاب البالغ عند الشيعة الاثنا عشرية</h1>
-    </header>
 
-    <nav>
-        <a href="#introduction">المقدمة</a>
-        <a href="#importance">أهمية الزواج</a>
-        <a href="#delays">تأخير الزواج</a>
-        <a href="#ahlulbayt">أحاديث أهل البيت</a>
-        <a href="#stories">قصص ملهمة</a>
-        <a href="#parents">دور الأهل</a>
-        <a href="#conclusion">الخاتمة</a>
-        <a href="#resources">المصادر</a>
-    </nav>
+    <div class="container">
+        <h1>أدخل المعلومات لتوليد حسابك</h1>
 
-    <div class="content">
-        <!-- المقدمة -->
-        <section id="introduction">
-            <h2>المقدمة</h2>
-            <p>
-                الزواج هو أحد الأركان الأساسية في دين الإسلام، ويُعتبر في الفكر الشيعي الاثنا عشري خطوة هامة لتحقيق التوازن النفسي والاجتماعي. <span class="highlight">يُعتبر الزواج نصف الدين</span>، ويُعد وسيلة لتحقيق الطهارة العاطفية والنفسية.
-            </p>
-            <p>
-                إن الزواج في الإسلام ليس مجرد عقد اجتماعي، بل هو عبادة، وتكامل روحي يسهم في بناء مجتمع متماسك، حيث يحفظ الفرد من الانحراف ويشجعه على الاستقامة. <span class="highlight">أهمية الزواج تتجلى في أنه أساس العفة والطهارة</span> كما ورد في القرآن الكريم وفي الأحاديث الشريفة.
-            </p>
-            <p>
-                ذكر رسول الله صلى الله عليه وآله وسلم: <span class="highlight">"من تزوج فقد أحرز نصف دينه"</span>، وبالتالي فإن الزواج لا يعني مجرد الحصول على شريك الحياة، بل هو خطوة أساسية في بناء شخصية متكاملة تقوى علاقتها بالله وبالآخرين.
-            </p>
-            <p>
-                في الفكر الشيعي، الزواج ليس فقط من أجل الراحة الجسدية بل هو لتحقيق استقرار الروح والتقرب إلى الله. يقول الإمام علي عليه السلام: <span class="highlight">"من تزوج فقد حصن نصف دينه"</span>، وهذا يوضح مدى ارتباط الزواج بالروحانية.
-            </p>
-        </section>
+        <div class="form-group">
+            <label for="personalId">الرقم الشخصي (9 أرقام):</label>
+            <input type="text" id="personalId" placeholder="أدخل الرقم الشخصي المكون من 9 أرقام" maxlength="9" oninput="generateInfo()" />
+        </div>
 
-        <!-- الفصل الأول: أهمية الزواج -->
-        <section id="importance">
-            <h2>أهمية الزواج في الإسلام والشيعة الاثنا عشرية</h2>
-            <p>
-                في هذا الفصل، سنتناول أهمية الزواج من الناحية الدينية والاجتماعية. يعتبر الزواج من أسمى المفاهيم في الإسلام، حيث يُعتبر نصف الدين كما ورد عن رسول الله صلى الله عليه وآله وسلم. <span class="highlight">الزواج هو وسيلة لتحقيق الطهارة الجسدية والنفسية،</span> فهو يساعد الفرد على بناء حياته الاجتماعية والروحية في جو من الاستقرار.
-            </p>
-            <p>
-                من خلال الزواج، يُمكن للفرد أن يجد السكن والراحة التي تنبع من ارتباطه بشريك الحياة، كما يُعتبر الزواج وسيلة لتحقيق الأهداف العائلية والاجتماعية.
-            </p>
-            <p>
-                وفي الفكر الشيعي، يتعمق المفهوم الروحي للزواج حيث يُعتبر وسيلة لتعزيز الإيمان بالله والتقوى، وتوجيه الإنسان نحو تحقيق حياة مليئة بالسكينة والسلام الداخلي.
-            </p>
-        </section>
+        <div class="form-group">
+            <label for="fullName">اسمك بالإنجليزي:</label>
+            <input type="text" id="fullName" placeholder="أدخل اسمك بالكامل بالإنجليزي هنا" oninput="generateInfo()" />
+        </div>
 
-        <!-- الفصل الثاني: تأخير الزواج وتأثيره -->
-        <section id="delays">
-            <h2>تأثير تأخير الزواج على الشباب</h2>
-            <p>
-                في هذا الفصل، نتطرق إلى التأثيرات النفسية والاجتماعية التي تترتب على تأخير الزواج. <span class="highlight">الشباب الذين يؤخرون زواجهم يعانون من شعور بالوحدة العاطفية والاجتماعية،</span> وهو ما ينعكس سلبًا على حياتهم الشخصية.
-            </p>
-            <p>
-                يقول الإمام جعفر الصادق عليه السلام: <span class="highlight">"من تأخر في الزواج فقد تأخر عن طاعة الله"</span>، هذه الحكمة تشير إلى أن الزواج ليس فقط مهمة اجتماعية بل هو عبادة يجب أن يتم في الوقت المحدد.
-            </p>
-            <p>
-                تؤدي الظروف الاجتماعية والاقتصادية إلى تأخير الزواج، لكن من المهم أن نفهم أن الزواج يساعد على توفير الاستقرار الاجتماعي والروحي.
-            </p>
-        </section>
+        <div class="form-group">
+            <label for="birthDate">تاريخ الميلاد:</label>
+            <input type="date" id="birthDate" oninput="generateInfo()" />
+        </div>
 
-        <!-- المزيد من الفصول -->
-        <section id="ahlulbayt">
-            <h2>أحاديث أهل البيت حول الزواج</h2>
-            <p>
-                في هذا القسم، نعرض بعض الأحاديث الشريفة التي وردت عن أهل البيت عليهم السلام حول الزواج. تأكيدهم على ضرورة الزواج في السن المبكر ودوره في الحفاظ على الشرف والكرامة في المجتمع.
-            </p>
-        </section>
+        <div class="form-group">
+            <label for="idExpirationDate">تاريخ انتهاء صلاحية البطاقة الشخصية:</label>
+            <input type="date" id="idExpirationDate" oninput="generateInfo()" />
+        </div>
 
-        <section id="stories">
-            <h2>قصص ملهمة حول الزواج</h2>
-            <p>
-                في هذا الفصل، نعرض بعض القصص الملهمة لأشخاص في المجتمع الشيعي الذين استفادوا من الزواج في حياتهم الروحية والعاطفية.
-            </p>
-        </section>
+        <!-- زر تم لعرض المعلومات -->
+        <div class="button-container">
+            <button onclick="saveInfo()">تم</button>
+        </div>
 
-        <section id="parents">
-            <h2>دور الأهل في تسهيل الزواج</h2>
-            <p>
-                يُعد دور الأهل أساسيًا في تسهيل إجراءات الزواج، من خلال دعم الشباب وتشجيعهم على اتخاذ القرار المناسب في الوقت المناسب.
-            </p>
-        </section>
+        <!-- زر تنزيل الصورة -->
+        <div class="button-container">
+            <button onclick="downloadImage()">تنزيل المعلومات كصورة</button>
+        </div>
 
-        <section id="conclusion">
-            <h2>الخاتمة</h2>
-            <p>
-                في النهاية، يُعتبر الزواج في الدين الشيعي الاثنا عشري من أهم أركان الحياة الروحية والاجتماعية. من خلال تسهيل الزواج ودعمه، يمكن تحقيق مجتمع متماسك يسهم في بناء أجيال متوازنة روحياً واجتماعياً.
-            </p>
-        </section>
-
-        <section id="resources">
-            <h2>المصادر</h2>
-            <p>
-                في هذا القسم، نستعرض المصادر التي استندنا إليها في كتابة هذا المقال، بالإضافة إلى المراجع الإسلامية الموثوقة.
-            </p>
-        </section>
+        <div id="resultContainer" class="result-container"></div>
     </div>
 
-    <footer>
-        <p>تم إعداد هذا المقال من الكاتب خادم اهل البيت الشاعر : سجاد مالك العبدالرسولي. حقوق الطبع والنشر &copy; 2025</p>
-    </footer>
+    <script>
+        // تخزين المعلومات لإعادة استخدامها
+        let userData = {};
+
+        function generateInfo() {
+            var personalId = document.getElementById("personalId").value;
+            var fullName = document.getElementById("fullName").value;
+            var birthDate = document.getElementById("birthDate").value;
+            var idExpirationDate = document.getElementById("idExpirationDate").value;
+
+            // التحقق من أن الرقم الشخصي يتكون من 9 أرقام
+            if (personalId.length !== 9 || isNaN(personalId)) {
+                return; // لا يتم عرض النتيجة إذا كان الرقم الشخصي غير صحيح
+            }
+
+            // التحقق من أن جميع الحقول الأخرى تم ملؤها
+            if (!fullName || !birthDate || !idExpirationDate) {
+                return; // لا يتم عرض النتيجة إذا كانت البيانات غير مكتملة
+            }
+
+            // توليد رمز سيتردا بشكل عشوائي بناءً على الأحرف الأولى من الاسم
+            var customCode = fullName.charAt(0).toUpperCase() + fullName.split(" ")[1].charAt(0).toUpperCase() +
+                             birthDate.slice(5,7) + idExpirationDate.slice(5,7);
+
+            // توليد ID الأول والثانوي بناءً على تاريخ الميلاد وتاريخ انتهاء الصلاحية
+            var primaryId = "ID-" + fullName.charAt(0).toUpperCase() + birthDate.slice(5,7) + idExpirationDate.slice(-2);
+            var secondaryId = "ID-" + birthDate.slice(8,10) + fullName.charAt(1).toUpperCase() + idExpirationDate.slice(2,4);
+
+            // حفظ البيانات في الكائن userData باستخدام الرقم الشخصي كمعرف
+            userData[personalId] = {
+                fullName: fullName,
+                birthDate: birthDate,
+                idExpirationDate: idExpirationDate,
+                customCode: customCode,
+                primaryId: primaryId,
+                secondaryId: secondaryId
+            };
+        }
+
+        // عرض المعلومات عند الضغط على "تم"
+        function saveInfo() {
+            var personalId = document.getElementById("personalId").value;
+            if (userData[personalId]) {
+                var resultContainer = document.getElementById("resultContainer");
+
+                // إضافة النتيجة بشكل جذاب في أسفل الصفحة
+                var resultHTML = `
+                    <div class="result">
+                        <h2>معلومات التسجيل</h2>
+                        <p><span>اسم المستخدم:</span> ${userData[personalId].fullName}</p>
+                        <p><span>تاريخ الميلاد:</span> ${userData[personalId].birthDate}</p>
+                        <p><span>تاريخ انتهاء البطاقة:</span> ${userData[personalId].idExpirationDate}</p>
+                        <p><span>رمز سيتردا:</span> ${userData[personalId].customCode}</p>
+                        <p><span>ID الأول:</span> ${userData[personalId].primaryId}</p>
+                        <p><span>ID الثاني:</span> ${userData[personalId].secondaryId}</p>
+                    </div>
+                `;
+                resultContainer.innerHTML = resultHTML;
+            } else {
+                alert("الرجاء إدخال رقم شخصي صحيح.");
+            }
+        }
+
+        // تحميل الصورة باستخدام html2canvas
+        function downloadImage() {
+            var resultContainer = document.getElementById("resultContainer");
+            html2canvas(resultContainer).then(function(canvas) {
+                var link = document.createElement('a');
+                link.download = 'info_image.png'; // اسم الصورة
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+
 </body>
 </html>
