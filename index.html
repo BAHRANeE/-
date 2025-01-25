@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حساب ستيردا سبيكال account seteerdaa sbecall</title>
+    <title>Steerda Special Account</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f7f7f7;
             margin: 0;
             padding: 0;
-            direction: rtl;
             color: #333;
         }
         .container {
@@ -107,49 +106,49 @@
         }
     </style>
 
-    <!-- إضافة مكتبة jsPDF لتحويل المحتوى إلى PDF -->
+    <!-- Adding jsPDF library to create PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
     <div class="container">
-        <h1>أدخل المعلومات لتوليد حسابك</h1>
+        <h1>Enter Information to Generate Your Account</h1>
 
         <div class="form-group">
-            <label for="personalId">الرقم الشخصي (9 أرقام):</label>
-            <input type="text" id="personalId" placeholder="أدخل الرقم الشخصي المكون من 9 أرقام" maxlength="9" oninput="generateInfo()" />
+            <label for="personalId">Personal ID (9 Digits):</label>
+            <input type="text" id="personalId" placeholder="Enter a 9-digit personal ID" maxlength="9" oninput="generateInfo()" />
         </div>
 
         <div class="form-group">
-            <label for="fullName">اسمك بالإنجليزي:</label>
-            <input type="text" id="fullName" placeholder="أدخل اسمك بالكامل بالإنجليزي هنا" oninput="generateInfo()" />
+            <label for="fullName">Your Full Name in English:</label>
+            <input type="text" id="fullName" placeholder="Enter your full name in English" oninput="generateInfo()" />
         </div>
 
         <div class="form-group">
-            <label for="birthDate">تاريخ الميلاد:</label>
+            <label for="birthDate">Date of Birth:</label>
             <input type="date" id="birthDate" oninput="generateInfo()" />
         </div>
 
         <div class="form-group">
-            <label for="idExpirationDate">تاريخ انتهاء صلاحية البطاقة الشخصية:</label>
+            <label for="idExpirationDate">ID Expiration Date:</label>
             <input type="date" id="idExpirationDate" oninput="generateInfo()" />
         </div>
 
-        <!-- زر تم لعرض المعلومات -->
+        <!-- Submit button to display information -->
         <div class="button-container">
-            <button onclick="saveInfo()">تم</button>
+            <button onclick="saveInfo()">Submit</button>
         </div>
 
-        <!-- زر تنزيل PDF -->
+        <!-- Download as PDF button -->
         <div class="button-container">
-            <button onclick="downloadPDF()">تنزيل المعلومات كـ PDF</button>
+            <button onclick="downloadPDF()">Download as PDF</button>
         </div>
 
         <div id="resultContainer" class="result-container"></div>
     </div>
 
     <script>
-        // تخزين المعلومات لإعادة استخدامها
+        // Store information for reuse
         let userData = {};
 
         function generateInfo() {
@@ -158,25 +157,25 @@
             var birthDate = document.getElementById("birthDate").value;
             var idExpirationDate = document.getElementById("idExpirationDate").value;
 
-            // التحقق من أن الرقم الشخصي يتكون من 9 أرقام
+            // Validate that the personal ID is 9 digits
             if (personalId.length !== 9 || isNaN(personalId)) {
-                return; // لا يتم عرض النتيجة إذا كان الرقم الشخصي غير صحيح
+                return; // Don't show results if the personal ID is invalid
             }
 
-            // التحقق من أن جميع الحقول الأخرى تم ملؤها
+            // Validate that all other fields are filled
             if (!fullName || !birthDate || !idExpirationDate) {
-                return; // لا يتم عرض النتيجة إذا كانت البيانات غير مكتملة
+                return; // Don't show results if data is incomplete
             }
 
-            // توليد رمز سيتردا بشكل عشوائي بناءً على الأحرف الأولى من الاسم
+            // Generate Steerda Code randomly based on name parts
             var customCode = fullName.charAt(0).toUpperCase() + fullName.split(" ")[1].charAt(0).toUpperCase() +
                              birthDate.slice(5,7) + idExpirationDate.slice(5,7);
 
-            // توليد ID الأول والثانوي بناءً على تاريخ الميلاد وتاريخ انتهاء الصلاحية
-            var primaryId = "ID-" + fullName.charAt(0).toUpperCase() + birthDate.slice(5,7) + idExpirationDate.slice(-2);
-            var secondaryId = "ID-" + birthDate.slice(8,10) + fullName.charAt(1).toUpperCase() + idExpirationDate.slice(2,4);
+            // Generate Primary and Secondary IDs based on birth date and expiration date
+            var primaryId = "ID ONE: " + fullName.charAt(0).toUpperCase() + birthDate.slice(5,7) + idExpirationDate.slice(-2);
+            var secondaryId = "ID TWO: " + birthDate.slice(8,10) + fullName.charAt(1).toUpperCase() + idExpirationDate.slice(2,4);
 
-            // حفظ البيانات في الكائن userData باستخدام الرقم الشخصي كمعرف
+            // Store the data in userData object using personal ID as the key
             userData[personalId] = {
                 fullName: fullName,
                 birthDate: birthDate,
@@ -187,49 +186,49 @@
             };
         }
 
-        // عرض المعلومات عند الضغط على "تم"
+        // Display information when "Submit" is clicked
         function saveInfo() {
             var personalId = document.getElementById("personalId").value;
             if (userData[personalId]) {
                 var resultContainer = document.getElementById("resultContainer");
 
-                // إضافة النتيجة بشكل جذاب في أسفل الصفحة
+                // Add result in an attractive manner at the bottom of the page
                 var resultHTML = `
                     <div class="result">
-                        <h2>معلومات التسجيل</h2>
-                        <p><span>اسم المستخدم:</span> ${userData[personalId].fullName}</p>
-                        <p><span>تاريخ الميلاد:</span> ${userData[personalId].birthDate}</p>
-                        <p><span>تاريخ انتهاء البطاقة:</span> ${userData[personalId].idExpirationDate}</p>
-                        <p><span>رمز سيتردا:</span> ${userData[personalId].customCode}</p>
-                        <p><span>ID الأول:</span> ${userData[personalId].primaryId}</p>
-                        <p><span>ID الثاني:</span> ${userData[personalId].secondaryId}</p>
+                        <h2>Account Information</h2>
+                        <p><span>Full Name:</span> ${userData[personalId].fullName}</p>
+                        <p><span>Date of Birth:</span> ${userData[personalId].birthDate}</p>
+                        <p><span>ID Expiration Date:</span> ${userData[personalId].idExpirationDate}</p>
+                        <p><span>Steerda Code:</span> ${userData[personalId].customCode}</p>
+                        <p><span>${userData[personalId].primaryId}</span></p>
+                        <p><span>${userData[personalId].secondaryId}</span></p>
                     </div>
                 `;
                 resultContainer.innerHTML = resultHTML;
             } else {
-                alert("الرجاء إدخال رقم شخصي صحيح.");
+                alert("Please enter a valid personal ID.");
             }
         }
 
-        // تحميل PDF باستخدام jsPDF
+        // Download PDF using jsPDF
         function downloadPDF() {
             var personalId = document.getElementById("personalId").value;
             if (userData[personalId]) {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 var resultHTML = `
-                    معلومات التسجيل\n
-                    اسم المستخدم: ${userData[personalId].fullName}\n
-                    تاريخ الميلاد: ${userData[personalId].birthDate}\n
-                    تاريخ انتهاء البطاقة: ${userData[personalId].idExpirationDate}\n
-                    رمز سيتردا: ${userData[personalId].customCode}\n
-                    ID الأول: ${userData[personalId].primaryId}\n
-                    ID الثاني: ${userData[personalId].secondaryId}
+                    Account Information\n
+                    Full Name: ${userData[personalId].fullName}\n
+                    Date of Birth: ${userData[personalId].birthDate}\n
+                    ID Expiration Date: ${userData[personalId].idExpirationDate}\n
+                    Steerda Code: ${userData[personalId].customCode}\n
+                    ${userData[personalId].primaryId}\n
+                    ${userData[personalId].secondaryId}
                 `;
                 doc.text(resultHTML, 10, 10);
-                doc.save('info.pdf');
+                doc.save('account_information.pdf');
             } else {
-                alert("الرجاء إدخال رقم شخصي صحيح.");
+                alert("Please enter a valid personal ID.");
             }
         }
     </script>
