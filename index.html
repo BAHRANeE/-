@@ -1,269 +1,1307 @@
 <!DOCTYPE html>
-<html lang="mul" dir="auto">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultra Secure Notes System</title>
-    <!-- إطار عمل التصميم -->
-    <link href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/themes/light.css" rel="stylesheet">
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.83/dist/shoelace.js"></script>
-    
-    <!-- أنماط مخصصة -->
-    <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --success-color: #27ae60;
-            --danger-color: #e74c3c;
-            --background-light: #f8f9fa;
-            --background-dark: #1a1a1a;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui;
-            background: var(--background-light);
-            color: var(--primary-color);
-            transition: all 0.3s ease;
-        }
-
-        .rtl { direction: rtl; }
-        .ltr { direction: ltr; }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .security-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .biometric-section {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                background: var(--background-dark);
-                color: white;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoteEHR Ultra</title>
+  <!-- استيراد خط Roboto من Google Fonts لتحسين المظهر -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <style>
+    /* إعادة تعيين الأساس وبعض المتغيرات */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c80b4;
+      --light-bg: #f4f4f4;
+      --dark-bg: #1e1e1e;
+      --light-text: #333;
+      --dark-text: #fff;
+      --transition-speed: 0.3s;
+      --font-family: 'Roboto', sans-serif;
+    }
+    body {
+      font-family: var(--font-family);
+      background-color: var(--light-bg);
+      color: var(--light-text);
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+      direction: rtl;
+      line-height: 1.5;
+    }
+    body.dark { background-color: var(--dark-bg); color: var(--dark-text); }
+    /* الحاويات الرئيسية */
+    #auth-container, #app-container { width: 100%; min-height: 100vh; }
+    /* شاشة المصادقة */
+    #auth-container {
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      background: var(--light-bg); padding: 20px;
+    }
+    #auth-container.dark { background: var(--dark-bg); }
+    #auth-container h2 { margin-bottom: 20px; }
+    .auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    .auth-tabs button {
+      padding: 10px 20px; border: none; border-radius: 5px; background: var(--primary-color);
+      color: #fff; cursor: pointer; transition: background var(--transition-speed);
+    }
+    .auth-tabs button.active { background: var(--secondary-color); }
+    .auth-form {
+      width: 100%; max-width: 350px; background: #fff; padding: 20px; border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 15px;
+    }
+    .auth-form input, .auth-form select, .auth-form button {
+      width: 100%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px;
+    }
+    .auth-form button {
+      background: var(--primary-color); color: #fff; border: none; cursor: pointer;
+      transition: background var(--transition-speed);
+    }
+    .auth-form button:hover { background: var(--secondary-color); }
+    /* التطبيق الرئيسي */
+    #app-container { display: none; }
+    header {
+      background: var(--primary-color); color: #fff; padding: 10px 20px; display: flex;
+      justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
+    }
+    header h1 { font-size: 2em; }
+    header .header-buttons { display: flex; gap: 10px; }
+    header .header-buttons button {
+      background: rgba(255,255,255,0.3); border: none; color: #fff; margin-left: 5px; padding: 5px 10px;
+      border-radius: 5px; cursor: pointer; transition: background var(--transition-speed);
+    }
+    header .header-buttons button:hover { background: rgba(255,255,255,0.5); }
+    /* قائمة اختيار اللغة تظهر من البداية */
+    #lang-switcher {
+      margin-left: 20px; padding: 5px; border: none; border-radius: 5px;
+    }
+    /* شريط الأدوات */
+    #toolbar {
+      background: #eee; padding: 10px; display: flex; flex-wrap: wrap; align-items: center;
+      gap: 10px; justify-content: center;
+    }
+    #toolbar input[type="text"], #toolbar select {
+      padding: 10px; border: 1px solid #ccc; border-radius: 5px; outline: none;
+    }
+    #toolbar button {
+      padding: 10px; border: none; border-radius: 5px; background: var(--primary-color);
+      color: #fff; cursor: pointer; transition: background var(--transition-speed);
+    }
+    #toolbar button:hover { background: var(--secondary-color); }
+    /* منطقة الملاحظات */
+    #notes-container {
+      display: flex; flex-wrap: wrap; padding: 10px; justify-content: center;
+    }
+    .note {
+      background: #fff; width: 260px; margin: 10px; padding: 15px; border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; transition: transform var(--transition-speed), background var(--transition-speed);
+      cursor: grab;
+    }
+    .note:hover { transform: scale(1.02); }
+    .note-header { display: flex; align-items: center; }
+    .note-header .note-title { font-size: 1.2em; font-weight: bold; }
+    .note-header .note-icon { font-size: 1.5em; margin-left: 5px; }
+    .note-content { margin: 10px 0; white-space: pre-wrap; word-break: break-word; }
+    .note-footer {
+      display: flex; flex-wrap: wrap; justify-content: space-between; font-size: 0.8em; color: #555;
+    }
+    .note-actions { display: flex; gap: 5px; margin-top: 5px; }
+    .note-actions button { background: none; border: none; cursor: pointer; font-size: 1.2em; }
+    /* النوافذ المنبثقة (المودالات) */
+    .modal {
+      display: none; position: fixed; z-index: 200; left: 0; top: 0; width: 100%; height: 100%;
+      overflow: auto; background: rgba(0,0,0,0.5); animation: fadeIn 0.3s;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .modal-content {
+      background: #fff; margin: 5% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 600px; position: relative;
+    }
+    .modal-content h2 { text-align: center; margin-bottom: 15px; }
+    .close { position: absolute; right: 15px; top: 10px; cursor: pointer; font-size: 1.5em; }
+    form label { display: block; margin: 10px 0 5px; }
+    form input, form select, form textarea, form button {
+      width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px; outline: none;
+    }
+    form button { background: var(--primary-color); color: #fff; border: none; cursor: pointer; transition: background var(--transition-speed); }
+    form button:hover { background: var(--secondary-color); }
+    /* استجابة الأجهزة */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.5em; }
+      #notes-container { flex-direction: column; align-items: center; }
+      .note { width: 90%; }
+      #toolbar { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
-    <!-- شاشة تسجيل الدخول الآمن -->
-    <div class="container" id="auth-container">
-        <sl-card class="security-grid">
-            <!-- مصادقة ثنائية -->
-            <div class="biometric-section">
-                <h2>🔒 تسجيل الدخول الآمن</h2>
-                <sl-input type="text" label="اسم المستخدم" id="username" required></sl-input>
-                <sl-input type="password" label="كلمة المرور" id="password" password-toggle required></sl-input>
-                
-                <!-- أسئلة أمان مخصصة -->
-                <sl-select label="اختر سؤال الأمان" id="security-question">
-                    <sl-option value="1">ما اسم مدرستك الابتدائية؟</sl-option>
-                    <sl-option value="2">ما هو أول حيوان أليف لك؟</sl-option>
-                </sl-select>
-                <sl-input type="text" label="الإجابة" id="security-answer" required></sl-input>
-
-                <!-- مصادقة بيومترية -->
-                <sl-button variant="primary" id="biometric-auth">
-                    <sl-icon name="fingerprint"></sl-icon> تسجيل الدخول البيومتري
-                </sl-button>
-            </div>
-
-            <!-- تسجيل الدخول بالوجه -->
-            <div class="biometric-section">
-                <h3>📸 تسجيل الدخول بالتعرف على الوجه</h3>
-                <video id="face-video" width="300" height="225" autoplay></video>
-                <canvas id="face-canvas" width="300" height="225" hidden></canvas>
-                <sl-button id="start-face-auth">بدء المسح</sl-button>
-            </div>
-        </sl-card>
+  <!-- شاشة المصادقة (تسجيل الدخول / إنشاء حساب / استعادة كلمة المرور) -->
+  <div id="auth-container">
+    <h2 id="auth-title">مرحبًا بك في NoteEHR Ultra</h2>
+    <div class="auth-tabs">
+      <button id="login-tab" class="active" data-key="loginTab">تسجيل الدخول</button>
+      <button id="register-tab" data-key="registerTab">إنشاء حساب</button>
+      <button id="recovery-tab" data-key="recoveryTab">استعادة كلمة المرور</button>
     </div>
-
-    <!-- الواجهة الرئيسية -->
-    <div class="container" id="main-app" hidden>
-        <!-- شريط الأدوات المتقدم -->
-        <sl-toolbar>
-            <sl-dropdown>
-                <sl-button slot="trigger" caret>ملف</sl-button>
-                <sl-menu>
-                    <sl-menu-item id="new-note">ملاحظة جديدة</sl-menu-item>
-                    <sl-menu-item id="import">استيراد</sl-menu-item>
-                    <sl-menu-divider></sl-menu-divider>
-                    <sl-menu-item id="logout">تسجيل الخروج</sl-menu-item>
-                </sl-menu>
-            </sl-dropdown>
-
-            <!-- التحكم متعدد اللغات -->
-            <sl-select id="language-select" value="ar" style="width: 120px;">
-                <sl-option value="ar">العربية</sl-option>
-                <sl-option value="en">English</sl-option>
-                <sl-option value="fr">Français</sl-option>
-                <sl-option value="es">Español</sl-option>
-            </sl-select>
-
-            <!-- إدارة الأمان -->
-            <sl-button-group>
-                <sl-button id="2fa-setup">إعداد 2FA</sl-button>
-                <sl-button variant="danger" id="lock-session">قفل الجلسة</sl-button>
-            </sl-button-group>
-        </sl-toolbar>
-
-        <!-- محرر الملاحظات المتقدم -->
-        <sl-card class="editor-section">
-            <div id="note-editor" contenteditable="true" data-placeholder="ابدأ الكتابة هنا..."></div>
-            <sl-button-group>
-                <sl-button variant="success" id="save-note">حفظ</sl-button>
-                <sl-button variant="primary" id="archive-note">أرشفة</sl-button>
-                <sl-button variant="danger" id="delete-note">حذف</sl-button>
-            </sl-button-group>
-        </sl-card>
-
-        <!-- الأرشيف والبحث المتقدم -->
-        <sl-card>
-            <sl-input id="search-input" type="search" placeholder="ابحث في الأرشيف..."></sl-input>
-            <div id="archive-results"></div>
-        </sl-card>
+    <!-- نموذج تسجيل الدخول -->
+    <div id="login-form" class="auth-form">
+      <form>
+        <label for="login-username" data-key="username">اسم المستخدم:</label>
+        <input type="text" id="login-username" required>
+        <label for="login-password" data-key="password">كلمة المرور:</label>
+        <input type="password" id="login-password" required>
+        <button type="submit" data-key="loginButton">دخول</button>
+      </form>
     </div>
-
-    <!-- مكتبات الأمان والترجمة -->
-    <script src="https://cdn.jsdelivr.net/npm/i18next@21.6.10/i18next.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
-
-    <script>
-        // تهيئة النظام الأساسي
-        class SecureNotesSystem {
-            constructor() {
-                this.initSecurity();
-                this.initi18n();
-                this.initFaceRecognition();
-                this.initEventListeners();
-            }
-
-            // تهيئة نظام الأمان
-            initSecurity() {
-                this.encryptionKey = null;
-                this.iv = CryptoJS.lib.WordArray.random(16);
-                this.currentUser = null;
-                this.sessionTimeout = null;
-            }
-
-            // تهيئة نظام الترجمة
-            initi18n() {
-                i18next.init({
-                    lng: 'ar',
-                    resources: {
-                        ar: { translation: { /* ترجمة عربية */ } },
-                        en: { translation: { /* ترجمة إنجليزية */ } }
-                    }
-                });
-            }
-
-            // تهيئة التعرف على الوجه
-            async initFaceRecognition() {
-                await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-                const video = document.getElementById('face-video');
-                navigator.mediaDevices.getUserMedia({ video: {} })
-                    .then(stream => video.srcObject = stream);
-            }
-
-            // معالجة الأحداث
-            initEventListeners() {
-                document.getElementById('biometric-auth').addEventListener('click', () => this.handleBiometricAuth());
-                document.getElementById('start-face-auth').addEventListener('click', () => this.faceLogin());
-                document.getElementById('2fa-setup').addEventListener('click', () => this.setup2FA());
-                window.addEventListener('mousemove', () => this.resetSessionTimer());
-            }
-
-            // مصادقة بيومترية
-            async handleBiometricAuth() {
-                if (navigator.credentials && navigator.credentials.get) {
-                    const credential = await navigator.credentials.get({
-                        publicKey: {
-                            challenge: new Uint8Array(32),
-                            rpId: window.location.hostname,
-                            userVerification: 'required'
-                        }
-                    });
-                    this.handleAuthSuccess(credential);
-                }
-            }
-
-            // تسجيل الدخول بالوجه
-            async faceLogin() {
-                const video = document.getElementById('face-video');
-                const canvas = document.getElementById('face-canvas');
-                const context = canvas.getContext('2d');
-                
-                context.drawImage(video, 0, 0);
-                const detections = await faceapi.detectAllFaces(canvas);
-                
-                if (detections.length > 0) {
-                    const faceData = this.extractFaceFeatures(detections[0]);
-                    this.verifyFace(faceData);
-                }
-            }
-
-            // إعداد المصادقة الثنائية
-            setup2FA() {
-                const secret = crypto.randomBytes(32).toString('hex');
-                const qrCode = `otpauth://totp/NotesApp?secret=${secret}&issuer=SecureNotes`;
-                this.showModal('QR Code', `<img src="https://api.qrserver.com/v1/create-qr-code/?data=${qrCode}">`);
-            }
-
-            // إدارة الجلسة الأمنية
-            resetSessionTimer() {
-                clearTimeout(this.sessionTimeout);
-                this.sessionTimeout = setTimeout(() => {
-                    this.lockSession();
-                }, 300000); // 5 دقائق
-            }
-
-            lockSession() {
-                document.getElementById('main-app').hidden = true;
-                document.getElementById('auth-container').hidden = false;
-                this.encryptionKey = null;
-            }
-
-            // تشفير البيانات
-            encryptData(data) {
-                return CryptoJS.AES.encrypt(JSON.stringify(data), this.encryptionKey, { iv: this.iv }).toString();
-            }
-
-            // فك التشفير
-            decryptData(ciphertext) {
-                const bytes = CryptoJS.AES.decrypt(ciphertext, this.encryptionKey, { iv: this.iv });
-                return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-            }
-
-            // التحقق من صحة البيانات
-            validateInput(data) {
-                const schema = {
-                    name: /^[\p{L} ]+$/u,
-                    birthDate: /^\d{4}-\d{2}-\d{2}$/,
-                    // ... قواعد التحقق الأخرى
-                };
-
-                return Object.entries(schema).every(([key, regex]) => regex.test(data[key]));
-            }
+    <!-- نموذج إنشاء الحساب -->
+    <div id="register-form" class="auth-form" style="display:none;">
+      <form>
+        <label for="reg-username" data-key="username">اسم المستخدم:</label>
+        <input type="text" id="reg-username" required>
+        <label for="reg-password" data-key="password">كلمة المرور:</label>
+        <input type="password" id="reg-password" required>
+        <label for="reg-password-confirm" data-key="confirmPassword">تأكيد كلمة المرور:</label>
+        <input type="password" id="reg-password-confirm" required>
+        <label for="reg-sec-question" data-key="securityQuestion">اختر سؤال الأمان:</label>
+        <select id="reg-sec-question" required>
+          <option value="ما اسم مدرستك؟">ما اسم مدرستك؟</option>
+          <option value="ما هو اسم والدك؟">ما هو اسم والدك؟</option>
+          <option value="ما هي مدينة ميلادك؟">ما هي مدينة ميلادك؟</option>
+        </select>
+        <label for="reg-sec-answer" data-key="securityAnswer">إجابة سؤال الأمان:</label>
+        <input type="text" id="reg-sec-answer" required>
+        <button type="submit" data-key="registerButton">إنشاء حساب</button>
+      </form>
+    </div>
+    <!-- نموذج استعادة كلمة المرور -->
+    <div id="recovery-form" class="auth-form" style="display:none;">
+      <form>
+        <label for="rec-username" data-key="username">اسم المستخدم:</label>
+        <input type="text" id="rec-username" required>
+        <div id="rec-sec-container" style="display:none;">
+          <label id="rec-sec-question"></label>
+          <input type="text" id="rec-sec-answer" placeholder="أدخل إجابتك" required>
+          <label for="rec-new-password" data-key="newPassword">كلمة المرور الجديدة:</label>
+          <input type="password" id="rec-new-password" required>
+          <label for="rec-new-password-confirm" data-key="confirmNewPassword">تأكيد كلمة المرور الجديدة:</label>
+          <input type="password" id="rec-new-password-confirm" required>
+        </div>
+        <button type="submit" id="rec-submit-btn" data-key="recoverButton">استعادة كلمة المرور</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- التطبيق الرئيسي -->
+  <div id="app-container">
+    <header>
+      <div style="display: flex; align-items: center;">
+        <h1 id="app-title" data-key="appTitle">NoteEHR Ultra</h1>
+        <select id="lang-switcher">
+          <!-- دعم لغات متعددة من ضمنها العربية، الفارسية، الأردية، الهندية، الصينية، اليابانية، الكورية، الألمانية وغيرها -->
+          <option value="ar" selected>العربية</option>
+          <option value="fa">فارسی</option>
+          <option value="ur">اردو</option>
+          <option value="hi">हिन्दी</option>
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+          <option value="es">Español</option>
+          <option value="zh">中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+          <option value="de">Deutsch</option>
+        </select>
+      </div>
+      <div class="header-buttons">
+        <button id="settings-btn" title="الإعدادات">⚙️</button>
+        <button id="backup-btn" title="نسخ احتياطي">💾</button>
+        <button id="import-btn" title="استيراد">📂</button>
+        <button id="print-btn" title="طباعة">🖨️</button>
+        <button id="logout-btn" title="تسجيل الخروج">🚪</button>
+      </div>
+    </header>
+    <!-- شريط الأدوات -->
+    <main>
+      <div id="toolbar">
+        <button id="new-note-btn" title="إضافة ملاحظة جديدة">➕ <span data-key="newNote">ملاحظة جديدة</span></button>
+        <input type="text" id="search-input" placeholder="ابحث عن ملاحظات..." data-key-placeholder="searchPlaceholder">
+        <select id="sort-select">
+          <option value="date" data-key="sortDate">ترتيب حسب التاريخ</option>
+          <option value="priority" data-key="sortPriority">ترتيب حسب الأولوية</option>
+          <option value="category" data-key="sortCategory">ترتيب حسب التصنيف</option>
+          <option value="favorite" data-key="sortFavorite">عرض المفضلة أولاً</option>
+        </select>
+        <button id="clear-all-btn" title="حذف كافة الملاحظات">🗑️ <span data-key="clearAll">حذف الكل</span></button>
+        <button id="undo-btn" title="التراجع عن الحذف" style="display:none;">↩️ <span data-key="undo">تراجع</span></button>
+      </div>
+      <!-- منطقة عرض الملاحظات -->
+      <div id="notes-container">
+        <!-- سيتم تعبئة الملاحظات ديناميكيًا -->
+      </div>
+    </main>
+  </div>
+  
+  <!-- مودال إضافة/تعديل الملاحظة -->
+  <div id="note-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="note-modal-close">&times;</span>
+      <h2 id="note-modal-title" data-key="newNoteTitle">ملاحظة جديدة</h2>
+      <form id="note-form">
+        <input type="hidden" id="note-id">
+        <label for="note-title" data-key="title">العنوان:</label>
+        <input type="text" id="note-title" required>
+        <label for="note-content" data-key="content">المحتوى:</label>
+        <textarea id="note-content" rows="4" required></textarea>
+        <label for="note-category" data-key="category">التصنيف:</label>
+        <select id="note-category"></select>
+        <label for="note-color" data-key="color">لون الخلفية:</label>
+        <input type="color" id="note-color" value="#ffffff">
+        <label for="note-icon" data-key="icon">اختر أيقونة:</label>
+        <select id="note-icon">
+          <option value="📝">📝</option>
+          <option value="📌">📌</option>
+          <option value="🔥">🔥</option>
+          <option value="⭐">⭐</option>
+        </select>
+        <label for="note-priority" data-key="priority">الأولوية:</label>
+        <select id="note-priority">
+          <option value="منخفض" data-key="low">منخفض</option>
+          <option value="متوسط" data-key="medium">متوسط</option>
+          <option value="مرتفع" data-key="high">مرتفع</option>
+        </select>
+        <label for="note-reminder" data-key="reminder">تعيين تذكير (اختياري):</label>
+        <input type="datetime-local" id="note-reminder">
+        <label for="note-tags" data-key="tags">الوسوم (مفصولة بفواصل):</label>
+        <input type="text" id="note-tags" placeholder="مثال: عمل, شخصية">
+        <label>
+          <input type="checkbox" id="note-favorite"> <span data-key="favorite">علامة مفضلة</span>
+        </label>
+        <button type="button" id="voice-input-btn" title="إدخال صوتي">🎤 <span data-key="voiceInput">إدخال صوتي</span></button>
+        <button type="submit" data-key="saveNote">حفظ الملاحظة</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- مودال الإعدادات -->
+  <div id="settings-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="settings-close">&times;</span>
+      <h2 data-key="settingsTitle">الإعدادات</h2>
+      <form id="settings-form">
+        <label for="theme-color" data-key="themeColor">لون الواجهة:</label>
+        <input type="color" id="theme-color" value="#3498db">
+        <label for="font-size" data-key="fontSize">حجم الخط:</label>
+        <input type="range" id="font-size" min="12" max="24" value="16">
+        <label for="auto-dark-mode" data-key="darkMode">تفعيل الوضع الليلي:</label>
+        <input type="checkbox" id="auto-dark-mode" checked>
+        <label for="enable-animations" data-key="animations">تفعيل الرسوم المتحركة:</label>
+        <input type="checkbox" id="enable-animations" checked>
+        <label for="lang-select" data-key="language">اختر اللغة:</label>
+        <select id="lang-select">
+          <option value="ar" data-key="arabic" selected>العربية</option>
+          <option value="fa" data-key="farsi">فارسی</option>
+          <option value="ur" data-key="urdu">اردو</option>
+          <option value="hi" data-key="hindi">हिन्दी</option>
+          <option value="en" data-key="english">English</option>
+          <option value="fr" data-key="french">Français</option>
+          <option value="es" data-key="spanish">Español</option>
+          <option value="zh" data-key="chinese">中文</option>
+          <option value="ja" data-key="japanese">日本語</option>
+          <option value="ko" data-key="korean">한국어</option>
+          <option value="de" data-key="german">Deutsch</option>
+        </select>
+        <hr>
+        <h3 data-key="manageCategories">إدارة التصنيفات</h3>
+        <div id="categories-container"></div>
+        <label for="new-category" data-key="newCategory">أضف تصنيف جديد:</label>
+        <input type="text" id="new-category" placeholder="اسم التصنيف">
+        <button type="button" id="add-category-btn" data-key="addCategory">إضافة التصنيف</button>
+        <hr>
+        <h3 data-key="backupOptions">خيارات النسخ الاحتياطي والاستيراد</h3>
+        <button type="button" id="export-notes-btn" data-key="exportNotes">تصدير الملاحظات (JSON)</button>
+        <button type="button" id="import-notes-btn" data-key="importNotes">استيراد الملاحظات (JSON)</button>
+        <input type="file" id="import-file" accept="application/json" style="display:none;">
+        <br><br>
+        <button type="submit" data-key="saveSettings">حفظ الإعدادات</button>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    /*********** دعم اللغات المتعددة ***********/
+    const translations = {
+      ar: {
+        loginTab: "تسجيل الدخول",
+        registerTab: "إنشاء حساب",
+        recoveryTab: "استعادة كلمة المرور",
+        username: "اسم المستخدم:",
+        password: "كلمة المرور:",
+        loginButton: "دخول",
+        registerButton: "إنشاء حساب",
+        confirmPassword: "تأكيد كلمة المرور:",
+        securityQuestion: "اختر سؤال الأمان:",
+        securityAnswer: "إجابة سؤال الأمان:",
+        newPassword: "كلمة المرور الجديدة:",
+        confirmNewPassword: "تأكيد كلمة المرور الجديدة:",
+        recoverButton: "استعادة كلمة المرور",
+        newNote: "ملاحظة جديدة",
+        searchPlaceholder: "ابحث عن ملاحظات...",
+        sortDate: "ترتيب حسب التاريخ",
+        sortPriority: "ترتيب حسب الأولوية",
+        sortCategory: "ترتيب حسب التصنيف",
+        sortFavorite: "عرض المفضلة أولاً",
+        clearAll: "حذف الكل",
+        undo: "تراجع",
+        newNoteTitle: "ملاحظة جديدة",
+        title: "العنوان:",
+        content: "المحتوى:",
+        category: "التصنيف:",
+        color: "لون الخلفية:",
+        icon: "اختر أيقونة:",
+        priority: "الأولوية:",
+        low: "منخفض",
+        medium: "متوسط",
+        high: "مرتفع",
+        reminder: "تعيين تذكير (اختياري):",
+        tags: "الوسوم (مفصولة بفواصل):",
+        favorite: "مفضلة",
+        voiceInput: "إدخال صوتي",
+        saveNote: "حفظ الملاحظة",
+        settingsTitle: "الإعدادات",
+        themeColor: "لون الواجهة:",
+        fontSize: "حجم الخط:",
+        darkMode: "تفعيل الوضع الليلي:",
+        animations: "تفعيل الرسوم المتحركة:",
+        language: "اختر اللغة:",
+        arabic: "العربية",
+        farsi: "فارسی",
+        urdu: "اردو",
+        hindi: "हिन्दी",
+        english: "English",
+        french: "Français",
+        spanish: "Español",
+        chinese: "中文",
+        japanese: "日本語",
+        korean: "한국어",
+        german: "Deutsch",
+        manageCategories: "إدارة التصنيفات",
+        newCategory: "أضف تصنيف جديد:",
+        addCategory: "إضافة التصنيف",
+        backupOptions: "خيارات النسخ الاحتياطي والاستيراد",
+        exportNotes: "تصدير الملاحظات (JSON)",
+        importNotes: "استيراد الملاحظات (JSON)",
+        saveSettings: "حفظ الإعدادات",
+        appTitle: "NoteEHR Ultra",
+        loginError: "بيانات الدخول غير صحيحة.",
+        userExists: "اسم المستخدم موجود مسبقًا.",
+        registerSuccess: "تم إنشاء الحساب بنجاح. يمكنك الآن تسجيل الدخول.",
+        recoveryError: "إجابة سؤال الأمان غير صحيحة.",
+        recoverySuccess: "تم استعادة كلمة المرور بنجاح. يمكنك تسجيل الدخول الآن.",
+        noteDeleted: "هل أنت متأكد من حذف هذه الملاحظة؟",
+        archiveConfirm: "هل تريد أرشفة هذه الملاحظة؟",
+        backupMessage: "سيتم حفظ نسخة احتياطية من بياناتك محليًا.",
+        reminderAlert: "تنبيه: الملاحظة \"{title}\" تذكّر الآن."
+      },
+      en: {
+        loginTab: "Login",
+        registerTab: "Register",
+        recoveryTab: "Recover Password",
+        username: "Username:",
+        password: "Password:",
+        loginButton: "Login",
+        registerButton: "Register",
+        confirmPassword: "Confirm Password:",
+        securityQuestion: "Security Question:",
+        securityAnswer: "Security Answer:",
+        newPassword: "New Password:",
+        confirmNewPassword: "Confirm New Password:",
+        recoverButton: "Recover Password",
+        newNote: "New Note",
+        searchPlaceholder: "Search notes...",
+        sortDate: "Sort by Date",
+        sortPriority: "Sort by Priority",
+        sortCategory: "Sort by Category",
+        sortFavorite: "Show Favorites First",
+        clearAll: "Clear All",
+        undo: "Undo",
+        newNoteTitle: "New Note",
+        title: "Title:",
+        content: "Content:",
+        category: "Category:",
+        color: "Background Color:",
+        icon: "Choose Icon:",
+        priority: "Priority:",
+        low: "Low",
+        medium: "Medium",
+        high: "High",
+        reminder: "Set Reminder (Optional):",
+        tags: "Tags (comma separated):",
+        favorite: "Favorite",
+        voiceInput: "Voice Input",
+        saveNote: "Save Note",
+        settingsTitle: "Settings",
+        themeColor: "Theme Color:",
+        fontSize: "Font Size:",
+        darkMode: "Enable Dark Mode:",
+        animations: "Enable Animations:",
+        language: "Choose Language:",
+        arabic: "Arabic",
+        farsi: "Farsi",
+        urdu: "Urdu",
+        hindi: "Hindi",
+        english: "English",
+        french: "French",
+        spanish: "Spanish",
+        chinese: "Chinese",
+        japanese: "Japanese",
+        korean: "Korean",
+        german: "German",
+        manageCategories: "Manage Categories",
+        newCategory: "New Category:",
+        addCategory: "Add Category",
+        backupOptions: "Backup and Import Options",
+        exportNotes: "Export Notes (JSON)",
+        importNotes: "Import Notes (JSON)",
+        saveSettings: "Save Settings",
+        appTitle: "NoteEHR Ultra",
+        loginError: "Invalid login credentials.",
+        userExists: "Username already exists.",
+        registerSuccess: "Account created successfully. You can now log in.",
+        recoveryError: "Incorrect security answer.",
+        recoverySuccess: "Password recovered successfully. You can now log in.",
+        noteDeleted: "Are you sure you want to delete this note?",
+        archiveConfirm: "Do you want to archive this note?",
+        backupMessage: "Your data will be backed up locally.",
+        reminderAlert: "Alert: Note \"{title}\" is due now."
+      },
+      fr: {
+        loginTab: "Connexion",
+        registerTab: "S'inscrire",
+        recoveryTab: "Récupérer le mot de passe",
+        username: "Nom d'utilisateur:",
+        password: "Mot de passe:",
+        loginButton: "Connexion",
+        registerButton: "S'inscrire",
+        confirmPassword: "Confirmer le mot de passe:",
+        securityQuestion: "Question de sécurité:",
+        securityAnswer: "Réponse de sécurité:",
+        newPassword: "Nouveau mot de passe:",
+        confirmNewPassword: "Confirmer le nouveau mot de passe:",
+        recoverButton: "Récupérer le mot de passe",
+        newNote: "Nouvelle Note",
+        searchPlaceholder: "Rechercher des notes...",
+        sortDate: "Trier par date",
+        sortPriority: "Trier par priorité",
+        sortCategory: "Trier par catégorie",
+        sortFavorite: "Afficher les favoris en premier",
+        clearAll: "Tout effacer",
+        undo: "Annuler",
+        newNoteTitle: "Nouvelle Note",
+        title: "Titre:",
+        content: "Contenu:",
+        category: "Catégorie:",
+        color: "Couleur d'arrière-plan:",
+        icon: "Choisir une icône:",
+        priority: "Priorité:",
+        low: "Faible",
+        medium: "Moyenne",
+        high: "Haute",
+        reminder: "Définir un rappel (optionnel):",
+        tags: "Tags (séparés par des virgules):",
+        favorite: "Favori",
+        voiceInput: "Entrée vocale",
+        saveNote: "Enregistrer la note",
+        settingsTitle: "Paramètres",
+        themeColor: "Couleur du thème:",
+        fontSize: "Taille de police:",
+        darkMode: "Activer le mode sombre:",
+        animations: "Activer les animations:",
+        language: "Choisir la langue:",
+        arabic: "Arabe",
+        farsi: "Farsi",
+        urdu: "Urdu",
+        hindi: "Hindi",
+        english: "Anglais",
+        french: "Français",
+        spanish: "Español",
+        chinese: "Chinois",
+        japanese: "Japonais",
+        korean: "Coréen",
+        german: "Allemand",
+        manageCategories: "Gérer les catégories",
+        newCategory: "Nouvelle catégorie:",
+        addCategory: "Ajouter une catégorie",
+        backupOptions: "Options de sauvegarde et d'importation",
+        exportNotes: "Exporter les notes (JSON)",
+        importNotes: "Importer les notes (JSON)",
+        saveSettings: "Enregistrer les paramètres",
+        appTitle: "NoteEHR Ultra",
+        loginError: "Identifiants de connexion invalides.",
+        userExists: "Le nom d'utilisateur existe déjà.",
+        registerSuccess: "Compte créé avec succès. Vous pouvez maintenant vous connecter.",
+        recoveryError: "Réponse de sécurité incorrecte.",
+        recoverySuccess: "Mot de passe récupéré avec succès. Vous pouvez maintenant vous connecter.",
+        noteDeleted: "Êtes-vous sûr de vouloir supprimer cette note ?",
+        archiveConfirm: "Voulez-vous archiver cette note ?",
+        backupMessage: "Vos données seront sauvegardées localement.",
+        reminderAlert: "Alerte : La note \"{title}\" est due now."
+      },
+      es: {
+        loginTab: "Iniciar sesión",
+        registerTab: "Registrarse",
+        recoveryTab: "Recuperar contraseña",
+        username: "Nombre de usuario:",
+        password: "Contraseña:",
+        loginButton: "Iniciar sesión",
+        registerButton: "Registrarse",
+        confirmPassword: "Confirmar contraseña:",
+        securityQuestion: "Pregunta de seguridad:",
+        securityAnswer: "Respuesta de seguridad:",
+        newPassword: "Nueva contraseña:",
+        confirmNewPassword: "Confirmar nueva contraseña:",
+        recoverButton: "Recuperar contraseña",
+        newNote: "Nueva Nota",
+        searchPlaceholder: "Buscar notas...",
+        sortDate: "Ordenar por fecha",
+        sortPriority: "Ordenar por prioridad",
+        sortCategory: "Ordenar por categoría",
+        sortFavorite: "Mostrar favoritos primero",
+        clearAll: "Borrar todo",
+        undo: "Deshacer",
+        newNoteTitle: "Nueva Nota",
+        title: "Título:",
+        content: "Contenido:",
+        category: "Categoría:",
+        color: "Color de fondo:",
+        icon: "Elegir icono:",
+        priority: "Prioridad:",
+        low: "Baja",
+        medium: "Media",
+        high: "Alta",
+        reminder: "Establecer recordatorio (opcional):",
+        tags: "Etiquetas (separadas por comas):",
+        favorite: "Favorito",
+        voiceInput: "Entrada de voz",
+        saveNote: "Guardar Nota",
+        settingsTitle: "Configuraciones",
+        themeColor: "Color del tema:",
+        fontSize: "Tamaño de fuente:",
+        darkMode: "Activar modo oscuro:",
+        animations: "Activar animaciones:",
+        language: "Elegir idioma:",
+        arabic: "Árabe",
+        farsi: "Farsi",
+        urdu: "Urdu",
+        hindi: "Hindi",
+        english: "Inglés",
+        french: "Francés",
+        spanish: "Español",
+        chinese: "Chino",
+        japanese: "Japonés",
+        korean: "Coreano",
+        german: "Alemán",
+        manageCategories: "Gestionar categorías",
+        newCategory: "Nueva categoría:",
+        addCategory: "Agregar categoría",
+        backupOptions: "Opciones de respaldo e importación",
+        exportNotes: "Exportar notas (JSON)",
+        importNotes: "Importar notas (JSON)",
+        saveSettings: "Guardar configuraciones",
+        appTitle: "NoteEHR Ultra",
+        loginError: "Credenciales inválidas.",
+        userExists: "El nombre de usuario ya existe.",
+        registerSuccess: "Cuenta creada con éxito. Ahora puedes iniciar sesión.",
+        recoveryError: "Respuesta de seguridad incorrecta.",
+        recoverySuccess: "Contraseña recuperada con éxito. Ahora puedes iniciar sesión.",
+        noteDeleted: "¿Estás seguro de que deseas eliminar esta nota?",
+        archiveConfirm: "¿Quieres archivar esta nota?",
+        backupMessage: "Tus datos serán respaldados localmente.",
+        reminderAlert: "Alerta: Nota \"{title}\" está due now."
+      },
+      fa: {
+        loginTab: "ورود",
+        registerTab: "ثبت نام",
+        recoveryTab: "بازیابی رمز عبور",
+        username: "نام کاربری:",
+        password: "رمز عبور:",
+        loginButton: "ورود",
+        registerButton: "ثبت نام",
+        confirmPassword: "تأیید رمز عبور:",
+        securityQuestion: "سؤال امنیتی:",
+        securityAnswer: "پاسخ امنیتی:",
+        newPassword: "رمز عبور جدید:",
+        confirmNewPassword: "تأیید رمز عبور جدید:",
+        recoverButton: "بازیابی رمز عبور",
+        newNote: "یادداشت جدید",
+        searchPlaceholder: "جستجو در یادداشت‌ها...",
+        sortDate: "مرتب‌سازی بر اساس تاریخ",
+        sortPriority: "مرتب‌سازی بر اساس اولویت",
+        sortCategory: "مرتب‌سازی بر اساس دسته‌بندی",
+        sortFavorite: "اولویت نمایش علاقه‌مندی‌ها",
+        clearAll: "حذف همه",
+        undo: "بازگردانی",
+        newNoteTitle: "یادداشت جدید",
+        title: "عنوان:",
+        content: "محتوا:",
+        category: "دسته‌بندی:",
+        color: "رنگ پس‌زمینه:",
+        icon: "انتخاب آیکون:",
+        priority: "اولویت:",
+        low: "پایین",
+        medium: "متوسط",
+        high: "بالا",
+        reminder: "تنظیم یادآوری (اختیاری):",
+        tags: "برچسب‌ها (با کاما جدا شوند):",
+        favorite: "مورد علاقه",
+        voiceInput: "ورودی صوتی",
+        saveNote: "ذخیره یادداشت",
+        settingsTitle: "تنظیمات",
+        themeColor: "رنگ تم:",
+        fontSize: "اندازه قلم:",
+        darkMode: "فعال‌سازی حالت تاریک:",
+        animations: "فعال‌سازی انیمیشن‌ها:",
+        language: "انتخاب زبان:",
+        arabic: "عربی",
+        farsi: "فارسی",
+        urdu: "اردو",
+        hindi: "हिन्दी",
+        english: "English",
+        french: "Français",
+        spanish: "Español",
+        chinese: "中文",
+        japanese: "日本語",
+        korean: "한국어",
+        german: "Deutsch",
+        manageCategories: "مدیریت دسته‌بندی‌ها",
+        newCategory: "دسته‌بندی جدید:",
+        addCategory: "افزودن دسته‌بندی",
+        backupOptions: "گزینه‌های پشتیبان‌گیری و واردسازی",
+        exportNotes: "صادرات یادداشت‌ها (JSON)",
+        importNotes: "واردسازی یادداشت‌ها (JSON)",
+        saveSettings: "ذخیره تنظیمات",
+        appTitle: "NoteEHR Ultra",
+        loginError: "اطلاعات ورود نادرست است.",
+        userExists: "نام کاربری از قبل موجود است.",
+        registerSuccess: "حساب با موفقیت ایجاد شد. اکنون می‌توانید وارد شوید.",
+        recoveryError: "پاسخ امنیتی نادرست است.",
+        recoverySuccess: "رمز عبور بازیابی شد. اکنون می‌توانید وارد شوید.",
+        noteDeleted: "آیا از حذف این یادداشت مطمئن هستید؟",
+        archiveConfirm: "آیا می‌خواهید این یادداشت بایگانی شود؟",
+        backupMessage: "داده‌های شما به صورت محلی پشتیبان‌گیری می‌شود.",
+        reminderAlert: "هشدار: یادداشت \"{title}\" اکنون به موعد خود رسیده است."
+      },
+      ur: {
+        loginTab: "لاگ ان",
+        registerTab: "رجسٹر",
+        recoveryTab: "پاس ورڈ بازیافت کریں",
+        username: "صارف نام:",
+        password: "پاس ورڈ:",
+        loginButton: "لاگ ان",
+        registerButton: "رجسٹر",
+        confirmPassword: "پاس ورڈ کی تصدیق:",
+        securityQuestion: "سیکیورٹی سوال:",
+        securityAnswer: "سیکیورٹی جواب:",
+        newPassword: "نیا پاس ورڈ:",
+        confirmNewPassword: "نئے پاس ورڈ کی تصدیق:",
+        recoverButton: "پاس ورڈ بازیافت کریں",
+        newNote: "نیا نوٹ",
+        searchPlaceholder: "نوٹس تلاش کریں...",
+        sortDate: "تاریخ کے لحاظ سے ترتیب دیں",
+        sortPriority: "ترجیح کے لحاظ سے ترتیب دیں",
+        sortCategory: "زمرہ کے لحاظ سے ترتیب دیں",
+        sortFavorite: "پہلے پسندیدہ دکھائیں",
+        clearAll: "سب حذف کریں",
+        undo: "واپس کریں",
+        newNoteTitle: "نیا نوٹ",
+        title: "عنوان:",
+        content: "مواد:",
+        category: "زمرہ:",
+        color: "پس منظر کا رنگ:",
+        icon: "آئیکن منتخب کریں:",
+        priority: "ترجیح:",
+        low: "کم",
+        medium: "درمیانی",
+        high: "زیادہ",
+        reminder: "یاد دہانی مقرر کریں (اختیاری):",
+        tags: "ٹیگز (comma سے الگ کریں):",
+        favorite: "پسندیدہ",
+        voiceInput: "آواز سے اندراج",
+        saveNote: "نوٹ محفوظ کریں",
+        settingsTitle: "ترتیبات",
+        themeColor: "تھیم کا رنگ:",
+        fontSize: "فونٹ سائز:",
+        darkMode: "ڈارک موڈ فعال کریں:",
+        animations: "اینیمیشنز فعال کریں:",
+        language: "زبان منتخب کریں:",
+        arabic: "عربی",
+        farsi: "فارسی",
+        urdu: "اردو",
+        hindi: "हिन्दी",
+        english: "English",
+        french: "Français",
+        spanish: "Español",
+        chinese: "中文",
+        japanese: "日本語",
+        korean: "한국어",
+        german: "Deutsch",
+        manageCategories: "اقسام کا انتظام",
+        newCategory: "نیا زمرہ:",
+        addCategory: "زمرہ شامل کریں",
+        backupOptions: "بیک اپ اور درآمد کے اختیارات",
+        exportNotes: "نوٹس برآمد کریں (JSON)",
+        importNotes: "نوٹس درآمد کریں (JSON)",
+        saveSettings: "ترتیبات محفوظ کریں",
+        appTitle: "NoteEHR Ultra",
+        loginError: "لاگ ان کی تفصیلات درست نہیں ہیں.",
+        userExists: "صارف نام پہلے سے موجود ہے.",
+        registerSuccess: "اکاؤنٹ کامیابی سے بنایا گیا. اب لاگ ان کریں.",
+        recoveryError: "سیکیورٹی جواب غلط ہے.",
+        recoverySuccess: "پاس ورڈ بازیافت ہوگیا ہے. اب لاگ ان کریں.",
+        noteDeleted: "کیا آپ واقعی یہ نوٹ حذف کرنا چاہتے ہیں؟",
+        archiveConfirm: "کیا آپ اس نوٹ کو محفوظ کرنا چاہتے ہیں؟",
+        backupMessage: "آپ کے ڈیٹا کی مقامی بیک اپ ہوگی.",
+        reminderAlert: "انتباہ: نوٹ \"{title}\" کا وقت ہو چکا ہے."
+      },
+      hi: {
+        loginTab: "लॉग इन",
+        registerTab: "रजिस्टर",
+        recoveryTab: "पासवर्ड पुनः प्राप्त करें",
+        username: "उपयोगकर्ता नाम:",
+        password: "पासवर्ड:",
+        loginButton: "लॉग इन",
+        registerButton: "रजिस्टर",
+        confirmPassword: "पासवर्ड की पुष्टि:",
+        securityQuestion: "सुरक्षा प्रश्न:",
+        securityAnswer: "सुरक्षा उत्तर:",
+        newPassword: "नया पासवर्ड:",
+        confirmNewPassword: "नए पासवर्ड की पुष्टि:",
+        recoverButton: "पासवर्ड पुनः प्राप्त करें",
+        newNote: "नया नोट",
+        searchPlaceholder: "नोट्स खोजें...",
+        sortDate: "तारीख के अनुसार क्रमबद्ध करें",
+        sortPriority: "प्राथमिकता के अनुसार क्रमबद्ध करें",
+        sortCategory: "श्रेणी के अनुसार क्रमबद्ध करें",
+        sortFavorite: "पसंदीदा पहले दिखाएं",
+        clearAll: "सभी हटाएं",
+        undo: "रद्द करें",
+        newNoteTitle: "नया नोट",
+        title: "शीर्षक:",
+        content: "सामग्री:",
+        category: "श्रेणी:",
+        color: "पृष्ठभूमि रंग:",
+        icon: "आइकन चुनें:",
+        priority: "प्राथमिकता:",
+        low: "निम्न",
+        medium: "मध्यम",
+        high: "उच्च",
+        reminder: "अनुस्मारक सेट करें (वैकल्पिक):",
+        tags: "टैग (कॉमा से अलग करें):",
+        favorite: "पसंदीदा",
+        voiceInput: "वॉयस इनपुट",
+        saveNote: "नोट सहेजें",
+        settingsTitle: "सेटिंग्स",
+        themeColor: "थीम रंग:",
+        fontSize: "फोंट आकार:",
+        darkMode: "डार्क मोड सक्षम करें:",
+        animations: "एनिमेशन सक्षम करें:",
+        language: "भाषा चुनें:",
+        arabic: "अरबी",
+        farsi: "फ़ारसी",
+        urdu: "Urdu",
+        hindi: "हिन्दी",
+        english: "English",
+        french: "Français",
+        spanish: "Español",
+        chinese: "中文",
+        japanese: "日本語",
+        korean: "한국어",
+        german: "Deutsch",
+        manageCategories: "श्रेणियाँ प्रबंधित करें",
+        newCategory: "नई श्रेणी:",
+        addCategory: "श्रेणी जोड़ें",
+        backupOptions: "बैकअप और आयात विकल्प",
+        exportNotes: "नोट्स निर्यात करें (JSON)",
+        importNotes: "नोट्स आयात करें (JSON)",
+        saveSettings: "सेटिंग्स सहेजें",
+        appTitle: "NoteEHR Ultra",
+        loginError: "लॉगिन विवरण गलत हैं।",
+        userExists: "उपयोगकर्ता नाम पहले से मौजूद है।",
+        registerSuccess: "खाता सफलतापूर्वक बनाया गया। अब लॉग इन करें।",
+        recoveryError: "सुरक्षा उत्तर गलत है।",
+        recoverySuccess: "पासवर्ड पुनः प्राप्त हो गया है। अब लॉग इन करें।",
+        noteDeleted: "क्या आप वाकई इस नोट को हटाना चाहते हैं?",
+        archiveConfirm: "क्या आप इस नोट को संग्रहित करना चाहते हैं?",
+        backupMessage: "आपका डेटा स्थानीय रूप से बैकअप हो जाएगा।",
+        reminderAlert: "चेतावनी: नोट \"{title}\" का समय हो गया है।"
+      }
+    };
+    let currentLang = 'ar';
+    function setLanguage(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.querySelectorAll("[data-key]").forEach(el => {
+        const key = el.getAttribute("data-key");
+        if (translations[lang] && translations[lang][key])
+          el.textContent = translations[lang][key];
+      });
+      document.querySelectorAll("[data-key-placeholder]").forEach(el => {
+        const key = el.getAttribute("data-key-placeholder");
+        if (translations[lang] && translations[lang][key])
+          el.placeholder = translations[lang][key];
+      });
+      document.title = (translations[lang].appTitle || "NoteEHR Ultra");
+    }
+    document.getElementById("lang-switcher").addEventListener("change", function() {
+      setLanguage(this.value);
+    });
+    document.getElementById("lang-select").addEventListener("change", function() {
+      setLanguage(this.value);
+    });
+    /*********** إدارة المستخدم والبيانات ***********/
+    let currentUser = null;
+    let accounts = JSON.parse(localStorage.getItem('accounts')) || {};
+    function saveAccounts() {
+      localStorage.setItem('accounts', JSON.stringify(accounts));
+    }
+    let notes = [], archivedNotes = [];
+    let userSettings = {};
+    let userCategories = [];
+    let lastDeletedNote = null;
+    function getStorageKey(key) { return key + "_" + currentUser; }
+    function loadUserData() {
+      notes = JSON.parse(localStorage.getItem(getStorageKey('notes'))) || [];
+      archivedNotes = JSON.parse(localStorage.getItem(getStorageKey('archivedNotes'))) || [];
+      userSettings = JSON.parse(localStorage.getItem(getStorageKey('settings'))) || {
+        themeColor: "#3498db",
+        fontSize: "16",
+        autoDarkMode: true,
+        enableAnimations: true,
+        language: currentLang
+      };
+      userCategories = JSON.parse(localStorage.getItem(getStorageKey('categories'))) || ["عمل", "شخصي", "أفكار"];
+    }
+    function saveUserData() {
+      localStorage.setItem(getStorageKey('notes'), JSON.stringify(notes));
+      localStorage.setItem(getStorageKey('archivedNotes'), JSON.stringify(archivedNotes));
+      localStorage.setItem(getStorageKey('settings'), JSON.stringify(userSettings));
+      localStorage.setItem(getStorageKey('categories'), JSON.stringify(userCategories));
+    }
+    /*********** نماذج المصادقة ***********/
+    const authContainer = document.getElementById("auth-container");
+    const loginTab = document.getElementById("login-tab");
+    const registerTab = document.getElementById("register-tab");
+    const recoveryTab = document.getElementById("recovery-tab");
+    const loginFormDiv = document.getElementById("login-form");
+    const registerFormDiv = document.getElementById("register-form");
+    const recoveryFormDiv = document.getElementById("recovery-form");
+    loginTab.addEventListener("click", () => {
+      loginTab.classList.add("active");
+      registerTab.classList.remove("active");
+      recoveryTab.classList.remove("active");
+      loginFormDiv.style.display = "block";
+      registerFormDiv.style.display = "none";
+      recoveryFormDiv.style.display = "none";
+    });
+    registerTab.addEventListener("click", () => {
+      registerTab.classList.add("active");
+      loginTab.classList.remove("active");
+      recoveryTab.classList.remove("active");
+      registerFormDiv.style.display = "block";
+      loginFormDiv.style.display = "none";
+      recoveryFormDiv.style.display = "none";
+    });
+    recoveryTab.addEventListener("click", () => {
+      recoveryTab.classList.add("active");
+      loginTab.classList.remove("active");
+      registerTab.classList.remove("active");
+      recoveryFormDiv.style.display = "block";
+      loginFormDiv.style.display = "none";
+      registerFormDiv.style.display = "none";
+      document.getElementById("rec-sec-container").style.display = "none";
+    });
+    document.querySelector("#login-form form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("login-username").value.trim();
+      const password = document.getElementById("login-password").value;
+      if (accounts[username] && accounts[username].password === password) {
+        currentUser = username;
+        afterLogin();
+      } else {
+        alert(translations[currentLang].loginError);
+      }
+    });
+    document.querySelector("#register-form form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("reg-username").value.trim();
+      const password = document.getElementById("reg-password").value;
+      const confirmPass = document.getElementById("reg-password-confirm").value;
+      const secQuestion = document.getElementById("reg-sec-question").value;
+      const secAnswer = document.getElementById("reg-sec-answer").value.trim();
+      if (!username || !password) {
+        alert(translations[currentLang].username + " " + translations[currentLang].password);
+        return;
+      }
+      if (password !== confirmPass) {
+        alert(translations[currentLang].confirmPassword);
+        return;
+      }
+      if (accounts[username]) {
+        alert(translations[currentLang].userExists);
+        return;
+      }
+      accounts[username] = { password, secQuestion, secAnswer };
+      saveAccounts();
+      alert(translations[currentLang].registerSuccess);
+      loginTab.click();
+    });
+    document.querySelector("#recovery-form form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("rec-username").value.trim();
+      if (!accounts[username]) {
+        alert(translations[currentLang].loginError);
+        return;
+      }
+      const secContainer = document.getElementById("rec-sec-container");
+      if (secContainer.style.display === "none") {
+        document.getElementById("rec-sec-question").textContent = "سؤال الأمان: " + accounts[username].secQuestion;
+        secContainer.style.display = "block";
+        return;
+      }
+      const answer = document.getElementById("rec-sec-answer").value.trim();
+      const newPass = document.getElementById("rec-new-password").value;
+      const newPassConfirm = document.getElementById("rec-new-password-confirm").value;
+      if (answer !== accounts[username].secAnswer) {
+        alert(translations[currentLang].recoveryError);
+        return;
+      }
+      if (newPass !== newPassConfirm) {
+        alert(translations[currentLang].confirmNewPassword);
+        return;
+      }
+      accounts[username].password = newPass;
+      saveAccounts();
+      alert(translations[currentLang].recoverySuccess);
+      recoveryTab.classList.remove("active");
+      loginTab.click();
+    });
+    function afterLogin() {
+      authContainer.style.display = "none";
+      document.getElementById("app-container").style.display = "block";
+      loadUserData();
+      applySettings();
+      renderCategories();
+      populateCategoryDropdown();
+      renderNotes();
+      checkReminders();
+      setLanguage(currentLang);
+    }
+    document.getElementById("logout-btn").addEventListener("click", () => {
+      currentUser = null;
+      document.getElementById("app-container").style.display = "none";
+      authContainer.style.display = "flex";
+    });
+    /*********** إدارة الملاحظات ***********/
+    const notesContainer = document.getElementById("notes-container");
+    const newNoteBtn = document.getElementById("new-note-btn");
+    const noteModal = document.getElementById("note-modal");
+    const noteModalClose = document.getElementById("note-modal-close");
+    const noteForm = document.getElementById("note-form");
+    const noteModalTitle = document.getElementById("note-modal-title");
+    newNoteBtn.addEventListener("click", () => { openNoteModal(); });
+    function openNoteModal(note = null) {
+      noteModal.style.display = "block";
+      if (note) {
+        noteModalTitle.textContent = translations[currentLang].newNoteTitle.replace("ملاحظة جديدة", "تعديل");
+        document.getElementById("note-id").value = note.id;
+        document.getElementById("note-title").value = note.title;
+        document.getElementById("note-content").value = note.content;
+        document.getElementById("note-category").value = note.category;
+        document.getElementById("note-color").value = note.color;
+        document.getElementById("note-icon").value = note.icon;
+        document.getElementById("note-priority").value = note.priority;
+        document.getElementById("note-reminder").value = note.reminder || "";
+        document.getElementById("note-tags").value = note.tags || "";
+        document.getElementById("note-favorite").checked = note.favorite || false;
+      } else {
+        noteModalTitle.textContent = translations[currentLang].newNoteTitle;
+        noteForm.reset();
+        document.getElementById("note-id").value = "";
+      }
+    }
+    noteModalClose.addEventListener("click", () => { noteModal.style.display = "none"; });
+    noteForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const id = document.getElementById("note-id").value;
+      const title = document.getElementById("note-title").value;
+      const content = document.getElementById("note-content").value;
+      const category = document.getElementById("note-category").value;
+      const color = document.getElementById("note-color").value;
+      const icon = document.getElementById("note-icon").value;
+      const priority = document.getElementById("note-priority").value;
+      const reminder = document.getElementById("note-reminder").value;
+      const tags = document.getElementById("note-tags").value;
+      const favorite = document.getElementById("note-favorite").checked;
+      if (id) {
+        let idx = notes.findIndex(n => n.id == id);
+        if (idx > -1) { notes[idx] = { ...notes[idx], title, content, category, color, icon, priority, reminder, tags, favorite }; }
+      } else {
+        const newNote = {
+          id: Date.now(), title, content, category, color, icon, priority, reminder, tags, favorite,
+          date: new Date(), notified: false
+        };
+        notes.push(newNote);
+      }
+      saveUserData();
+      renderNotes();
+      noteModal.style.display = "none";
+      checkReminders();
+    });
+    function renderNotes() {
+      notesContainer.innerHTML = "";
+      let list = notes.slice();
+      const sortBy = document.getElementById("sort-select").value;
+      if (sortBy === "date") { list.sort((a, b) => new Date(b.date) - new Date(a.date)); }
+      else if (sortBy === "priority") {
+        const order = { "مرتفع": 3, "متوسط": 2, "منخفض": 1 };
+        list.sort((a, b) => (order[b.priority] || 0) - (order[a.priority] || 0));
+      }
+      else if (sortBy === "category") { list.sort((a, b) => a.category.localeCompare(b.category)); }
+      else if (sortBy === "favorite") { list.sort((a, b) => (b.favorite ? 1 : 0) - (a.favorite ? 1 : 0)); }
+      list.forEach((note, index) => {
+        const noteDiv = document.createElement("div");
+        noteDiv.classList.add("note");
+        noteDiv.style.backgroundColor = note.color;
+        noteDiv.draggable = true;
+        noteDiv.dataset.index = index;
+        noteDiv.innerHTML = `
+          <div class="note-header">
+            <span class="note-title">${note.title}</span>
+            <span class="note-icon">${note.icon}</span>
+          </div>
+          <div class="note-content">${note.content}</div>
+          <div class="note-footer">
+            <span>${note.category}</span>
+            <span>${new Date(note.date).toLocaleString()}</span>
+          </div>
+          <div class="note-footer">
+            <span>${translations[currentLang].priority} ${note.priority}</span>
+            <span>${note.reminder ? translations[currentLang].reminder + " " + new Date(note.reminder).toLocaleString() : ""}</span>
+          </div>
+          <div class="note-actions">
+            <button class="edit-note-btn" title="${translations[currentLang].registerButton}">✏️</button>
+            <button class="delete-note-btn" title="${translations[currentLang].clearAll}">🗑️</button>
+            <button class="favorite-note-btn" title="${translations[currentLang].favorite}">${note.favorite ? "⭐" : "☆"}</button>
+            <button class="archive-note-btn" title="${translations[currentLang].archiveConfirm}">📥</button>
+          </div>
+        `;
+        noteDiv.addEventListener("dragstart", dragStart);
+        noteDiv.addEventListener("dragover", dragOver);
+        noteDiv.addEventListener("drop", drop);
+        noteDiv.querySelector(".edit-note-btn").addEventListener("click", () => { editNote(index); });
+        noteDiv.querySelector(".delete-note-btn").addEventListener("click", () => { deleteNote(index); });
+        noteDiv.querySelector(".favorite-note-btn").addEventListener("click", () => { toggleFavorite(index); });
+        noteDiv.querySelector(".archive-note-btn").addEventListener("click", () => { archiveNote(index); });
+        notesContainer.appendChild(noteDiv);
+      });
+    }
+    let currentDragged = null;
+    function dragStart(e) { currentDragged = e.target; e.dataTransfer.effectAllowed = "move"; }
+    function dragOver(e) { e.preventDefault(); e.dataTransfer.dropEffect = "move"; }
+    function drop(e) {
+      e.preventDefault();
+      if (currentDragged !== e.target && e.target.classList.contains("note")) {
+        let fromIndex = parseInt(currentDragged.dataset.index);
+        let toIndex = parseInt(e.target.dataset.index);
+        notes.splice(toIndex, 0, notes.splice(fromIndex, 1)[0]);
+        saveUserData();
+        renderNotes();
+      }
+    }
+    function editNote(index) { const note = notes[index]; openNoteModal(note); }
+    function deleteNote(index) {
+      if (confirm(translations[currentLang].noteDeleted)) {
+        lastDeletedNote = notes.splice(index, 1)[0];
+        saveUserData();
+        renderNotes();
+        document.getElementById("undo-btn").style.display = "inline-block";
+        setTimeout(() => { document.getElementById("undo-btn").style.display = "none"; lastDeletedNote = null; }, 5000);
+      }
+    }
+    document.getElementById("undo-btn").addEventListener("click", () => {
+      if (lastDeletedNote) { notes.push(lastDeletedNote); saveUserData(); renderNotes(); lastDeletedNote = null; }
+      document.getElementById("undo-btn").style.display = "none";
+    });
+    function toggleFavorite(index) { notes[index].favorite = !notes[index].favorite; saveUserData(); renderNotes(); }
+    function archiveNote(index) {
+      if (confirm(translations[currentLang].archiveConfirm)) {
+        archivedNotes.push(notes.splice(index, 1)[0]);
+        saveUserData();
+        renderNotes();
+      }
+    }
+    document.getElementById("search-input").addEventListener("input", function() {
+      const query = this.value.toLowerCase();
+      document.querySelectorAll(".note").forEach(noteDiv => {
+        const text = noteDiv.textContent.toLowerCase();
+        noteDiv.style.display = text.includes(query) ? "block" : "none";
+      });
+    });
+    document.getElementById("sort-select").addEventListener("change", renderNotes);
+    document.getElementById("voice-input-btn").addEventListener("click", () => {
+      if ('webkitSpeechRecognition' in window) {
+        const recognition = new webkitSpeechRecognition();
+        recognition.lang = "ar-SA";
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById("note-content").value += transcript;
         }
-
-        // بدء النظام عند تحميل الصفحة
-        window.addEventListener('DOMContentLoaded', () => {
-            const app = new SecureNotesSystem();
-            window.app = app; // للوصول من وحدة التحكم
+        recognition.start();
+      } else { alert("ميزة الإدخال الصوتي غير مدعومة في متصفحك."); }
+    });
+    /*********** إعدادات الإعدادات وإدارة التصنيفات ***********/
+    const settingsBtn = document.getElementById("settings-btn");
+    const settingsModal = document.getElementById("settings-modal");
+    const settingsClose = document.getElementById("settings-close");
+    const settingsForm = document.getElementById("settings-form");
+    settingsBtn.addEventListener("click", () => {
+      settingsModal.style.display = "block";
+      document.getElementById("theme-color").value = userSettings.themeColor;
+      document.getElementById("font-size").value = userSettings.fontSize;
+      document.getElementById("auto-dark-mode").checked = userSettings.autoDarkMode;
+      document.getElementById("enable-animations").checked = userSettings.enableAnimations;
+      document.getElementById("lang-select").value = userSettings.language;
+      renderCategories();
+    });
+    settingsClose.addEventListener("click", () => { settingsModal.style.display = "none"; });
+    settingsForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      userSettings.themeColor = document.getElementById("theme-color").value;
+      userSettings.fontSize = document.getElementById("font-size").value;
+      userSettings.autoDarkMode = document.getElementById("auto-dark-mode").checked;
+      userSettings.enableAnimations = document.getElementById("enable-animations").checked;
+      userSettings.language = document.getElementById("lang-select").value;
+      saveUserData();
+      applySettings();
+      settingsModal.style.display = "none";
+    });
+    const categoriesContainer = document.getElementById("categories-container");
+    const addCategoryBtn = document.getElementById("add-category-btn");
+    const newCategoryInput = document.getElementById("new-category");
+    function renderCategories() {
+      categoriesContainer.innerHTML = "";
+      userCategories.forEach((cat, index) => {
+        const catDiv = document.createElement("div");
+        catDiv.style.display = "flex";
+        catDiv.style.justifyContent = "space-between";
+        catDiv.style.alignItems = "center";
+        catDiv.style.marginBottom = "5px";
+        catDiv.innerHTML = `<span>${cat}</span> <button data-index="${index}" style="background: none; border: none; cursor: pointer;">❌</button>`;
+        catDiv.querySelector("button").addEventListener("click", () => {
+          if (confirm("حذف هذا التصنيف؟")) {
+            userCategories.splice(index, 1);
+            saveUserData();
+            renderCategories();
+            populateCategoryDropdown();
+          }
         });
-    </script>
+        categoriesContainer.appendChild(catDiv);
+      });
+      populateCategoryDropdown();
+    }
+    addCategoryBtn.addEventListener("click", () => {
+      const newCat = newCategoryInput.value.trim();
+      if (newCat && !userCategories.includes(newCat)) {
+        userCategories.push(newCat);
+        newCategoryInput.value = "";
+        saveUserData();
+        renderCategories();
+      } else { alert("التصنيف فارغ أو موجود مسبقًا."); }
+    });
+    function populateCategoryDropdown() {
+      const categorySelect = document.getElementById("note-category");
+      categorySelect.innerHTML = "";
+      userCategories.forEach(cat => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        categorySelect.appendChild(opt);
+      });
+    }
+    function applySettings() {
+      document.documentElement.style.setProperty("--primary-color", userSettings.themeColor);
+      document.documentElement.style.fontSize = userSettings.fontSize + "px";
+      if (userSettings.autoDarkMode) {
+        if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          document.body.classList.add("dark");
+          authContainer.classList.add("dark");
+        } else {
+          document.body.classList.remove("dark");
+          authContainer.classList.remove("dark");
+        }
+      } else {
+        document.body.classList.remove("dark");
+        authContainer.classList.remove("dark");
+      }
+      if (!userSettings.enableAnimations) {
+        document.querySelectorAll("*").forEach(el => { el.style.transition = "none"; });
+      }
+      setLanguage(userSettings.language);
+    }
+    /*********** النسخ الاحتياطي والاستيراد والطباعة ***********/
+    document.getElementById("export-notes-btn").addEventListener("click", () => {
+      const data = { notes, archivedNotes, settings: userSettings, categories: userCategories };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "notes_backup.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+    document.getElementById("import-notes-btn").addEventListener("click", () => {
+      document.getElementById("import-file").click();
+    });
+    document.getElementById("import-file").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const data = JSON.parse(event.target.result);
+          notes = data.notes || [];
+          archivedNotes = data.archivedNotes || [];
+          userSettings = data.settings || userSettings;
+          userCategories = data.categories || userCategories;
+          saveUserData();
+          renderNotes();
+          applySettings();
+          alert("تم استيراد البيانات بنجاح.");
+        } catch (err) { alert("حدث خطأ أثناء استيراد البيانات."); }
+      }
+      reader.readAsText(file);
+    });
+    document.getElementById("print-btn").addEventListener("click", () => { window.print(); });
+    document.getElementById("backup-btn").addEventListener("click", () => {
+      alert(translations[currentLang].backupMessage);
+      saveUserData();
+    });
+    /*********** التذكيرات ***********/
+    function checkReminders() {
+      const now = new Date();
+      notes.forEach(note => {
+        if (note.reminder) {
+          const reminderDate = new Date(note.reminder);
+          if (reminderDate - now <= 0 && !note.notified) {
+            alert(translations[currentLang].reminderAlert.replace("{title}", note.title));
+            note.notified = true;
+            saveUserData();
+          }
+        }
+      });
+    }
+    setInterval(checkReminders, 60000);
+    /*********** اختصارات لوحة المفاتيح ***********/
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key === "n") { e.preventDefault(); openNoteModal(); }
+      if (e.ctrlKey && e.key === "l") { e.preventDefault(); document.getElementById("logout-btn").click(); }
+    });
+    /*********** تهيئة اللغة عند البداية ***********/
+    setLanguage(currentLang);
+  </script>
 </body>
 </html>
