@@ -3,307 +3,257 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مُحوِّل رُقِبّرِى</title>
+  <title>مُحوِّل رُقِبّرِى الفائق - إعدادات الخط والتباعد</title>
+  <!-- تضمين Bootstrap 5 مع دعم RTL -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <!-- أيقونات FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <style>
-    /* إعادة تعيين وتنسيق أساسي */
-    * { box-sizing: border-box; }
+    /* المتغيرات الأساسية للوضع الفاتح */
+    :root {
+      --main-bg: #fff8e1;       /* خلفية رئيسية فاتحة وكريمية */
+      --container-bg: #ffecb3;    /* لون حاوية دافئ */
+      --text-color: #4e342e;      /* لون نص بني داكن */
+      --accent-color: #ff6f00;    /* لون مميز برتقالي زاهي */
+      --custom-font-size: 16px;
+      --line-height: 1.5;
+      --font-family: 'Arial', sans-serif;
+    }
+    /* في الوضع الداكن يتم تحويل كل شيء إلى أبيض وأسود */
+    body.dark {
+      --main-bg: #000;
+      --container-bg: #000;
+      --text-color: #fff;
+      --accent-color: #fff;
+    }
     body {
-      margin: 0;
-      padding: 0;
-      font-family: "Arial", sans-serif;
-      background: #f0f0f0;
-      direction: rtl;
-      color: #333;
-      transition: background 0.3s, color 0.3s;
+      background: var(--main-bg);
+      color: var(--text-color);
+      font-size: var(--custom-font-size);
+      line-height: var(--line-height);
+      font-family: var(--font-family);
+      transition: background 0.3s, color 0.3s, font-size 0.3s, line-height 0.3s, font-family 0.3s;
+      padding: 10px;
     }
     .container {
-      max-width: 900px;
-      margin: 20px auto;
-      background: #fff;
+      max-width: 1000px;
+      margin: auto;
       padding: 20px;
+      background: var(--container-bg);
+      color: var(--text-color);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
     }
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
+    pre {
+      white-space: pre-wrap;
+      word-break: break-all;
     }
     header h1 {
-      margin: 0;
-      font-size: 1.8em;
+      color: var(--accent-color);
     }
-    .dark-mode-toggle {
-      display: flex;
-      align-items: center;
+    /* تنسيقات لعناصر النوافذ المنبثقة (Modal) */
+    .modal-header, .modal-footer {
+      background: var(--container-bg);
+      color: var(--text-color);
     }
-    .dark-mode-toggle label {
-      margin-left: 5px;
-      font-size: 0.9em;
+    .form-control, .form-range, .form-select {
+      background: var(--main-bg);
+      color: var(--text-color);
+      border: 1px solid var(--accent-color);
     }
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      padding: 10px;
-      font-size: 1em;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      resize: vertical;
-      margin-bottom: 15px;
-    }
-    .options {
-      background: #fafafa;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      padding: 10px;
-      margin-bottom: 15px;
-    }
-    .options div {
-      margin-bottom: 10px;
-    }
-    .options label {
-      margin-right: 5px;
-      font-size: 0.95em;
-    }
-    .buttons {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-    .buttons button {
-      margin: 5px;
-      padding: 10px 15px;
-      font-size: 1em;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      background: #007BFF;
-      color: #fff;
-      transition: background 0.3s;
-    }
-    .buttons button:hover {
-      background: #0056b3;
-    }
-    .result-container {
-      background: #e9ecef;
-      padding: 15px;
-      border-radius: 4px;
-      font-size: 1.1em;
-      min-height: 50px;
-      word-wrap: break-word;
-      margin-bottom: 15px;
-    }
-    .history-container {
-      margin-top: 20px;
-      padding: 10px;
-      background: #f5f5f5;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-    .history-container h2 {
-      margin-top: 0;
-    }
-    .history-container ul {
-      list-style: none;
-      padding: 0;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-    .history-container li {
-      padding: 5px;
-      border-bottom: 1px solid #ccc;
-      font-size: 0.9em;
-    }
-    .history-container li:last-child {
-      border-bottom: none;
-    }
-    footer {
-      text-align: center;
-      font-size: 0.9em;
-      color: #555;
-      margin-top: 20px;
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
-    }
-    /* تنسيق الوضع الليلي */
-    body.dark {
-      background: #333;
-      color: #eee;
-    }
-    body.dark .container {
-      background: #444;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-    body.dark textarea {
-      background: #555;
-      color: #eee;
-      border: 1px solid #666;
-    }
-    body.dark .options {
-      background: #555;
-      border: 1px solid #666;
-    }
-    body.dark .result-container {
-      background: #666;
-    }
-    body.dark .history-container {
-      background: #555;
-      border: 1px solid #666;
-    }
-    body.dark .buttons button {
-      background: #0066cc;
-    }
+    /* مسافات إضافية بين العناصر */
+    .mb-4 { margin-bottom: 1.5rem !important; }
     @media (max-width: 600px) {
       header h1 { font-size: 1.5em; }
-      .buttons button {
-        font-size: 0.9em;
-        padding: 8px 12px;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- رأس الصفحة مع عنوان وتبديل الوضع الليلي -->
-    <header>
-      <h1>مُحوِّل رُقِبّرِى</h1>
-      <div class="dark-mode-toggle">
-        <input type="checkbox" id="darkModeToggle">
-        <label for="darkModeToggle">الوضع الليلي</label>
+  <div class="container my-3">
+    <!-- رأس الصفحة -->
+    <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+      <h1 class="mb-2">مُحوِّل رُقِبّرِى الفائق</h1>
+      <div class="d-flex gap-2">
+        <button id="darkModeToggle" class="btn btn-secondary" title="تبديل الوضع الداكن">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button id="fullscreenBtn" class="btn btn-secondary" title="ملء الشاشة">
+          <i class="fas fa-expand"></i>
+        </button>
+        <button id="settingsBtn" class="btn btn-secondary" title="الإعدادات">
+          <i class="fas fa-cog"></i>
+        </button>
+        <button id="helpBtn" class="btn btn-info" title="تعليمات الاستخدام">
+          <i class="fas fa-question-circle"></i>
+        </button>
       </div>
     </header>
-
-    <!-- نص الإدخال -->
-    <label for="inputText">النص الأصلي:</label>
-    <textarea id="inputText" placeholder="أدخل النص هنا..."></textarea>
-
-    <!-- خيارات الترجمة -->
-    <div class="options">
-      <div>
-        <label>اتجاه الترجمة:</label>
-        <input type="radio" name="translationDirection" id="ltr" value="lettersToDigits" checked>
-        <label for="ltr">من حروف إلى أرقام</label>
-        <input type="radio" name="translationDirection" id="rtl" value="digitsToLetters">
-        <label for="rtl">من أرقام إلى حروف</label>
-      </div>
-      <div id="digitOptions">
-        <label>نوع الأرقام:</label>
-        <input type="radio" name="digitType" id="arabicDigits" value="arabic" checked>
-        <label for="arabicDigits">١٤٦٢٨٣٩٤٠٤ (أرقام عربية)</label>
-        <input type="radio" name="digitType" id="westernDigits" value="western">
-        <label for="westernDigits">6388491063 (أرقام غربية)</label>
-      </div>
-      <div>
-        <input type="checkbox" id="autoTranslate" checked>
-        <label for="autoTranslate">ترجمة تلقائية</label>
+    
+    <!-- حقل الإدخال الرئيسي -->
+    <div class="mb-3">
+      <label for="inputText" class="form-label">النص الأصلي</label>
+      <textarea id="inputText" class="form-control" rows="5" placeholder="أدخل النص هنا..."></textarea>
+    </div>
+    
+    <!-- قسم خيارات الترجمة -->
+    <div class="card mb-3">
+      <div class="card-body">
+         <h5 class="card-title">خيارات الترجمة</h5>
+         <div class="mb-2">
+           <div class="form-check form-check-inline">
+             <input class="form-check-input" type="radio" name="translationDirection" id="ltr" value="lettersToDigits" checked>
+             <label class="form-check-label" for="ltr">من حروف إلى أرقام</label>
+           </div>
+           <div class="form-check form-check-inline">
+             <input class="form-check-input" type="radio" name="translationDirection" id="rtl" value="digitsToLetters">
+             <label class="form-check-label" for="rtl">من أرقام إلى حروف</label>
+           </div>
+         </div>
+         <div id="digitOptions" class="mb-2">
+            <label class="form-label">نوع الأرقام:</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="digitType" id="arabicDigits" value="arabic" checked>
+              <label class="form-check-label" for="arabicDigits">عربية</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="digitType" id="westernDigits" value="western">
+              <label class="form-check-label" for="westernDigits">غربية</label>
+            </div>
+         </div>
+         <div class="form-check mb-2">
+           <input class="form-check-input" type="checkbox" id="autoTranslate" checked>
+           <label class="form-check-label" for="autoTranslate">ترجمة تلقائية</label>
+         </div>
+         <div>
+           <button id="exportHistoryBtn" class="btn btn-outline-secondary btn-sm" title="تصدير سجل التحويلات">تصدير السجل</button>
+         </div>
       </div>
     </div>
-
-    <!-- أزرار التحكم -->
-    <div class="buttons">
-      <button id="translateBtn">ترجم</button>
-      <button id="clearBtn">مسح الإدخال</button>
-      <button id="copyBtn">نسخ الناتج</button>
-      <button id="downloadBtn">تنزيل الناتج</button>
-      <button id="resetBtn">إعادة تعيين الإعدادات</button>
+    
+    <!-- أزرار التحكم الرئيسية -->
+    <div class="text-center mb-3">
+      <button id="translateBtn" class="btn btn-primary">ترجم</button>
+      <button id="clearBtn" class="btn btn-warning">مسح الإدخال</button>
+      <button id="copyBtn" class="btn btn-success">نسخ الناتج</button>
+      <button id="downloadBtn" class="btn btn-info">تنزيل الناتج</button>
+      <button id="resetBtn" class="btn btn-danger">إعادة تعيين</button>
     </div>
-
+    
     <!-- عرض الناتج -->
-    <div class="result-container" id="resultText" contenteditable="true"></div>
-
-    <!-- سجل التحويلات -->
-    <div class="history-container">
-      <h2>سجل التحويلات</h2>
-      <ul id="historyList"></ul>
-      <button id="clearHistoryBtn">مسح السجل</button>
+    <div class="card mb-3">
+      <div class="card-header">الناتج</div>
+      <div class="card-body">
+        <pre id="resultText" class="mb-0"></pre>
+      </div>
     </div>
-
-    <footer>
+    
+    <!-- سجل التحويلات -->
+    <div class="card mb-3">
+      <div class="card-header">سجل التحويلات</div>
+      <ul class="list-group list-group-flush" id="historyList"></ul>
+      <div class="card-body text-center">
+         <button id="clearHistoryBtn" class="btn btn-secondary btn-sm">مسح السجل</button>
+      </div>
+    </div>
+    
+    <!-- التذييل -->
+    <footer class="text-center">
       <p>صانع اللغة: أبو محمدباقر العبدالرسولي من البحرين – قرية القرية</p>
     </footer>
   </div>
-
+  
+  <!-- نافذة الإعدادات (Settings Modal) -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="settingsModalLabel">إعدادات الموقع</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body">
+          <!-- إعدادات المظهر الأساسية -->
+          <div class="mb-4">
+            <label for="fontSizeRange" class="form-label">حجم الخط: <span id="fontSizeValue">16</span>px</label>
+            <input type="range" class="form-range" min="12" max="32" value="16" id="fontSizeRange">
+          </div>
+          <div class="mb-4">
+            <label for="fontFamilySelect" class="form-label">نوع الخط:</label>
+            <select id="fontFamilySelect" class="form-select">
+              <option value="'Arial', sans-serif" selected>Arial</option>
+              <option value="'Tahoma', sans-serif">Tahoma</option>
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="'Times New Roman', serif">Times New Roman</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="lineHeightRange" class="form-label">تباعد الأسطر: <span id="lineHeightValue">1.5</span></label>
+            <input type="range" class="form-range" min="1" max="2" step="0.1" value="1.5" id="lineHeightRange">
+          </div>
+          <!-- هنا يمكنك إضافة إعدادات إضافية إذا رغبت -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- نافذة التعليمات (Help Modal) -->
+  <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="helpModalLabel">تعليمات الاستخدام</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+         </div>
+         <div class="modal-body">
+           <p>
+             يمكنك استخدام هذا التطبيق لتحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس وفق نظام معيّن. كما يُتيح لك التحكم الكامل في إعدادات الخط؛ بحيث يمكنك تغيير حجم الخط، نوعه وتباعد الأسطر لتناسب ذوقك.
+           </p>
+           <ul>
+             <li>ترجمة النص تلقائيًا أو بنقرة زر "ترجم".</li>
+             <li>حفظ سجل التحويلات مع إمكانية التصدير.</li>
+             <li>تبديل الوضع الداكن الذي يحول كل الألوان إلى أبيض وأسود.</li>
+             <li>ملء الشاشة لتجربة عرض كاملة.</li>
+             <li>ضبط إعدادات الخط عبر نافذة الإعدادات لتغيير حجم الخط، نوع الخط وتباعد الأسطر.</li>
+           </ul>
+           <p>استمتع باستخدام التطبيق وشاركنا ملاحظاتك لتطويره أكثر!</p>
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+         </div>
+       </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    /**************** إعدادات الترجمة ****************/
-    // جدول تحويل الحروف والحركات إلى أرقام وفقاً للنمط المعتاد
+    /**************** إعدادات التحويل ****************/
     const mapping = {
-      'أ': '١',
-      'ب': '٢',
-      'ج': '٣',
-      'د': '٤',
-      'ه': '٥',
-      'و': '٦',
-      'ز': '٧',
-      'ح': '٨',
-      'ط': '٩',
-      'ي': '٠١',
-      'ك': '٠٢',
-      'ل': '٠٣',
-      'م': '٠٤',
-      'ن': '٠٥',
-      'س': '٠٦',
-      'ع': '٠٧',
-      'ف': '٠٨',
-      'ص': '٠٩',
-      'ق': '٠٠١',
-      'ر': '٠٠٢',
-      'ش': '٠٠٣',
-      'ت': '٠٠٤',
-      'ث': '٠٠٥',
-      'خ': '٠٠٦',
-      'ذ': '٠٠٧',
-      'ض': '٠٠٨',
-      'ظ': '٠٠٩',
-      'غ': '٠٠٠١',
-      'ة': '٠٠٠٢',
-      'ء': '٠٠٠٣',
-      'ؤ': '٠٠٠٤',
-      'ئ': '٠٠٠٥',
-      'ى': '٠٠٠٦',
-      'آ': '٠٠٠٧',
-      'إ': '٠٠٠٨',
-      'ا': '٠٠٠٩',
-      'چ': '٠٠٠٠١',
-      'گ': '٠٠٠٠٢',
-      'پ': '٠٠٠٠٣',
-      'ژ': '٠٠٠٠٤',
-      'ڤ': '٠٠٠٠٥',
-      // إضافة الحركات العربية (مع الحفاظ على النمط)
-      'ٍ': '٠٠٠٠٦',
-      'َ': '٠٠٠٠٧',
-      'ّ': '٠٠٠٠٨',
-      'ً': '٠٠٠٠٩',
-      'ُ': '٠٠٠١٠',
-      'ِ': '٠٠٠١١',
-      'ْ': '٠٠٠١٢',
-      'ٌ': '٠٠٠١٣',
-      'ـ': '٠٠٠١٤',
-      'ٰ': '٠٠٠١٥',
-      'ٓ': '٠٠٠١٦'
+      'أ': '١', 'ب': '٢', 'ج': '٣', 'د': '٤', 'ه': '٥', 'و': '٦', 'ز': '٧', 'ح': '٨', 'ط': '٩',
+      'ي': '٠١', 'ك': '٠٢', 'ل': '٠٣', 'م': '٠٤', 'ن': '٠٥', 'س': '٠٦', 'ع': '٠٧', 'ف': '٠٨', 'ص': '٠٩',
+      'ق': '٠٠١', 'ر': '٠٠٢', 'ش': '٠٠٣', 'ت': '٠٠٤', 'ث': '٠٠٥', 'خ': '٠٠٦', 'ذ': '٠٠٧', 'ض': '٠٠٨', 'ظ': '٠٠٩',
+      'غ': '٠٠٠١', 'ة': '٠٠٠٢', 'ء': '٠٠٠٣', 'ؤ': '٠٠٠٤', 'ئ': '٠٠٠٥', 'ى': '٠٠٠', 'آ': '٠٠٠٧', 'إ': '٠٠٠٨', 'ا': '٠٠٠٩',
+      'چ': '٠٠٠٠١', 'گ': '٠٠٠٠٢', 'پ': '٠٠٠٠٣', 'ژ': '٠٠٠٠٤', 'ڤ': '٠٠٠٠٥',
+      'ٍ': '٠٠٠٠', 'َ': '٠٠٠٠٧', 'ّ': '٠٠٠٠٨', 'ً': '٠٠٠٠٩', 'ُ': '٠٠٠١٠', 'ِ': '٠٠٠١١', 'ْ': '٠٠٠١٢', 'ٌ': '٠٠٠١٣', 'ـ': '٠٠٠١٤', 'ٰ': '٠٠٠١٥', 'ٓ': '٠٠٠١٦'
     };
-
-    // إنشاء جدول عكسي للتحويل من الأرقام إلى الحروف/الحركات
     const reverseMapping = {};
     let maxCodeLength = 0;
     for (let char in mapping) {
       const code = mapping[char];
       reverseMapping[code] = char;
-      if (code.length > maxCodeLength) {
-        maxCodeLength = code.length;
-      }
+      if (code.length > maxCodeLength) maxCodeLength = code.length;
     }
-
-    // تحويل الأرقام العربية إلى غربية والعكس
-    function convertToWestern(arabicNumStr) {
-      const digitsMap = {'٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9'};
-      return arabicNumStr.split('').map(ch => digitsMap[ch] || ch).join('');
+    function convertToWestern(numStr) {
+      const digitsMap = { '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9' };
+      return numStr.split('').map(ch => digitsMap[ch] || ch).join('');
     }
-    function convertToArabic(westernNumStr) {
-      const digitsMap = {'0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩'};
-      return westernNumStr.split('').map(ch => digitsMap[ch] || ch).join('');
+    function convertToArabic(numStr) {
+      const digitsMap = { '0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩' };
+      return numStr.split('').map(ch => digitsMap[ch] || ch).join('');
     }
-
-    /**************** الترجمة الرئيسية ****************/
+    /**************** الوظيفة الرئيسية للترجمة ****************/
     function translateText() {
       const input = document.getElementById("inputText").value;
       const direction = document.querySelector('input[name="translationDirection"]:checked').value;
@@ -313,23 +263,17 @@
         for (let char of input) {
           if (mapping[char]) {
             let code = mapping[char];
-            if (digitType === "western") {
-              code = convertToWestern(code);
-            }
+            if (digitType === "western") code = convertToWestern(code);
             output += code;
           } else {
             output += char;
           }
         }
       } else {
-        // تحويل من أرقام إلى حروف
         let processedInput = "";
         for (let ch of input) {
-          if (/[0-9]/.test(ch)) {
-            processedInput += convertToArabic(ch);
-          } else {
-            processedInput += ch;
-          }
+          if (/[0-9]/.test(ch)) processedInput += convertToArabic(ch);
+          else processedInput += ch;
         }
         let i = 0;
         while (i < processedInput.length) {
@@ -343,51 +287,61 @@
               break;
             }
           }
-          if (!found) {
-            output += processedInput[i];
-            i++;
-          }
+          if (!found) { output += processedInput[i]; i++; }
         }
       }
       document.getElementById("resultText").innerText = output;
-      addToHistory(input, output);
+      addToHistory("الترجمة", output);
     }
-
     /**************** سجل التحويلات ****************/
-    function addToHistory(input, output) {
+    function addToHistory(action, result) {
+      const history = JSON.parse(localStorage.getItem("conversionHistory")) || [];
+      const entry = { time: new Date().toLocaleTimeString(), action, result };
+      history.unshift(entry);
+      localStorage.setItem("conversionHistory", JSON.stringify(history));
+      renderHistory();
+    }
+    function renderHistory() {
+      const history = JSON.parse(localStorage.getItem("conversionHistory")) || [];
       const historyList = document.getElementById("historyList");
-      const li = document.createElement("li");
-      const timestamp = new Date().toLocaleTimeString();
-      li.innerText = `[${timestamp}] الإدخال: ${input} | الناتج: ${output}`;
-      historyList.prepend(li);
-      // يمكن تخزين السجل باستخدام localStorage إذا رغبت
+      historyList.innerHTML = "";
+      history.forEach(entry => {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        li.innerText = `[${entry.time}] ${entry.action}: ${entry.result}`;
+        historyList.appendChild(li);
+      });
     }
     function clearHistory() {
-      document.getElementById("historyList").innerHTML = "";
+      localStorage.removeItem("conversionHistory");
+      renderHistory();
     }
-
+    function exportHistory() {
+      const history = localStorage.getItem("conversionHistory") || "[]";
+      const blob = new Blob([history], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "conversion_history.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
     /**************** وظائف إضافية ****************/
-    // إذا كانت الترجمة التلقائية مفعّلة يتم إخفاء زر "ترجم"
-    function handleAutoTranslate() {
-      const auto = document.getElementById("autoTranslate").checked;
-      document.getElementById("translateBtn").style.display = auto ? "none" : "inline-block";
-      if (auto) {
-        translateText();
-      }
-    }
     function clearText() {
       document.getElementById("inputText").value = "";
       document.getElementById("resultText").innerText = "";
     }
     function copyResult() {
-      const resultText = document.getElementById("resultText").innerText;
-      navigator.clipboard.writeText(resultText)
+      const result = document.getElementById("resultText").innerText;
+      navigator.clipboard.writeText(result)
         .then(() => alert("تم نسخ الناتج!"))
-        .catch(() => alert("حدث خطأ أثناء النسخ."));
+        .catch(() => alert("فشل النسخ."));
     }
     function downloadResult() {
-      const resultText = document.getElementById("resultText").innerText;
-      const blob = new Blob([resultText], {type: "text/plain;charset=utf-8"});
+      const result = document.getElementById("resultText").innerText;
+      const blob = new Blob([result], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -403,34 +357,52 @@
       document.getElementById("autoTranslate").checked = true;
       document.getElementById("ltr").checked = true;
       document.getElementById("arabicDigits").checked = true;
+      localStorage.removeItem("conversionHistory");
+      renderHistory();
       handleAutoTranslate();
-      clearHistory();
+    }
+    function handleAutoTranslate() {
+      const auto = document.getElementById("autoTranslate").checked;
+      document.getElementById("translateBtn").style.display = auto ? "none" : "inline-block";
+      if(auto) translateText();
     }
     function toggleDarkMode() {
-      document.body.classList.toggle("dark", document.getElementById("darkModeToggle").checked);
+      document.body.classList.toggle("dark");
+      localStorage.setItem("darkMode", document.body.classList.contains("dark"));
     }
-
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => alert(`فشل الدخول في وضع ملء الشاشة: ${err.message}`));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+    /**************** إعدادات المظهر في نافذة الإعدادات ****************/
+    document.getElementById("fontSizeRange").addEventListener("input", function() {
+      const size = this.value;
+      document.documentElement.style.setProperty("--custom-font-size", size + "px");
+      document.getElementById("fontSizeValue").innerText = size;
+    });
+    document.getElementById("fontFamilySelect").addEventListener("change", function() {
+      document.documentElement.style.setProperty("--font-family", this.value);
+    });
+    document.getElementById("lineHeightRange").addEventListener("input", function() {
+      const lh = this.value;
+      document.documentElement.style.setProperty("--line-height", lh);
+      document.getElementById("lineHeightValue").innerText = lh;
+    });
     /**************** تفعيل الأحداث ****************/
     document.getElementById("inputText").addEventListener("input", () => {
-      if(document.getElementById("autoTranslate").checked) {
-        translateText();
-      }
+      if(document.getElementById("autoTranslate").checked) translateText();
     });
     document.querySelectorAll('input[name="translationDirection"]').forEach(radio => {
       radio.addEventListener("change", () => {
-        const digitOptions = document.getElementById("digitOptions");
-        digitOptions.style.display = (document.getElementById("ltr").checked ? "block" : "none");
-        if(document.getElementById("autoTranslate").checked) {
-          translateText();
-        }
+        document.getElementById("digitOptions").style.display = document.getElementById("ltr").checked ? "block" : "none";
+        if(document.getElementById("autoTranslate").checked) translateText();
       });
     });
     document.querySelectorAll('input[name="digitType"]').forEach(radio => {
-      radio.addEventListener("change", () => {
-        if(document.getElementById("autoTranslate").checked) {
-          translateText();
-        }
-      });
+      radio.addEventListener("change", () => { if(document.getElementById("autoTranslate").checked) translateText(); });
     });
     document.getElementById("autoTranslate").addEventListener("change", handleAutoTranslate);
     document.getElementById("translateBtn").addEventListener("click", translateText);
@@ -439,10 +411,20 @@
     document.getElementById("downloadBtn").addEventListener("click", downloadResult);
     document.getElementById("resetBtn").addEventListener("click", resetSettings);
     document.getElementById("clearHistoryBtn").addEventListener("click", clearHistory);
-    document.getElementById("darkModeToggle").addEventListener("change", toggleDarkMode);
-
-    // إعداد الواجهة عند التحميل
-    handleAutoTranslate();
+    document.getElementById("exportHistoryBtn").addEventListener("click", exportHistory);
+    document.getElementById("darkModeToggle").addEventListener("click", toggleDarkMode);
+    document.getElementById("fullscreenBtn").addEventListener("click", toggleFullscreen);
+    document.getElementById("helpBtn").addEventListener("click", () => {
+      new bootstrap.Modal(document.getElementById("helpModal")).show();
+    });
+    document.getElementById("settingsBtn").addEventListener("click", () => {
+      new bootstrap.Modal(document.getElementById("settingsModal")).show();
+    });
+    window.addEventListener("load", () => {
+      if(localStorage.getItem("darkMode") === "true") document.body.classList.add("dark");
+      renderHistory();
+      handleAutoTranslate();
+    });
   </script>
 </body>
 </html>
