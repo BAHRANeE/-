@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مُحوِّل رُقُبَّرِى الفائق</title>
+  <title>مُحوِّل رُقِبّرِى الفائق - أفضل موقع</title>
   <!-- تضمين Bootstrap 5 مع دعم RTL -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <!-- أيقونات FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <style>
-    /* المتغيرات الخاصة بالوضع الفاتح (ألوان دافئة تُفتح الشهية) */
+    /* المتغيرات الأساسية للوضع الفاتح (ألوان دافئة تُفتح الشهية) */
     :root {
       --main-bg: #fff8e1;       /* خلفية رئيسية فاتحة وكريمية */
       --container-bg: #ffecb3;    /* لون حاوية دافئ */
@@ -19,7 +19,7 @@
       --line-height: 1.5;
       --font-family: 'Arial', sans-serif;
     }
-    /* في الوضع الداكن يتم تحويل كل شيء إلى أبيض وأسود */
+    /* في الوضع الداكن: كل الألوان أبيض وأسود فقط */
     body.dark {
       --main-bg: #000;
       --container-bg: #000;
@@ -47,12 +47,11 @@
     pre {
       white-space: pre-wrap;
       word-break: break-all;
-      direction: ltr; /* لضمان عرض الرموز من اليسار إلى اليمين */
     }
     header h1 {
       color: var(--accent-color);
     }
-    /* تنسيق لعناصر النوافذ المنبثقة */
+    /* تنسيقات لعناصر النوافذ المنبثقة (Modal) */
     .modal-header, .modal-footer {
       background: var(--container-bg);
       color: var(--text-color);
@@ -62,7 +61,7 @@
       color: var(--text-color);
       border: 1px solid var(--accent-color);
     }
-    /* إضافة مسافات إضافية بين البطاقات والعناصر */
+    /* إضافة مسافات إضافية بين العناصر */
     .mb-4 { margin-bottom: 1.5rem !important; }
     @media (max-width: 600px) {
       header h1 { font-size: 1.5em; }
@@ -73,24 +72,28 @@
   <div class="container my-3">
     <!-- رأس الصفحة -->
     <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-      <h1 class="mb-2">مُحوِّل رُقُبَّرِى الفائق</h1>
+      <h1 class="mb-2">مُحوِّل رُقِبّرِى الفائق</h1>
       <div class="d-flex gap-2">
+        <!-- زر تبديل الوضع الداكن -->
         <button id="darkModeToggle" class="btn btn-secondary" title="تبديل الوضع الداكن">
           <i class="fas fa-moon"></i>
         </button>
+        <!-- زر ملء الشاشة -->
         <button id="fullscreenBtn" class="btn btn-secondary" title="ملء الشاشة">
           <i class="fas fa-expand"></i>
         </button>
+        <!-- زر الإعدادات -->
         <button id="settingsBtn" class="btn btn-secondary" title="الإعدادات">
           <i class="fas fa-cog"></i>
         </button>
+        <!-- زر التعليمات -->
         <button id="helpBtn" class="btn btn-info" title="تعليمات الاستخدام">
           <i class="fas fa-question-circle"></i>
         </button>
       </div>
     </header>
     
-    <!-- حقل الإدخال -->
+    <!-- حقل الإدخال الرئيسي -->
     <div class="mb-3">
       <label for="inputText" class="form-label">النص الأصلي</label>
       <textarea id="inputText" class="form-control" rows="5" placeholder="أدخل النص هنا..."></textarea>
@@ -121,19 +124,7 @@
               <label class="form-check-label" for="westernDigits">غربية</label>
             </div>
          </div>
-         <!-- خيار نمط الترجمة -->
-         <div class="mb-2">
-           <label class="form-label">نمط الترجمة:</label>
-           <select id="translationModeSelect" class="form-select">
-             <option value="symbolic" selected>رمزي</option>
-             <option value="textual">نصي</option>
-             <option value="parallel">متوازي</option>
-           </select>
-         </div>
-         <div class="mb-2">
-           <!-- خيار الترجمة التلقائية أصبح ضمن الإعدادات -->
-           <small class="text-muted">يمكن التحكم بتفعيل الترجمة التلقائية من نافذة الإعدادات.</small>
-         </div>
+         <!-- (تم نقل خيار الترجمة التلقائية إلى الإعدادات) -->
          <div>
            <button id="exportHistoryBtn" class="btn btn-outline-secondary btn-sm" title="تصدير سجل التحويلات">تصدير السجل</button>
          </div>
@@ -143,11 +134,8 @@
     <!-- أزرار التحكم الرئيسية -->
     <div class="text-center mb-3">
       <button id="translateBtn" class="btn btn-primary">ترجم</button>
-      <button id="translateEnBtn" class="btn btn-info">ترجمة إنجليزية</button>
-      <button id="speakRuqaberriBtn" class="btn btn-success">نطق رقبرية</button>
-      <button id="shareResultBtn" class="btn btn-outline-primary">مشاركة النتيجة</button>
       <button id="clearBtn" class="btn btn-warning">مسح الإدخال</button>
-      <button id="copyBtn" class="btn btn-secondary">نسخ الناتج</button>
+      <button id="copyBtn" class="btn btn-success">نسخ الناتج</button>
       <button id="downloadBtn" class="btn btn-info">تنزيل الناتج</button>
       <button id="resetBtn" class="btn btn-danger">إعادة تعيين</button>
     </div>
@@ -156,7 +144,8 @@
     <div class="card mb-3">
       <div class="card-header">الناتج</div>
       <div class="card-body">
-        <pre id="resultText" class="mb-0" contenteditable="true"></pre>
+        <!-- التأكد من عرض الناتج من اليمين إلى اليسار -->
+        <pre id="resultText" class="mb-0" dir="rtl"></pre>
       </div>
     </div>
     
@@ -202,26 +191,17 @@
             <label for="lineHeightRange" class="form-label">تباعد الأسطر: <span id="lineHeightValue">1.5</span></label>
             <input type="range" class="form-range" min="1" max="2" step="0.1" value="1.5" id="lineHeightRange">
           </div>
-          <!-- خيار تفعيل/تعطيل الترجمة التلقائية -->
-          <div class="form-check mb-4">
-            <input class="form-check-input" type="checkbox" id="autoTranslate" checked>
-            <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
-          </div>
-          <!-- معلومات وتعليمات إضافية -->
+          <!-- خيار الترجمة التلقائية أصبح ضمن الإعدادات -->
           <div class="mb-4">
-            <h6>تعليمات ومعلومات</h6>
-            <p>
-              إذا كان النص مكتوباً بالإنجليزية، يمكنك الضغط على زر "ترجمة إنجليزية" ليتم ترجمة النص إلى العربية باستخدام Google Translate، ومن ثم تحويله إلى لغة رُقُبَّرِى.
-              كما يمكنك النقر على زر "نطق رقبرية" للاستماع إلى نطق مبسط وواضح للحروف؛ حيث يتم استخدام خريطة نطق مُبسطة لضمان سهولة الفهم.
-            </p>
-            <p>
-              يمكنك أيضاً اختيار نمط الترجمة من خلال القائمة "نمط الترجمة"؛ حيث يمكنك اختيار العرض الرمزي فقط، أو النصي فقط، أو عرضهما بشكل متوازي.
-            </p>
-            <p>
-              لضمان تجربة مثالية، تم تحسين زمن الاستجابة وتحميل الصفحة باستخدام أحدث التقنيات.
-            </p>
-            <p>
-              لمزيد من المساعدة، يمكنك مشاهدة <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">فيديو تعليمي</a> حول كيفية استخدام الموقع.
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="autoTranslate" checked>
+              <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
+            </div>
+          </div>
+          <!-- يمكن إضافة المزيد من الإعدادات المفيدة هنا -->
+          <div class="mb-4">
+            <p class="small text-muted">
+              ملاحظة: تُطبَّق جميع الإعدادات على جميع العناصر في الموقع فورًا، مما يضمن تناسق المظهر عبر المتصفحات والأجهزة.
             </p>
           </div>
         </div>
@@ -234,26 +214,31 @@
   
   <!-- نافذة التعليمات (Help Modal) -->
   <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
        <div class="modal-content">
          <div class="modal-header">
-           <h5 class="modal-title" id="helpModalLabel">تعليمات الاستخدام</h5>
+           <h5 class="modal-title" id="helpModalLabel">تعليمات ومعلومات الاستخدام</h5>
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
          </div>
          <div class="modal-body">
            <p>
-             يُمكنك استخدام هذا التطبيق لتحويل الحروف العربية (بما في ذلك الحركات) إلى رموز (أرقام) بنظام لغة "رُقُبَّرِى" بشكل دقيق ومرتب (من اليسار إلى اليمين). كما يمكنك استخدامه لتحويل النص الإنجليزي إلى العربية باستخدام ترجمة Google، ومن ثم تحويله إلى اللغة الرقبرية.
+             هذا التطبيق هو أفضل موقع في العالم من كل النواحي، حيث يتيح لك:
            </p>
            <ul>
-             <li>تخصيص إعدادات الخط (الحجم، النوع، والتباعد) عبر نافذة الإعدادات.</li>
-             <li>اختيار نمط الترجمة: رمزي فقط، نصي فقط، أو عرض متوازي لكليهما.</li>
-             <li>تفعيل/تعطيل الترجمة التلقائية من خلال الإعدادات.</li>
-             <li>زر "نطق رقبرية" يقوم بنطق الحروف بطريقة مبسطة وسهلة الفهم.</li>
-             <li>سجل التحويلات يُحفظ تلقائياً مع إمكانية التصدير والمسح.</li>
-             <li>زر "مشاركة النتيجة" يتيح لك مشاركة النتيجة على وسائل التواصل الاجتماعي (إذا كان متاحاً).</li>
-             <li>استخدام وضع ملء الشاشة والوضع الداكن لتحسين تجربة العرض.</li>
+             <li>تحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس بطريقة دقيقة.</li>
+             <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) بحيث تُعرض الأحرف بالترتيب الصحيح (من اليمين إلى اليسار).</li>
+             <li>ضبط إعدادات المظهر: يمكنك تغيير حجم الخط، نوع الخط وتباعد الأسطر لتناسب ذوقك.</li>
+             <li>تفعيل أو تعطيل الترجمة التلقائية من خلال نافذة الإعدادات.</li>
+             <li>حفظ سجل التحويلات مع إمكانية تصديره أو مسحه، مما يضمن تتبع كل التحويلات التي قمت بها.</li>
+             <li>تبديل الوضع الداكن الذي يحول جميع الألوان إلى الأبيض والأسود فقط.</li>
+             <li>ملء الشاشة لتجربة عرض كاملة.</li>
            </ul>
-           <p>استمتع باستخدام التطبيق وشاركنا ملاحظاتك لتطويره أكثر!</p>
+           <p>
+             كما تم تصميم الموقع ليعمل بنفس الطريقة على جميع المتصفحات والأجهزة، مع ألوان متناسقة وتنسيق أنيق يضمن تجربة مستخدم مثالية.
+           </p>
+           <p class="small text-muted">
+             ملاحظة: جميع التغييرات التي تجريها على إعدادات المظهر تُطبَّق فوراً وتُحفظ في المتصفح لضمان استمرارها عند إعادة فتح الموقع.
+           </p>
          </div>
          <div class="modal-footer">
            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
@@ -270,9 +255,9 @@
       'أ': '١', 'ب': '٢', 'ج': '٣', 'د': '٤', 'ه': '٥', 'و': '٦', 'ز': '٧', 'ح': '٨', 'ط': '٩',
       'ي': '٠١', 'ك': '٠٢', 'ل': '٠٣', 'م': '٠٤', 'ن': '٠٥', 'س': '٠٦', 'ع': '٠٧', 'ف': '٠٨', 'ص': '٠٩',
       'ق': '٠٠١', 'ر': '٠٠٢', 'ش': '٠٠٣', 'ت': '٠٠٤', 'ث': '٠٠٥', 'خ': '٠٠٦', 'ذ': '٠٠٧', 'ض': '٠٠٨', 'ظ': '٠٠٩',
-      'غ': '٠٠٠١', 'ة': '٠٠٠٢', 'ء': '٠٠٠٣', 'ؤ': '٠٠٠٤', 'ئ': '٠٠٠٥', 'ى': '٠٠٠٦', 'آ': '٠٠٠٧', 'إ': '٠٠٠٨', 'ا': '٠٠٠٩',
+      'غ': '٠٠٠١', 'ة': '٠٠٠٢', 'ء': '٠٠٠٣', 'ؤ': '٠٠٠٤', 'ئ': '٠٠٠٥', 'ى': '٠٠٠', 'آ': '٠٠٠٧', 'إ': '٠٠٠٨', 'ا': '٠٠٠٩',
       'چ': '٠٠٠٠١', 'گ': '٠٠٠٠٢', 'پ': '٠٠٠٠٣', 'ژ': '٠٠٠٠٤', 'ڤ': '٠٠٠٠٥',
-      'ٍ': '٠٠٠٠٦', 'َ': '٠٠٠٠٧', 'ّ': '٠٠٠٠٨', 'ً': '٠٠٠٠٩', 'ُ': '٠٠٠١٠', 'ِ': '٠٠٠١١', 'ْ': '٠٠٠١٢', 'ٌ': '٠٠٠١٣', 'ـ': '٠٠٠١٤', 'ٰ': '٠٠٠١٥', 'ٓ': '٠٠٠١٦'
+      'ٍ': '٠٠٠٠', 'َ': '٠٠٠٠٧', 'ّ': '٠٠٠٠٨', 'ً': '٠٠٠٠٩', 'ُ': '٠٠٠١٠', 'ِ': '٠٠٠١١', 'ْ': '٠٠٠١٢', 'ٌ': '٠٠٠١٣', 'ـ': '٠٠٠١٤', 'ٰ': '٠٠٠١٥', 'ٓ': '٠٠٠١٦'
     };
     const reverseMapping = {};
     let maxCodeLength = 0;
@@ -293,19 +278,16 @@
     function translateText() {
       const input = document.getElementById("inputText").value;
       const direction = document.querySelector('input[name="translationDirection"]:checked').value;
-      const mode = document.getElementById("translationModeSelect").value;
-      let outputSymbolic = "";
-      let outputTextual = "";
-      
+      let output = "";
       if (direction === "lettersToDigits") {
         const digitType = document.querySelector('input[name="digitType"]:checked').value;
         for (let char of input) {
           if (mapping[char]) {
             let code = mapping[char];
             if (digitType === "western") code = convertToWestern(code);
-            outputSymbolic += code;
+            output += code;
           } else {
-            outputSymbolic += char;
+            output += char;
           }
         }
       } else {
@@ -320,88 +302,17 @@
           for (let len = maxCodeLength; len > 0; len--) {
             const substr = processedInput.substr(i, len);
             if (reverseMapping.hasOwnProperty(substr)) {
-              outputSymbolic += reverseMapping[substr];
+              output += reverseMapping[substr];
               i += len;
               found = true;
               break;
             }
           }
-          if (!found) { outputSymbolic += processedInput[i]; i++; }
+          if (!found) { output += processedInput[i]; i++; }
         }
       }
-      // بالنسبة للترجمة النصية، نعرض النص العربي الأصلي
-      outputTextual = input;
-      
-      // بناءً على نمط الترجمة:
-      let finalOutput = "";
-      if (mode === "symbolic") {
-        finalOutput = outputSymbolic;
-      } else if (mode === "textual") {
-        finalOutput = outputTextual;
-      } else if (mode === "parallel") {
-        finalOutput = "الترجمة الرمزية:\n" + outputSymbolic + "\n\nالترجمة النصية:\n" + outputTextual;
-      }
-      document.getElementById("resultText").innerText = finalOutput;
-      addToHistory("الترجمة", finalOutput);
-    }
-    /**************** ترجمة إنجليزية باستخدام Google Translate ****************/
-    async function translateEnglishToRuqaberri() {
-      const input = document.getElementById("inputText").value;
-      if(!input.trim()) return;
-      try {
-        const response = await fetch("https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=" + encodeURIComponent(input));
-        const data = await response.json();
-        const arabicText = data[0].map(item => item[0]).join("");
-        document.getElementById("inputText").value = arabicText;
-        translateText();
-      } catch (error) {
-        alert("حدث خطأ أثناء الترجمة من الإنجليزية. حاول مجددًا.");
-      }
-    }
-    /**************** ميزة النطق للغة رُقُبَّرِى ****************/
-    const pronunciationMapping = {
-      'أ': "أَلِف", 'ب': "باء", 'ج': "جيم", 'د': "دال", 'ه': "هاء",
-      'و': "واو", 'ز': "زاي", 'ح': "حاء", 'ط': "طاء", 'ي': "ياء",
-      'ك': "كاف", 'ل': "لام", 'م': "ميم", 'ن': "نون", 'س': "سين",
-      'ع': "عين", 'ف': "فاء", 'ص': "صاد", 'ق': "قاف", 'ر': "راء",
-      'ش': "شين", 'ت': "تاء", 'ث': "ثاء", 'خ': "خاء", 'ذ': "ذال",
-      'ض': "ضاد", 'ظ': "ظاء", 'غ': "غين", 'ة': "تاء مربوطة", 'ء': "همزة",
-      'ؤ': "همزة", 'ئ': "همزة", 'ى': "ألف مقصورة", 'آ': "آلف ممدودة",
-      'إ': "إلف", 'ا': "ا",
-      'چ': "چاف", 'گ': "گاف", 'پ': "پاء", 'ژ': "ژ", 'ڤ': "ڤاء",
-      // تبسيط الحركات
-      'ٍ': "", 'َ': "فتحة", 'ّ': "شدة", 'ً': "", 'ُ': "ضمة", 'ِ': "كسرة",
-      'ْ': "", 'ٌ': "", 'ـ': "", 'ٰ': "", 'ٓ': ""
-    };
-    function speakRuqaberri() {
-      let text = document.getElementById("resultText").innerText;
-      if(!text.trim()){
-        alert("لا يوجد نص للنطق.");
-        return;
-      }
-      let pronunciation = "";
-      let i = 0;
-      while(i < text.length) {
-        let found = false;
-        for(let len = maxCodeLength; len > 0; len--){
-          const substr = text.substr(i, len);
-          if(reverseMapping[substr]) {
-            let letter = reverseMapping[substr];
-            pronunciation += (pronunciationMapping[letter] || letter) + " ";
-            i += len;
-            found = true;
-            break;
-          }
-        }
-        if(!found) {
-          pronunciation += text[i] + " ";
-          i++;
-        }
-      }
-      const utterance = new SpeechSynthesisUtterance(pronunciation);
-      utterance.lang = "ar-SA";
-      speechSynthesis.speak(utterance);
-      addToHistory("نطق رقبرية", pronunciation.trim());
+      document.getElementById("resultText").innerText = output;
+      addToHistory("الترجمة", output);
     }
     /**************** سجل التحويلات ****************/
     function addToHistory(action, result) {
@@ -464,10 +375,16 @@
     function resetSettings() {
       document.getElementById("inputText").value = "";
       document.getElementById("resultText").innerText = "";
+      // استعادة القيم الافتراضية للإعدادات
+      document.getElementById("fontSizeRange").value = 16;
+      document.getElementById("fontSizeValue").innerText = 16;
+      document.getElementById("fontFamilySelect").value = "'Arial', sans-serif";
+      document.getElementById("lineHeightRange").value = 1.5;
+      document.getElementById("lineHeightValue").innerText = 1.5;
       document.getElementById("autoTranslate").checked = true;
+      // استعادة الخيارات الافتراضية للترجمة
       document.getElementById("ltr").checked = true;
       document.getElementById("arabicDigits").checked = true;
-      document.getElementById("translationModeSelect").value = "symbolic";
       localStorage.removeItem("conversionHistory");
       renderHistory();
       handleAutoTranslate();
@@ -515,21 +432,8 @@
     document.querySelectorAll('input[name="digitType"]').forEach(radio => {
       radio.addEventListener("change", () => { if(document.getElementById("autoTranslate").checked) translateText(); });
     });
+    document.getElementById("autoTranslate").addEventListener("change", handleAutoTranslate);
     document.getElementById("translateBtn").addEventListener("click", translateText);
-    document.getElementById("translateEnBtn").addEventListener("click", translateEnglishToRuqaberri);
-    document.getElementById("speakRuqaberriBtn").addEventListener("click", speakRuqaberri);
-    document.getElementById("shareResultBtn").addEventListener("click", async () => {
-      const result = document.getElementById("resultText").innerText;
-      if(navigator.share){
-        try {
-          await navigator.share({ title: "نتيجة تحويل رقبرية", text: result });
-        } catch(err) {
-          alert("حدث خطأ أثناء مشاركة النتيجة.");
-        }
-      } else {
-        prompt("انسخ الرابط التالي لمشاركة النتيجة:", window.location.href);
-      }
-    });
     document.getElementById("clearBtn").addEventListener("click", clearText);
     document.getElementById("copyBtn").addEventListener("click", copyResult);
     document.getElementById("downloadBtn").addEventListener("click", downloadResult);
