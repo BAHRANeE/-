@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مُحوِّل رُقِبّرِى الفائق | REQUPA,rea</title>
+  <title>مُحوِّل رُقِبّرِى الفائق</title>
   <!-- تضمين Bootstrap 5 مع دعم RTL -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <!-- أيقونات FontAwesome -->
@@ -74,19 +74,15 @@
     <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
       <h1 class="mb-2">مُحوِّل رُقِبّرِى الفائق</h1>
       <div class="d-flex gap-2">
-        <!-- زر تبديل الوضع الداكن -->
         <button id="darkModeToggle" class="btn btn-secondary" title="تبديل الوضع الداكن">
           <i class="fas fa-moon"></i>
         </button>
-        <!-- زر ملء الشاشة -->
         <button id="fullscreenBtn" class="btn btn-secondary" title="ملء الشاشة">
           <i class="fas fa-expand"></i>
         </button>
-        <!-- زر الإعدادات -->
         <button id="settingsBtn" class="btn btn-secondary" title="الإعدادات">
           <i class="fas fa-cog"></i>
         </button>
-        <!-- زر التعليمات -->
         <button id="helpBtn" class="btn btn-info" title="تعليمات الاستخدام">
           <i class="fas fa-question-circle"></i>
         </button>
@@ -124,7 +120,7 @@
               <label class="form-check-label" for="westernDigits">غربية</label>
             </div>
          </div>
-         <!-- (تم نقل خيار الترجمة التلقائية إلى الإعدادات) -->
+         <!-- تم نقل خيار الترجمة التلقائية إلى الإعدادات -->
          <div>
            <button id="exportHistoryBtn" class="btn btn-outline-secondary btn-sm" title="تصدير سجل التحويلات">تصدير السجل</button>
          </div>
@@ -144,8 +140,8 @@
     <div class="card mb-3">
       <div class="card-header">الناتج</div>
       <div class="card-body">
-        <!-- التأكد من عرض الناتج من اليمين إلى اليسار -->
-        <pre id="resultText" class="mb-0" dir="rtl"></pre>
+        <!-- يتم ضبط اتجاه عرض الناتج عبر الإعدادات (افتراضيًا من اليسار إلى اليمين) -->
+        <pre id="resultText" class="mb-0" dir="ltr"></pre>
       </div>
     </div>
     
@@ -191,17 +187,28 @@
             <label for="lineHeightRange" class="form-label">تباعد الأسطر: <span id="lineHeightValue">1.5</span></label>
             <input type="range" class="form-range" min="1" max="2" step="0.1" value="1.5" id="lineHeightRange">
           </div>
-          <!-- خيار الترجمة التلقائية أصبح ضمن الإعدادات -->
+          <!-- خيار الترجمة التلقائية -->
           <div class="mb-4">
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="autoTranslate" checked>
               <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
             </div>
           </div>
-          <!-- يمكن إضافة المزيد من الإعدادات المفيدة هنا -->
+          <!-- خيار اتجاه النص الناتج -->
+          <div class="mb-4">
+            <label class="form-label">اتجاه النص الناتج:</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="outputDirection" id="outputLTR" value="ltr" checked>
+              <label class="form-check-label" for="outputLTR">من اليسار إلى اليمين</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="outputDirection" id="outputRTL" value="rtl">
+              <label class="form-check-label" for="outputRTL">من اليمين إلى اليسار</label>
+            </div>
+          </div>
           <div class="mb-4">
             <p class="small text-muted">
-              ملاحظة: تُطبَّق جميع الإعدادات على جميع العناصر في الموقع فورًا، مما يضمن تناسق المظهر عبر المتصفحات والأجهزة.
+              ملاحظة: تُطبَّق جميع الإعدادات على جميع العناصر في الموقع فوراً، مما يضمن تناسق المظهر عبر المتصفحات والأجهزة.
             </p>
           </div>
         </div>
@@ -225,19 +232,18 @@
              هذا التطبيق هو أفضل موقع في العالم من كل النواحي، حيث يتيح لك:
            </p>
            <ul>
-             <li>تحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس بطريقة دقيقة.</li>
-             <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) بحيث تُعرض الأحرف بالترتيب الصحيح (من اليمين إلى اليسار).</li>
-             <li>ضبط إعدادات المظهر: يمكنك تغيير حجم الخط، نوع الخط وتباعد الأسطر لتناسب ذوقك.</li>
+             <li>تحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس بدقة.</li>
+             <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) مع ترتيب الأحرف بشكل صحيح (يُعرض الناتج من اليسار إلى اليمين حسب اختيارك).</li>
+             <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، وتحديد اتجاه النص الناتج.</li>
              <li>تفعيل أو تعطيل الترجمة التلقائية من خلال نافذة الإعدادات.</li>
-             <li>حفظ سجل التحويلات مع إمكانية تصديره أو مسحه، مما يضمن تتبع كل التحويلات التي قمت بها.</li>
-             <li>تبديل الوضع الداكن الذي يحول جميع الألوان إلى الأبيض والأسود فقط.</li>
-             <li>ملء الشاشة لتجربة عرض كاملة.</li>
+             <li>حفظ سجل التحويلات مع إمكانية تصديره أو مسحه، مما يضمن تتبع جميع التحويلات.</li>
+             <li>تبديل الوضع الداكن الذي يحول كل الألوان إلى أبيض وأسود فقط، وملء الشاشة لتجربة عرض كاملة.</li>
            </ul>
            <p>
-             كما تم تصميم الموقع ليعمل بنفس الطريقة على جميع المتصفحات والأجهزة، مع ألوان متناسقة وتنسيق أنيق يضمن تجربة مستخدم مثالية.
+             تم تصميم الموقع ليعمل بنفس الشكل على جميع المتصفحات والأجهزة، مع تنسيق أنيق ومسافات مناسبة بين العناصر لضمان تجربة مستخدم مثالية.
            </p>
            <p class="small text-muted">
-             ملاحظة: جميع التغييرات التي تجريها على إعدادات المظهر تُطبَّق فوراً وتُحفظ في المتصفح لضمان استمرارها عند إعادة فتح الموقع.
+             ملاحظة: تُطبَّق جميع التغييرات والإعدادات فوراً وتُحفظ في المتصفح لاستمرارها عند إعادة فتح الموقع.
            </p>
          </div>
          <div class="modal-footer">
@@ -311,6 +317,9 @@
           if (!found) { output += processedInput[i]; i++; }
         }
       }
+      // تطبيق اتجاه الناتج كما هو محدد في الإعدادات
+      const outDir = document.querySelector('input[name="outputDirection"]:checked').value;
+      document.getElementById("resultText").dir = outDir;
       document.getElementById("resultText").innerText = output;
       addToHistory("الترجمة", output);
     }
@@ -382,6 +391,7 @@
       document.getElementById("lineHeightRange").value = 1.5;
       document.getElementById("lineHeightValue").innerText = 1.5;
       document.getElementById("autoTranslate").checked = true;
+      document.querySelector('input[name="outputDirection"][value="ltr"]').checked = true;
       // استعادة الخيارات الافتراضية للترجمة
       document.getElementById("ltr").checked = true;
       document.getElementById("arabicDigits").checked = true;
