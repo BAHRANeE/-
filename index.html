@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مُحوِّل رُقِبّرِى الفائق</title>
+  <title>مُحوِّل رُقِبّرِى الفائق - أفضل موقع</title>
   <!-- تضمين Bootstrap 5 مع دعم RTL -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <!-- أيقونات FontAwesome -->
@@ -120,7 +120,7 @@
               <label class="form-check-label" for="westernDigits">غربية</label>
             </div>
          </div>
-         <!-- تم نقل خيار الترجمة التلقائية إلى الإعدادات -->
+         <!-- خيار الترجمة التلقائية تم نقله إلى الإعدادات -->
          <div>
            <button id="exportHistoryBtn" class="btn btn-outline-secondary btn-sm" title="تصدير سجل التحويلات">تصدير السجل</button>
          </div>
@@ -140,7 +140,7 @@
     <div class="card mb-3">
       <div class="card-header">الناتج</div>
       <div class="card-body">
-        <!-- يتم ضبط اتجاه عرض الناتج عبر الإعدادات (افتراضيًا من اليسار إلى اليمين) -->
+        <!-- يتم ضبط اتجاه عرض الناتج وفقاً للإعدادات (افتراضيًا من اليسار إلى اليمين) -->
         <pre id="resultText" class="mb-0" dir="ltr"></pre>
       </div>
     </div>
@@ -208,7 +208,7 @@
           </div>
           <div class="mb-4">
             <p class="small text-muted">
-              ملاحظة: تُطبَّق جميع الإعدادات على جميع العناصر في الموقع فوراً، مما يضمن تناسق المظهر عبر المتصفحات والأجهزة.
+              ملاحظة: تُطبَّق جميع الإعدادات على جميع العناصر فوراً وتُحفظ في المتصفح لضمان تناسق المظهر على كافة الأجهزة.
             </p>
           </div>
         </div>
@@ -232,11 +232,11 @@
              هذا التطبيق هو أفضل موقع في العالم من كل النواحي، حيث يتيح لك:
            </p>
            <ul>
-             <li>تحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس بدقة.</li>
-             <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) مع ترتيب الأحرف بشكل صحيح (يُعرض الناتج من اليسار إلى اليمين حسب اختيارك).</li>
-             <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، وتحديد اتجاه النص الناتج.</li>
+             <li>تحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس بدقة وفق خريطتك الخاصة.</li>
+             <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) مع ترتيب الأحرف كما تريد.</li>
+             <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، بالإضافة إلى تحديد اتجاه النص الناتج.</li>
              <li>تفعيل أو تعطيل الترجمة التلقائية من خلال نافذة الإعدادات.</li>
-             <li>حفظ سجل التحويلات مع إمكانية تصديره أو مسحه، مما يضمن تتبع جميع التحويلات.</li>
+             <li>حفظ سجل التحويلات مع إمكانية تصديره أو مسحه لتتبع جميع التحويلات.</li>
              <li>تبديل الوضع الداكن الذي يحول كل الألوان إلى أبيض وأسود فقط، وملء الشاشة لتجربة عرض كاملة.</li>
            </ul>
            <p>
@@ -256,15 +256,72 @@
   <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    /**************** إعدادات التحويل ****************/
+    /**************** خريطة التحويل (Mapping) ****************/
+    // الحروف
     const mapping = {
-      'أ': '١', 'ب': '٢', 'ج': '٣', 'د': '٤', 'ه': '٥', 'و': '٦', 'ز': '٧', 'ح': '٨', 'ط': '٩',
-      'ي': '٠١', 'ك': '٠٢', 'ل': '٠٣', 'م': '٠٤', 'ن': '٠٥', 'س': '٠٦', 'ع': '٠٧', 'ف': '٠٨', 'ص': '٠٩',
-      'ق': '٠٠١', 'ر': '٠٠٢', 'ش': '٠٠٣', 'ت': '٠٠٤', 'ث': '٠٠٥', 'خ': '٠٠٦', 'ذ': '٠٠٧', 'ض': '٠٠٨', 'ظ': '٠٠٩',
-      'غ': '٠٠٠١', 'ة': '٠٠٠٢', 'ء': '٠٠٠٣', 'ؤ': '٠٠٠٤', 'ئ': '٠٠٠٥', 'ى': '٠٠٠', 'آ': '٠٠٠٧', 'إ': '٠٠٠٨', 'ا': '٠٠٠٩',
-      'چ': '٠٠٠٠١', 'گ': '٠٠٠٠٢', 'پ': '٠٠٠٠٣', 'ژ': '٠٠٠٠٤', 'ڤ': '٠٠٠٠٥',
-      'ٍ': '٠٠٠٠', 'َ': '٠٠٠٠٧', 'ّ': '٠٠٠٠٨', 'ً': '٠٠٠٠٩', 'ُ': '٠٠٠١٠', 'ِ': '٠٠٠١١', 'ْ': '٠٠٠١٢', 'ٌ': '٠٠٠١٣', 'ـ': '٠٠٠١٤', 'ٰ': '٠٠٠١٥', 'ٓ': '٠٠٠١٦'
+      'أ': '١',
+      'ب': '٢',
+      'ج': '٣',
+      'د': '٤',
+      'ه': '٥',
+      'و': '٦',
+      'ز': '٧',
+      'ح': '٨',
+      'ط': '٩',
+      'ي': '٠١',
+      'ك': '٠٢',
+      'ل': '٠٣',
+      'م': '٠٤',
+      'ن': '٠٥',
+      'س': '٠٦',
+      'ع': '٠٧',
+      'ف': '٠٨',
+      'ص': '٠٩',
+      'ق': '٠٠١',
+      'ر': '٠٠٢',
+      'ش': '٠٠٣',
+      'ت': '٠٠٤',
+      'ث': '٠٠٥',
+      'خ': '٠٠٦',
+      'ذ': '٠٠٧',
+      'ض': '٠٠٨',
+      'ظ': '٠٠٩',
+      'غ': '٠٠٠١',
+      'ة': '٠٠٠٢',
+      'ء': '٠٠٠٣',
+      'ؤ': '٠٠٠٤',
+      'ئ': '٠٠٠٥',
+      'ى': '٠٠٠٦',
+      'آ': '٠٠٠٧',
+      'إ': '٠٠٠٨',
+      'ا': '٠٠٠٩',
+      'چ': '٠٠٠٠١',
+      'گ': '٠٠٠٠٢',
+      'پ': '٠٠٠٠٣',
+      'ژ': '٠٠٠٠٤',
+      'ڤ': '٠٠٠٠٥',
+      // الحركات (العلامات التشكيلية)
+      'ٍ': '٠٠٠٠٦',
+      'َ': '٠٠٠٠٧',
+      'ّ': '٠٠٠٠٨',
+      'ً': '٠٠٠٠٩',
+      'ُ': '٠٠٠٠٠١',
+      'ِ': '٠٠٠٠٠٢',
+      'ْ': '٠٠٠٠٠٣',
+      'ٌ': '٠٠٠٠٠٤',
+      'ـ': '٠٠٠٠٠٠٥', 
+      'ٰ': '٠٠٠٠٠٦',
+      'ٓ': '٠٠٠٠٠٧'
     };
+
+    // تأكد من عدم انتهاء أي قيمة برقم صفر؛ إذا انتهت، استبدل آخر رقم بـ "1"
+    for (let key in mapping) {
+      if (mapping[key].endsWith("0")) {
+        mapping[key] = mapping[key].slice(0, -1) + "1";
+      }
+    }
+
+    // إنشاء جدول عكسي للتحويل (من الأرقام إلى الحروف)
     const reverseMapping = {};
     let maxCodeLength = 0;
     for (let char in mapping) {
@@ -272,6 +329,7 @@
       reverseMapping[code] = char;
       if (code.length > maxCodeLength) maxCodeLength = code.length;
     }
+
     function convertToWestern(numStr) {
       const digitsMap = { '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9' };
       return numStr.split('').map(ch => digitsMap[ch] || ch).join('');
@@ -280,6 +338,7 @@
       const digitsMap = { '0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩' };
       return numStr.split('').map(ch => digitsMap[ch] || ch).join('');
     }
+
     /**************** الوظيفة الرئيسية للترجمة ****************/
     function translateText() {
       const input = document.getElementById("inputText").value;
@@ -317,12 +376,13 @@
           if (!found) { output += processedInput[i]; i++; }
         }
       }
-      // تطبيق اتجاه الناتج كما هو محدد في الإعدادات
+      // تطبيق اتجاه عرض الناتج حسب الإعدادات
       const outDir = document.querySelector('input[name="outputDirection"]:checked').value;
       document.getElementById("resultText").dir = outDir;
       document.getElementById("resultText").innerText = output;
       addToHistory("الترجمة", output);
     }
+
     /**************** سجل التحويلات ****************/
     function addToHistory(action, result) {
       const history = JSON.parse(localStorage.getItem("conversionHistory")) || [];
@@ -358,6 +418,7 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+
     /**************** وظائف إضافية ****************/
     function clearText() {
       document.getElementById("inputText").value = "";
@@ -415,6 +476,7 @@
         document.exitFullscreen();
       }
     }
+
     /**************** إعدادات المظهر في نافذة الإعدادات ****************/
     document.getElementById("fontSizeRange").addEventListener("input", function() {
       const size = this.value;
@@ -429,6 +491,7 @@
       document.documentElement.style.setProperty("--line-height", lh);
       document.getElementById("lineHeightValue").innerText = lh;
     });
+
     /**************** تفعيل الأحداث ****************/
     document.getElementById("inputText").addEventListener("input", () => {
       if(document.getElementById("autoTranslate").checked) translateText();
