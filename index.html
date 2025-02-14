@@ -3,19 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>محول رقبري الفائق</title>
-  <!-- أيقونة التطبيق وشعار الموقع -->
+  <title>محول رُقِبّرِى الفائق</title>
+  <!-- أيقونة التطبيق (شعار الموقع) -->
   <link rel="icon" href="002.png">
-  <!-- وسوم manifest وتطبيق الويب لإضافة الموقع إلى الشاشة الرئيسية -->
+  <!-- وسوم manifest لتطبيق الويب وتعليمات التثبيت على الشاشة الرئيسية -->
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="محول وقبري الفائق">
-  
+  <meta name="apple-mobile-web-app-title" content="محول رُقِبّرِى الفائق">
   <!-- تضمين Bootstrap 5 مع دعم RTL وأيقونات FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  
   <style>
     :root {
       --main-bg: #fff8e1;
@@ -79,12 +77,13 @@
     <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
       <div class="d-flex align-items-center">
         <img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
-        <h1 class="mb-0">محول وقبري الفائق</h1>
+        <h1 class="mb-0">محول رُقِبّرِى الفائق</h1>
       </div>
       <div class="d-flex gap-2">
         <button id="darkModeToggle" class="btn btn-secondary" title="تبديل الوضع الداكن">
           <i class="fas fa-moon"></i>
         </button>
+        <!-- زر "ملء الشاشة" يعرض تعليمات الإضافة إلى الشاشة الرئيسية -->
         <button id="fullscreenBtn" class="btn btn-secondary" title="أضف إلى الشاشة الرئيسية">
           <i class="fas fa-plus-square"></i>
         </button>
@@ -103,7 +102,7 @@
       <textarea id="inputText" class="form-control" rows="5" placeholder="أدخل النص هنا..."></textarea>
     </div>
     
-    <!-- قسم خيارات الترجمة (خيار نوع الأرقام مُزال) -->
+    <!-- قسم خيارات الترجمة (تمت إزالة خيار نوع الأرقام) -->
     <div class="card mb-3">
       <div class="card-body">
          <h5 class="card-title">خيارات الترجمة</h5>
@@ -129,8 +128,8 @@
       <button id="clearBtn" class="btn btn-warning">مسح الإدخال</button>
       <button id="copyBtn" class="btn btn-success">نسخ الناتج</button>
       <button id="downloadBtn" class="btn btn-info">تنزيل الناتج</button>
-      <button id="downloadTranslatorBtn" class="btn btn-dark">تحميل المترجم</button>
       <button id="resetBtn" class="btn btn-danger">إعادة تعيين</button>
+      <button id="showMappingBtn" class="btn btn-secondary">عرض معنى الأرقام</button>
     </div>
     
     <!-- عرض الناتج (دائمًا من اليسار إلى اليمين) -->
@@ -190,7 +189,7 @@
               <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
             </div>
           </div>
-          <!-- خيار اتجاه النص الناتج (يكون دائمًا LTR في النتيجة) -->
+          <!-- خيار اتجاه النص الناتج (دائمًا LTR) -->
           <div class="mb-4">
             <label class="form-label">اتجاه النص الناتج:</label>
             <div class="form-check form-check-inline">
@@ -200,7 +199,7 @@
           </div>
           <div class="mb-4">
             <p class="small text-muted">
-              تُطبَّق جميع الإعدادات فوراً وتُحفظ في المتصفح لضمان تناسق المظهر على كافة الأجهزة.
+              تُطبَّق جميع الإعدادات فوراً وتُحفظ في المتصفح.
             </p>
           </div>
         </div>
@@ -211,38 +210,31 @@
     </div>
   </div>
   
-  <!-- نافذة التعليمات -->
-  <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+  <!-- نافذة تعليمات معنى الأرقام -->
+  <div class="modal fade" id="mappingModal" tabindex="-1" aria-labelledby="mappingModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-       <div class="modal-content">
-         <div class="modal-header">
-           <h5 class="modal-title" id="helpModalLabel">تعليمات ومعلومات الاستخدام</h5>
-           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
-         </div>
-         <div class="modal-body">
-           <p>
-             يُتيح لك تطبيق "محول وقبري الفائق" تحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس بدقة باستخدام نظام رقمي مبني على الأرقام الغربية الأصلية.
-           </p>
-           <ul>
-             <li>تُستخدم الأرقام الغربية فقط.</li>
-             <li>يُعرض الناتج دائمًا من اليسار إلى اليمين.</li>
-             <li>خانة الإدخال تُضبط تلقائيًا؛ فإذا كان النص عبارة عن أرقام تُكتب من اليسار، وإذا كان عربيًا تُكتب من اليمين.</li>
-             <li>تنزيل النتائج: عند الضغط على "تنزيل الناتج" يتم حفظ النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>.</li>
-             <li>تصدير سجل التحويلات: عند الضغط على "تصدير السجل" يتم حفظ سجل التحويلات مع 1500 سطر معلومات إضافية بصيغة <code>.REQS</code>.</li>
-             <li>تحميل المترجم: عند الضغط على "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>.</li>
-             <li>زر "ملء الشاشة" يعرض تعليمات إضافة الموقع إلى الشاشة الرئيسية (خاصًة في iOS) مع استخدام شعار "002.png".</li>
-           </ul>
-           <p>
-             تم تصميم التطبيق ليعمل بنفس الشكل على جميع المتصفحات والأجهزة مع تنسيق أنيق.
-           </p>
-           <p class="small text-muted">
-             تُطبَّق جميع التغييرات فوراً وتُحفظ في المتصفح.
-           </p>
-         </div>
-         <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-         </div>
-       </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mappingModalLabel">معنى الأرقام (خريطة التحويل)</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>الحرف/الحركة</th>
+                <th>الرقم</th>
+              </tr>
+            </thead>
+            <tbody id="mappingTable">
+              <!-- سيتم تعبئتها بواسطة جافا سكريبت -->
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+        </div>
+      </div>
     </div>
   </div>
   
@@ -250,7 +242,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
-    /**************** إنشاء خريطة التحويل باستخدام الأرقام الغربية الأصلية ****************/
+    /**************** إنشاء خريطة التحويل باستخدام السلسلة "3829193473801" ****************/
     const digitSeq = "3829193473801";
     const letters = ['أ','ب','ج','د','ه','و','ز','ح','ط','ي','ك','ل','م','ن','س','ع','ف','ص','ق','ر','ش','ت','ث','خ','ذ','ض','ظ','غ','ة','ء','ؤ','ئ','ى','آ','إ','ا','چ','گ','پ','ژ','ڤ'];
     const movements = ['ٍ','َ','ّ','ً','ُ','ِ','ْ','ٌ','ـ','ٰ','ٓ'];
@@ -274,9 +266,7 @@
       if (code.length > maxCodeLength) maxCodeLength = code.length;
     }
     
-    // لا حاجة لدوال تحويل الأرقام لأننا نستخدم الأرقام الغربية مباشرةً.
-    
-    /**************** وظيفة الترجمة ****************/
+    /**************** الوظيفة الرئيسية للترجمة ****************/
     function translateText() {
       const inputElem = document.getElementById("inputText");
       const input = inputElem.value;
@@ -292,40 +282,37 @@
           }
         }
       } else {
+        // عملية التحويل من الأرقام إلى الحروف
         let processedInput = "";
         for (let ch of input) {
           if (/[0-9]/.test(ch)) processedInput += ch;
           else processedInput += ch;
         }
-        let i = 0;
-        while (i < processedInput.length) {
+        let idx = 0;
+        while (idx < processedInput.length) {
           let found = false;
           for (let len = maxCodeLength; len > 0; len--) {
-            const substr = processedInput.substr(i, len);
+            const substr = processedInput.substr(idx, len);
             if (reverseMapping.hasOwnProperty(substr)) {
               output += reverseMapping[substr];
-              i += len;
+              idx += len;
               found = true;
               break;
             }
           }
-          if (!found) {
-            output += processedInput[i];
-            i++;
-          }
+          if (!found) { output += processedInput[idx]; idx++; }
         }
       }
-      
-      // دائمًا يكون اتجاه الناتج من اليسار إلى اليمين
+      // الناتج دائمًا من اليسار إلى اليمين
       document.getElementById("resultText").dir = "ltr";
       document.getElementById("resultText").innerText = output;
       addToHistory("الترجمة", output);
     }
     
-    /**************** ضبط اتجاه خانة الإدخال بناءً على المحتوى ****************/
+    /**************** ضبط اتجاه خانة الإدخال ****************/
     document.getElementById("inputText").addEventListener("input", function() {
       const value = this.value.trim();
-      // إذا كانت كل الحروف أرقام ومسافات فقط، اجعلها LTR، وإلا RTL
+      // إذا كانت كل الأحرف أرقام ومسافات، اجعلها LTR، وإلا RTL
       if (/^[0-9\s]+$/.test(value) && value.length > 0) {
         this.dir = "ltr";
       } else {
@@ -357,7 +344,7 @@
       localStorage.removeItem("conversionHistory");
       renderHistory();
     }
-    // تصدير سجل التحويلات بصيغة REQS مع 1500 سطر معلومات إضافية
+    // تصدير سجل التحويلات بصيغة REQS مع إضافة 1500 سطر معلومات إضافية
     function exportHistory() {
       const history = localStorage.getItem("conversionHistory") || "[]";
       let extraInfo = "";
@@ -366,14 +353,11 @@
       }
       const finalData = history + "\n" + extraInfo;
       const blob = new Blob([finalData], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url;
+      a.href = URL.createObjectURL(blob);
       a.download = "conversion_history.REQS";
-      document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL(a.href);
     }
     
     /**************** وظائف إضافية ****************/
@@ -387,7 +371,7 @@
         .then(() => alert("تم نسخ الناتج!"))
         .catch(() => alert("فشل النسخ."));
     }
-    // تنزيل الناتج بصيغة REQR مع 1500 سطر معلومات إضافية
+    // تنزيل الناتج بصيغة REQR مع إضافة 1500 سطر معلومات إضافية
     function downloadResult() {
       const result = document.getElementById("resultText").innerText;
       let extraInfo = "";
@@ -396,33 +380,13 @@
       }
       const finalData = result + "\n" + extraInfo;
       const blob = new Blob([finalData], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url;
+      a.href = URL.createObjectURL(blob);
       a.download = "النتيجة.REQR";
-      document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      URL.revokeObjectURL(a.href);
     }
-    // تنزيل "المترجم" بصيغة REQR (النتائج مع المعلومات الإضافية)
-    function downloadTranslator() {
-      const result = document.getElementById("resultText").innerText;
-      let extraInfo = "";
-      for (let i = 1; i <= 1500; i++) {
-        extraInfo += `ميزة مفيدة ${i}\n`;
-      }
-      const finalData = result + "\n" + extraInfo;
-      const blob = new Blob([finalData], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "محول_وقبري.REQR";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }
+    
     function resetSettings() {
       document.getElementById("inputText").value = "";
       document.getElementById("resultText").innerText = "";
@@ -445,9 +409,9 @@
       document.body.classList.toggle("dark");
       localStorage.setItem("darkMode", document.body.classList.contains("dark"));
     }
-    // زر "ملء الشاشة" يعرض تعليمات إضافة الموقع إلى الشاشة الرئيسية
+    // زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية
     function toggleFullscreen() {
-      alert("لإضافة التطبيق إلى الشاشة الرئيسية:\n1. اضغط على زر المشاركة في متصفح سفاري.\n2. اختر 'أضف إلى الشاشة الرئيسية'.\n3. استخدم شعار التطبيق (002.png) كما أيقونة.");
+      alert("لإضافة التطبيق إلى الشاشة الرئيسية:\n1. اضغط على زر المشاركة في متصفح سفاري.\n2. اختر 'أضف إلى الشاشة الرئيسية'.\n3. استخدم شعار التطبيق (002.png) كأيقونة.");
     }
     
     /**************** إعدادات المظهر في نافذة الإعدادات ****************/
@@ -470,7 +434,6 @@
     document.getElementById("clearBtn").addEventListener("click", clearText);
     document.getElementById("copyBtn").addEventListener("click", copyResult);
     document.getElementById("downloadBtn").addEventListener("click", downloadResult);
-    document.getElementById("downloadTranslatorBtn").addEventListener("click", downloadTranslator);
     document.getElementById("resetBtn").addEventListener("click", resetSettings);
     document.getElementById("clearHistoryBtn").addEventListener("click", clearHistory);
     document.getElementById("exportHistoryBtn").addEventListener("click", exportHistory);
@@ -481,6 +444,22 @@
     });
     document.getElementById("settingsBtn").addEventListener("click", () => {
       new bootstrap.Modal(document.getElementById("settingsModal")).show();
+    });
+    document.getElementById("showMappingBtn").addEventListener("click", () => {
+      // تعبئة جدول معنى الأرقام في النافذة
+      const tableBody = document.getElementById("mappingTable");
+      tableBody.innerHTML = "";
+      for (let key in mapping) {
+        const tr = document.createElement("tr");
+        const tdChar = document.createElement("td");
+        tdChar.innerText = key;
+        const tdNum = document.createElement("td");
+        tdNum.innerText = mapping[key];
+        tr.appendChild(tdChar);
+        tr.appendChild(tdNum);
+        tableBody.appendChild(tr);
+      }
+      new bootstrap.Modal(document.getElementById("mappingModal")).show();
     });
     window.addEventListener("load", () => {
       if(localStorage.getItem("darkMode") === "true") {
