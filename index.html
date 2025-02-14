@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>محول وقبري الفائق</title>
-  
+  <!-- أيقونة التطبيق -->
+  <link rel="icon" href="002.png">
   <!-- وسوم manifest لتطبيق الويب وتعليمات التثبيت على الشاشة الرئيسية -->
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,11 +16,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <!-- أيقونات FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  
-  <!-- مكتبات PDF.js، Mammoth.js، و Tesseract.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v2.1.4/dist/tesseract.min.js"></script>
   
   <style>
     /* المتغيرات الأساسية للوضع الفاتح (ألوان دافئة تُفتح الشهية) */
@@ -149,24 +145,6 @@
       <button id="resetBtn" class="btn btn-danger">إعادة تعيين</button>
     </div>
     
-    <!-- قسم ترجمة الملفات -->
-    <div class="card mb-3">
-      <div class="card-header">ترجمة الملفات</div>
-      <div class="card-body">
-        <input type="file" id="fileInput" class="form-control mb-2" accept=".txt, .pdf, .doc, .docx, .ppt, .pptx, .key, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation">
-        <button id="translateFileBtn" class="btn btn-primary">ترجمة الملف</button>
-      </div>
-    </div>
-    
-    <!-- قسم ترجمة الصور -->
-    <div class="card mb-3">
-      <div class="card-header">ترجمة الصور</div>
-      <div class="card-body">
-        <input type="file" id="imageInput" class="form-control mb-2" accept="image/*">
-        <button id="translateImageBtn" class="btn btn-primary">ترجمة الصورة</button>
-      </div>
-    </div>
-    
     <!-- عرض الناتج -->
     <div class="card mb-3">
       <div class="card-header">الناتج</div>
@@ -265,13 +243,11 @@
              <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) وترتيب الحروف حسب رغبتك.</li>
              <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، بالإضافة إلى تحديد اتجاه النص الناتج.</li>
              <li>تفعيل أو تعطيل الترجمة التلقائية من خلال نافذة الإعدادات.</li>
-             <li>ترجمة الملفات: يمكنك رفع ملفات بصيغ TXT، PDF، DOC/DOCX، PPT/PPTX، KEY وغيرها؛ سيتم قراءة محتواها وترجمتها (قد تحتاج هذه الخاصية لمكتبات متخصصة).</li>
-             <li>ترجمة الصور: يمكنك رفع ملفات الصور؛ يتم استخدام Tesseract.js لاستخراج النص (خاصية تجريبية).</li>
-             <li>تنزيل النتائج: عند الضغط على زر "تنزيل الناتج" يتم تنزيل النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>، ويمكن رفعها لاحقًا لإعادة الترجمة بالعكس.</li>
+             <li>تنزيل النتائج: عند الضغط على زر "تنزيل الناتج" يتم تنزيل النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code> لإعادة الترجمة بالعكس.</li>
              <li>تصدير سجل التحويلات: عند الضغط على زر "تصدير السجل" يتم تنزيل سجل التحويلات مع 1500 سطر معلومات إضافية بصيغة <code>.REQS</code>.</li>
-             <li>تحميل المترجم: عند الضغط على زر "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج مع معلومات إضافية (1500 سطر) بصيغة <code>.REQR</code>.</li>
+             <li>تحميل المترجم: عند الضغط على زر "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>.</li>
              <li>تبديل الوضع الداكن الذي يحول كل الألوان إلى أبيض وأسود فقط، وملء الشاشة لتجربة عرض كاملة.</li>
-             <li>تعليمات إضافة الموقع إلى الشاشة الرئيسية: راجع التعليمات لتثبيت التطبيق على جهازك (يعمل كتطبيق ويب).</li>
+             <li>تعليمات إضافة الموقع إلى الشاشة الرئيسية: راجع التعليمات لتثبيت التطبيق على جهازك كتطبيق ويب.</li>
            </ul>
            <p>
              تم تصميم الموقع ليعمل بنفس الشكل على جميع المتصفحات والأجهزة، مع تنسيق أنيق ومسافات مناسبة لضمان تجربة مستخدم مثالية.
@@ -289,6 +265,7 @@
   
   <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
   <script>
     /**************** خريطة التحويل (Mapping) ****************/
     // الحروف والحركات كما زودتنا بها
@@ -302,53 +279,53 @@
       'ز': '٧',
       'ح': '٨',
       'ط': '٩',
-      'ي': '٠١',
-      'ك': '٠٢',
-      'ل': '٠٣',
-      'م': '٠٤',
-      'ن': '٠٥',
-      'س': '٠٦',
-      'ع': '٠٧',
-      'ف': '٠٨',
-      'ص': '٠٩',
-      'ق': '٠٠١',
-      'ر': '٠٠٢',
-      'ش': '٠٠٣',
-      'ت': '٠٠٤',
-      'ث': '٠٠٥',
-      'خ': '٠٠٦',
-      'ذ': '٠٠٧',
-      'ض': '٠٠٨',
-      'ظ': '٠٠٩',
-      'غ': '٠٠٠١',
-      'ة': '٠٠٠٢',
-      'ء': '٠٠٠٣',
-      'ؤ': '٠٠٠٤',
-      'ئ': '٠٠٠٥',
-      'ى': '٠٠٠٦',
-      'آ': '٠٠٠٧',
-      'إ': '٠٠٠٨',
-      'ا': '٠٠٠٩',
-      'چ': '٠٠٠٠١',
-      'گ': '٠٠٠٠٢',
-      'پ': '٠٠٠٠٣',
-      'ژ': '٠٠٠٠٤',
-      'ڤ': '٠٠٠٠٥',
+      'ي': '٠01', // نلاحظ تعديلًا: يمكنك ضبط الترقيم حسب النمط المطلوب (مثلاً "٠01" بدلاً من "٠١" إذا كان هذا المطلوب)
+      'ك': '٠02',
+      'ل': '٠03',
+      'م': '٠04',
+      'ن': '٠05',
+      'س': '٠06',
+      'ع': '٠07',
+      'ف': '٠08',
+      'ص': '٠09',
+      'ق': '٠001',
+      'ر': '٠002',
+      'ش': '٠003',
+      'ت': '٠004',
+      'ث': '٠005',
+      'خ': '٠006',
+      'ذ': '٠007',
+      'ض': '٠008',
+      'ظ': '٠009',
+      'غ': '٠0001',
+      'ة': '٠0002',
+      'ء': '٠0003',
+      'ؤ': '٠0004',
+      'ئ': '٠0005',
+      'ى': '٠0006',
+      'آ': '٠0007',
+      'إ': '٠0008',
+      'ا': '٠0009',
+      'چ': '٠00001',
+      'گ': '٠00002',
+      'پ': '٠00003',
+      'ژ': '٠00004',
+      'ڤ': '٠00005',
       // الحركات (العلامات التشكيلية)
-      'ٍ': '٠٠٠٠٦',
-      'َ': '٠٠٠٠٧',
-      'ّ': '٠٠٠٠٨',
-      'ً': '٠٠٠٠٩',
-      'ُ': '٠٠٠٠٠١',
-      'ِ': '٠٠٠٠٠٢',
-      'ْ': '٠٠٠٠٠٣',
-      'ٌ': '٠٠٠٠٠٤',
-      'ـ': '٠٠٠٠٠٠٥',
-      'ٰ': '٠٠٠٠٠٦',
-      'ٓ': '٠٠٠٠٠٧'
+      'ٍ': '٠00006',
+      'َ': '٠00007',
+      'ّ': '٠00008',
+      'ً': '٠00009',
+      'ُ': '٠000001',
+      'ِ': '٠000002',
+      'ْ': '٠000003',
+      'ٌ': '٠000004',
+      'ـ': '٠000005', 
+      'ٰ': '٠000006',
+      'ٓ': '٠000007'
     };
 
-    // تأكد من عدم انتهاء أي قيمة برقم صفر؛ إذا انتهت، استبدلها بـ "1"
+    // للتأكد من أن أي قيمة تنتهي برقم صفر يتم استبدالها بـ "1"
     for (let key in mapping) {
       if (mapping[key].endsWith("0")) {
         mapping[key] = mapping[key].slice(0, -1) + "1";
@@ -555,96 +532,6 @@
       document.documentElement.style.setProperty("--line-height", lh);
       document.getElementById("lineHeightValue").innerText = lh;
     });
-
-    /**************** تفعيل أحداث تحميل الملفات ****************/
-    document.getElementById("fileInput").addEventListener("change", function() {
-      const file = this.files[0];
-      if (file) {
-        const fileType = file.type;
-        try {
-          if (fileType === "text/plain") {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-              document.getElementById("inputText").value = e.target.result;
-              if(document.getElementById("autoTranslate").checked) translateText();
-            };
-            reader.readAsText(file, "UTF-8");
-          } else if (fileType === "application/pdf") {
-            const reader = new FileReader();
-            reader.onload = function() {
-              const typedarray = new Uint8Array(this.result);
-              pdfjsLib.getDocument(typedarray).promise.then(pdf => {
-                let allText = "";
-                let numPages = pdf.numPages;
-                let count = 0;
-                for (let i = 1; i <= numPages; i++) {
-                  pdf.getPage(i).then(page => {
-                    page.getTextContent().then(textContent => {
-                      let pageText = textContent.items.map(item => item.str).join(" ");
-                      allText += pageText + "\n";
-                      count++;
-                      if(count === numPages) {
-                        document.getElementById("inputText").value = allText;
-                        if(document.getElementById("autoTranslate").checked) translateText();
-                      }
-                    });
-                  });
-                }
-              }).catch(err => alert("فشل قراءة PDF: " + err));
-            };
-            reader.readAsArrayBuffer(file);
-          } else if (fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-                     fileType === "application/msword") {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-              mammoth.extractRawText({arrayBuffer: event.target.result})
-                .then(result => {
-                  document.getElementById("inputText").value = result.value;
-                  if(document.getElementById("autoTranslate").checked) translateText();
-                })
-                .catch(err => alert("فشل قراءة الملف: " + err));
-            };
-            reader.readAsArrayBuffer(file);
-          } else {
-            // محاولة قراءة الملف كنص افتراضي
-            const reader = new FileReader();
-            reader.onload = function(e) {
-              document.getElementById("inputText").value = e.target.result;
-              if(document.getElementById("autoTranslate").checked) translateText();
-            };
-            reader.readAsText(file, "UTF-8");
-          }
-        } catch (ex) {
-          alert("حدث خطأ أثناء قراءة الملف: " + ex);
-        }
-      }
-    });
-    document.getElementById("translateFileBtn").addEventListener("click", function() {
-      if(document.getElementById("autoTranslate").checked === false) {
-        translateText();
-      }
-      alert("تم ترجمة محتوى الملف.");
-    });
-
-    /**************** تفعيل أحداث تحميل الصور ****************/
-    document.getElementById("imageInput").addEventListener("change", function() {
-      const file = this.files[0];
-      if (file) {
-        Tesseract.recognize(file, 'ara')
-          .then(({ data: { text } }) => {
-            document.getElementById("inputText").value = text;
-            if(document.getElementById("autoTranslate").checked) translateText();
-          })
-          .catch(err => alert("فشل قراءة الصورة: " + err));
-      }
-    });
-    document.getElementById("translateImageBtn").addEventListener("click", function() {
-      if(!document.getElementById("imageInput").files.length) {
-        alert("الرجاء اختيار صورة أولاً.");
-      }
-    });
-    
-    document.getElementById("downloadTranslatorBtn").addEventListener("click", downloadTranslator);
 
     /**************** تفعيل الأحداث الرئيسية ****************/
     document.getElementById("inputText").addEventListener("input", () => {
