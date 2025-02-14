@@ -6,7 +6,7 @@
   <title>محول رُقِبّرِى الفائق</title>
   <!-- أيقونة التطبيق (شعار الموقع) -->
   <link rel="icon" href="002.png">
-  <!-- وسوم manifest لتطبيق الويب وتعليمات التثبيت على الشاشة الرئيسية -->
+  <!-- وسوم manifest لتطبيق الويب وإضافة الموقع إلى الشاشة الرئيسية -->
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -83,7 +83,7 @@
         <button id="darkModeToggle" class="btn btn-secondary" title="تبديل الوضع الداكن">
           <i class="fas fa-moon"></i>
         </button>
-        <!-- زر "ملء الشاشة" يعرض تعليمات الإضافة إلى الشاشة الرئيسية -->
+        <!-- زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية -->
         <button id="fullscreenBtn" class="btn btn-secondary" title="أضف إلى الشاشة الرئيسية">
           <i class="fas fa-plus-square"></i>
         </button>
@@ -102,7 +102,7 @@
       <textarea id="inputText" class="form-control" rows="5" placeholder="أدخل النص هنا..."></textarea>
     </div>
     
-    <!-- قسم خيارات الترجمة (تمت إزالة خيار نوع الأرقام) -->
+    <!-- قسم خيارات الترجمة (يُستخدم الأرقام العربية كما هي) -->
     <div class="card mb-3">
       <div class="card-body">
          <h5 class="card-title">خيارات الترجمة</h5>
@@ -189,7 +189,7 @@
               <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
             </div>
           </div>
-          <!-- خيار اتجاه النص الناتج (دائمًا LTR) -->
+          <!-- اتجاه النص الناتج ثابت (LTR) -->
           <div class="mb-4">
             <label class="form-label">اتجاه النص الناتج:</label>
             <div class="form-check form-check-inline">
@@ -198,9 +198,7 @@
             </div>
           </div>
           <div class="mb-4">
-            <p class="small text-muted">
-              تُطبَّق جميع الإعدادات فوراً وتُحفظ في المتصفح.
-            </p>
+            <p class="small text-muted">تُطبَّق جميع الإعدادات فوراً وتُحفظ في المتصفح.</p>
           </div>
         </div>
         <div class="modal-footer">
@@ -227,7 +225,7 @@
               </tr>
             </thead>
             <tbody id="mappingTable">
-              <!-- سيتم تعبئتها بواسطة جافا سكريبت -->
+              <!-- تعبئة الجدول بواسطة جافا سكريبت -->
             </tbody>
           </table>
         </div>
@@ -242,20 +240,62 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
-    /**************** إنشاء خريطة التحويل باستخدام السلسلة "3829193473801" ****************/
-    const digitSeq = "3829193473801";
-    const letters = ['أ','ب','ج','د','ه','و','ز','ح','ط','ي','ك','ل','م','ن','س','ع','ف','ص','ق','ر','ش','ت','ث','خ','ذ','ض','ظ','غ','ة','ء','ؤ','ئ','ى','آ','إ','ا','چ','گ','پ','ژ','ڤ'];
-    const movements = ['ٍ','َ','ّ','ً','ُ','ِ','ْ','ٌ','ـ','ٰ','ٓ'];
-    let mapping = {};
-    let i = 0;
-    for (let char of letters) {
-      mapping[char] = digitSeq[i % digitSeq.length];
-      i++;
-    }
-    for (let char of movements) {
-      mapping[char] = digitSeq[i % digitSeq.length];
-      i++;
-    }
+    /**************** خريطة التحويل الأصلية ****************/
+    const mapping = {
+      'أ': '١',
+      'ب': '٢',
+      'ج': '٣',
+      'د': '٤',
+      'ه': '٥',
+      'و': '٦',
+      'ز': '٧',
+      'ح': '٨',
+      'ط': '٩',
+      'ي': '٠١',
+      'ك': '٠٢',
+      'ل': '٠٣',
+      'م': '٠٤',
+      'ن': '٠٥',
+      'س': '٠٦',
+      'ع': '٠٧',
+      'ف': '٠٨',
+      'ص': '٠٩',
+      'ق': '٠٠١',
+      'ر': '٠٠٢',
+      'ش': '٠٠٣',
+      'ت': '٠٠٤',
+      'ث': '٠٠٥',
+      'خ': '٠٠٦',
+      'ذ': '٠٠٧',
+      'ض': '٠٠٨',
+      'ظ': '٠٠٩',
+      'غ': '٠٠٠١',
+      'ة': '٠٠٠٢',
+      'ء': '٠٠٠٣',
+      'ؤ': '٠٠٠٤',
+      'ئ': '٠٠٠٥',
+      'ى': '٠٠٠٦',
+      'آ': '٠٠٠٧',
+      'إ': '٠٠٠٨',
+      'ا': '٠٠٠٩',
+      'چ': '٠٠٠٠١',
+      'گ': '٠٠٠٠٢',
+      'پ': '٠٠٠٠٣',
+      'ژ': '٠٠٠٠٤',
+      'ڤ': '٠٠٠٠٥',
+      // الحركات (التشكيل)
+      'ٍ': '٠٠٠٠٦',
+      'َ': '٠٠٠٠٧',
+      'ّ': '٠٠٠٠٨',
+      'ً': '٠٠٠٠٩',
+      'ُ': '٠٠٠١٠',
+      'ِ': '٠٠٠١١',
+      'ْ': '٠٠٠١٢',
+      'ٌ': '٠٠٠١٣',
+      'ـ': '٠٠٠١٤',
+      'ٰ': '٠٠٠١٥',
+      'ٓ': '٠٠٠١٦'
+    };
     
     // إنشاء جدول عكسي للتحويل
     const reverseMapping = {};
@@ -282,7 +322,6 @@
           }
         }
       } else {
-        // عملية التحويل من الأرقام إلى الحروف
         let processedInput = "";
         for (let ch of input) {
           if (/[0-9]/.test(ch)) processedInput += ch;
@@ -303,16 +342,14 @@
           if (!found) { output += processedInput[idx]; idx++; }
         }
       }
-      // الناتج دائمًا من اليسار إلى اليمين
       document.getElementById("resultText").dir = "ltr";
       document.getElementById("resultText").innerText = output;
       addToHistory("الترجمة", output);
     }
     
-    /**************** ضبط اتجاه خانة الإدخال ****************/
+    /**************** ضبط اتجاه الإدخال ****************/
     document.getElementById("inputText").addEventListener("input", function() {
       const value = this.value.trim();
-      // إذا كانت كل الأحرف أرقام ومسافات، اجعلها LTR، وإلا RTL
       if (/^[0-9\s]+$/.test(value) && value.length > 0) {
         this.dir = "ltr";
       } else {
@@ -344,7 +381,7 @@
       localStorage.removeItem("conversionHistory");
       renderHistory();
     }
-    // تصدير سجل التحويلات بصيغة REQS مع إضافة 1500 سطر معلومات إضافية
+    // تصدير سجل التحويلات بصيغة REQS مع 1500 سطر معلومات إضافية
     function exportHistory() {
       const history = localStorage.getItem("conversionHistory") || "[]";
       let extraInfo = "";
@@ -371,7 +408,7 @@
         .then(() => alert("تم نسخ الناتج!"))
         .catch(() => alert("فشل النسخ."));
     }
-    // تنزيل الناتج بصيغة REQR مع إضافة 1500 سطر معلومات إضافية
+    // تنزيل الناتج بصيغة REQR مع 1500 سطر معلومات إضافية
     function downloadResult() {
       const result = document.getElementById("resultText").innerText;
       let extraInfo = "";
@@ -386,7 +423,6 @@
       a.click();
       URL.revokeObjectURL(a.href);
     }
-    
     function resetSettings() {
       document.getElementById("inputText").value = "";
       document.getElementById("resultText").innerText = "";
@@ -446,7 +482,6 @@
       new bootstrap.Modal(document.getElementById("settingsModal")).show();
     });
     document.getElementById("showMappingBtn").addEventListener("click", () => {
-      // تعبئة جدول معنى الأرقام في النافذة
       const tableBody = document.getElementById("mappingTable");
       tableBody.innerHTML = "";
       for (let key in mapping) {
@@ -461,6 +496,7 @@
       }
       new bootstrap.Modal(document.getElementById("mappingModal")).show();
     });
+    
     window.addEventListener("load", () => {
       if(localStorage.getItem("darkMode") === "true") {
         document.body.classList.add("dark");
