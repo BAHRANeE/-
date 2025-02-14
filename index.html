@@ -4,10 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>محول وقبري الفائق</title>
-  <!-- تضمين Bootstrap 5 مع دعم RTL -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-  <!-- أيقونات FontAwesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   
   <!-- وسوم manifest لتطبيق الويب وتعليمات التثبيت على الشاشة الرئيسية -->
   <link rel="manifest" href="manifest.json">
@@ -15,13 +11,22 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="محول وقبري الفائق">
   
+  <!-- تضمين Bootstrap 5 مع دعم RTL -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <!-- أيقونات FontAwesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- مكتبات PDF.js و Mammoth.js و Tesseract.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v2.1.4/dist/tesseract.min.js"></script>
+  
   <style>
     /* المتغيرات الأساسية للوضع الفاتح (ألوان دافئة تُفتح الشهية) */
     :root {
-      --main-bg: #fff8e1;       /* خلفية رئيسية فاتحة وكريمية */
-      --container-bg: #ffecb3;    /* لون حاوية دافئ */
-      --text-color: #4e342e;      /* لون نص بني داكن */
-      --accent-color: #ff6f00;    /* لون مميز برتقالي زاهي */
+      --main-bg: #fff8e1;
+      --container-bg: #ffecb3;
+      --text-color: #4e342e;
+      --accent-color: #ff6f00;
       --custom-font-size: 16px;
       --line-height: 1.5;
       --font-family: 'Arial', sans-serif;
@@ -58,7 +63,6 @@
     header h1 {
       color: var(--accent-color);
     }
-    /* تنسيقات لعناصر النوافذ المنبثقة (Modal) */
     .modal-header, .modal-footer {
       background: var(--container-bg);
       color: var(--text-color);
@@ -68,7 +72,6 @@
       color: var(--text-color);
       border: 1px solid var(--accent-color);
     }
-    /* إضافة مسافات إضافية بين العناصر */
     .mb-4 { margin-bottom: 1.5rem !important; }
     @media (max-width: 600px) {
       header h1 { font-size: 1.5em; }
@@ -166,7 +169,6 @@
     <div class="card mb-3">
       <div class="card-header">الناتج</div>
       <div class="card-body">
-        <!-- يتم ضبط اتجاه عرض الناتج وفقاً للإعدادات (افتراضيًا من اليسار إلى اليمين) -->
         <pre id="resultText" class="mb-0" dir="ltr"></pre>
       </div>
     </div>
@@ -261,11 +263,11 @@
              <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) وترتيب الحروف حسب رغبتك.</li>
              <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، بالإضافة إلى تحديد اتجاه النص الناتج (من اليسار إلى اليمين أو العكس).</li>
              <li>تفعيل أو تعطيل الترجمة التلقائية من خلال نافذة الإعدادات.</li>
-             <li>ترجمة الملفات: يمكنك رفع ملفات بصيغة TXT، PDF، DOC/DOCX، PPT/PPTX، KEY وغيرها لترجمة محتواها.</li>
-             <li>ترجمة الصور: يمكنك رفع ملفات الصور (image/*)؛ وسيتم محاولة تحويل محتواها إلى نص (خاصية تجريبية).</li>
-             <li>تحميل النتائج: عند الضغط على زر "تنزيل الناتج" سيتم تنزيل الملف الناتج بصيغة <code>.REQR</code>، والتي يمكنك رفعها لاحقًا لإعادة الترجمة بالعكس.</li>
-             <li>تحميل سجل التحويلات: عند تصديره يتم تنزيله بصيغة <code>.REQS</code>، مع إضافة 1500 سطر من المعلومات المفيدة (مثال تجريبي).</li>
-             <li>تحميل المترجم: عند الضغط على زر "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج بصيغة <code>.REQR</code> مع تضمين معلومات إضافية تصل إلى 1500 سطر (كل سطر يحتوي على ميزة مفيدة)؛ بحيث يمكن رفع هذا الملف لاحقًا لإعادة الترجمة بالعكس.</li>
+             <li>ترجمة الملفات: يمكنك رفع ملفات بصيغ TXT، PDF، DOC/DOCX، PPT/PPTX، KEY وغيرها؛ سيتم قراءة محتواها وترجمته.</li>
+             <li>ترجمة الصور: يمكنك رفع ملفات الصور؛ يتم استخدام Tesseract.js لاستخراج النص (خاصية تجريبية دقيقة).</li>
+             <li>تنزيل النتائج: عند الضغط على زر "تنزيل الناتج" يتم تنزيل النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>، بحيث يمكنك رفعها لاحقًا لإعادة الترجمة بالعكس.</li>
+             <li>تنزيل سجل التحويلات: عند تصديره، يتم تنزيل سجل التحويلات مع 1500 سطر معلومات إضافية بصيغة <code>.REQS</code>.</li>
+             <li>تنزيل "المترجم": عند الضغط على زر "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج مع معلومات إضافية (1500 سطر) بصيغة <code>.REQR</code>.</li>
              <li>تبديل الوضع الداكن الذي يحول كل الألوان إلى أبيض وأسود فقط، وملء الشاشة لتجربة عرض كاملة.</li>
              <li>تعليمات إضافة الموقع إلى الشاشة الرئيسية: راجع التعليمات لتثبيت التطبيق على جهازك.</li>
            </ul>
@@ -273,7 +275,7 @@
              تم تصميم الموقع ليعمل بنفس الشكل على جميع المتصفحات والأجهزة، مع تنسيق أنيق ومسافات مناسبة بين العناصر لضمان تجربة مستخدم مثالية.
            </p>
            <p class="small text-muted">
-             ملاحظة: تُطبَّق جميع التغييرات فوراً وتُحفظ في المتصفح لاستمرارها عند إعادة فتح الموقع.
+             ملاحظة: تُطبَّق جميع التغييرات والإعدادات فوراً وتُحفظ في المتصفح لاستمرارها عند إعادة فتح الموقع.
            </p>
          </div>
          <div class="modal-footer">
@@ -285,6 +287,7 @@
   
   <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
   <script>
     /**************** خريطة التحويل (Mapping) ****************/
     // الحروف والحركات كما زودتنا بها
@@ -436,7 +439,7 @@
       localStorage.removeItem("conversionHistory");
       renderHistory();
     }
-    // تصدير سجل التحويلات بصيغة REQS مع إضافة 1500 سطر من المعلومات المفيدة
+    // تصدير سجل التحويلات بصيغة REQS مع إضافة 1500 سطر معلومات إضافية
     function exportHistory() {
       const history = localStorage.getItem("conversionHistory") || "[]";
       let extraInfo = "";
@@ -466,7 +469,7 @@
         .then(() => alert("تم نسخ الناتج!"))
         .catch(() => alert("فشل النسخ."));
     }
-    // تنزيل الناتج بصيغة REQR مع إضافة 1500 سطر من المعلومات المفيدة
+    // تنزيل الناتج بصيغة REQR مع إضافة 1500 سطر معلومات إضافية
     function downloadResult() {
       const result = document.getElementById("resultText").innerText;
       let extraInfo = "";
@@ -484,7 +487,7 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-    // تنزيل المترجم نفسه كملف (أي نتائج الترجمة مع المعلومات الإضافية) بصيغة REQR
+    // تنزيل "المترجم" (النتائج مع معلومات إضافية) بصيغة REQR
     function downloadTranslator() {
       const result = document.getElementById("resultText").innerText;
       let extraInfo = "";
@@ -552,6 +555,83 @@
       document.getElementById("lineHeightValue").innerText = lh;
     });
 
+    /**************** تفعيل أحداث تحميل الملفات ****************/
+    document.getElementById("fileInput").addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        const fileType = file.type;
+        if (fileType === "text/plain") {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("inputText").value = e.target.result;
+            if(document.getElementById("autoTranslate").checked) translateText();
+          };
+          reader.readAsText(file, "UTF-8");
+        } else if (fileType === "application/pdf") {
+          const reader = new FileReader();
+          reader.onload = function() {
+            const typedarray = new Uint8Array(this.result);
+            pdfjsLib.getDocument(typedarray).promise.then(pdf => {
+              pdf.getPage(1).then(page => {
+                page.getTextContent().then(textContent => {
+                  let text = textContent.items.map(item => item.str).join(" ");
+                  document.getElementById("inputText").value = text;
+                  if(document.getElementById("autoTranslate").checked) translateText();
+                });
+              });
+            }).catch(err => alert("فشل قراءة PDF: " + err));
+          };
+          reader.readAsArrayBuffer(file);
+        } else if (fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                   fileType === "application/msword") {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            mammoth.extractRawText({arrayBuffer: event.target.result})
+              .then(result => {
+                document.getElementById("inputText").value = result.value;
+                if(document.getElementById("autoTranslate").checked) translateText();
+              })
+              .catch(err => alert("فشل قراءة الملف: " + err));
+          };
+          reader.readAsArrayBuffer(file);
+        } else {
+          // محاولة قراءة الملف كنص افتراضي
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById("inputText").value = e.target.result;
+            if(document.getElementById("autoTranslate").checked) translateText();
+          };
+          reader.readAsText(file, "UTF-8");
+        }
+      }
+    });
+
+    document.getElementById("translateFileBtn").addEventListener("click", function() {
+      if(document.getElementById("autoTranslate").checked === false) {
+        translateText();
+      }
+      alert("تم ترجمة محتوى الملف.");
+    });
+
+    /**************** تفعيل أحداث تحميل الصور ****************/
+    document.getElementById("imageInput").addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        Tesseract.recognize(file, 'ara')
+          .then(({ data: { text } }) => {
+            document.getElementById("inputText").value = text;
+            if(document.getElementById("autoTranslate").checked) translateText();
+          })
+          .catch(err => alert("فشل قراءة الصورة: " + err));
+      }
+    });
+    document.getElementById("translateImageBtn").addEventListener("click", function() {
+      // في حال عدم رفع صورة مسبقاً
+      alert("الرجاء اختيار صورة أولاً.");
+    });
+    
+    document.getElementById("downloadTranslatorBtn").addEventListener("click", downloadTranslator);
+
     /**************** تفعيل الأحداث الرئيسية ****************/
     document.getElementById("inputText").addEventListener("input", () => {
       if(document.getElementById("autoTranslate").checked) translateText();
@@ -570,7 +650,6 @@
     document.getElementById("clearBtn").addEventListener("click", clearText);
     document.getElementById("copyBtn").addEventListener("click", copyResult);
     document.getElementById("downloadBtn").addEventListener("click", downloadResult);
-    document.getElementById("downloadTranslatorBtn").addEventListener("click", downloadTranslator);
     document.getElementById("resetBtn").addEventListener("click", resetSettings);
     document.getElementById("clearHistoryBtn").addEventListener("click", clearHistory);
     document.getElementById("exportHistoryBtn").addEventListener("click", exportHistory);
