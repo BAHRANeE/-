@@ -75,7 +75,7 @@
   <div class="container my-3">
     <!-- رأس الصفحة مع الشعار -->
     <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-      <div class="d-flex align-items-center">
+      <div id="headerTitle" class="d-flex align-items-center">
         <img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
         <h1 class="mb-0">محول رُقِبّرِى الفائق</h1>
       </div>
@@ -87,7 +87,7 @@
         <button id="fullscreenBtn" class="btn btn-secondary" title="أضف إلى الشاشة الرئيسية">
           <i class="fas fa-plus-square"></i>
         </button>
-        <button id="settingsBtn" class="btn btn-secondary" title="الإعدادات">
+        <button id="settingsBtn" class="btn btn-secondary" title="تعديل النظام والإعدادات">
           <i class="fas fa-cog"></i>
         </button>
         <button id="helpBtn" class="btn btn-info" title="تعليمات الاستخدام">
@@ -102,18 +102,19 @@
       <textarea id="inputText" class="form-control" rows="5" placeholder="أدخل النص هنا..."></textarea>
     </div>
     
-    <!-- قسم خيارات الترجمة (يُستخدم الأرقام العربية كما هي) -->
+    <!-- قسم خيارات الترجمة -->
     <div class="card mb-3">
       <div class="card-body">
          <h5 class="card-title">خيارات الترجمة</h5>
          <div class="mb-2">
            <div class="form-check form-check-inline">
+             <!-- سيتم تغيير التسميات ديناميكيًا بناءً على النظام -->
              <input class="form-check-input" type="radio" name="translationDirection" id="ltr" value="lettersToDigits" checked>
-             <label class="form-check-label" for="ltr">من حروف إلى أرقام</label>
+             <label id="labelLTR" class="form-check-label" for="ltr">من حروف إلى أرقام</label>
            </div>
            <div class="form-check form-check-inline">
              <input class="form-check-input" type="radio" name="translationDirection" id="rtl" value="digitsToLetters">
-             <label class="form-check-label" for="rtl">من أرقام إلى حروف</label>
+             <label id="labelRTL" class="form-check-label" for="rtl">من أرقام إلى حروف</label>
            </div>
          </div>
          <div>
@@ -132,7 +133,7 @@
       <button id="showMappingBtn" class="btn btn-secondary">عرض معنى الأرقام</button>
     </div>
     
-    <!-- عرض الناتج (دائمًا من اليسار إلى اليمين) -->
+    <!-- عرض الناتج -->
     <div class="card mb-3">
       <div class="card-header">الناتج</div>
       <div class="card-body">
@@ -161,7 +162,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="settingsModalLabel">إعدادات الموقع</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" onclick="updateSystemSettings()"></button>
         </div>
         <div class="modal-body">
           <!-- إعدادات المظهر -->
@@ -189,6 +190,18 @@
               <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
             </div>
           </div>
+          <!-- تعديل النظام -->
+          <div class="mb-4">
+            <label class="form-label">تعديل النظام:</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="system" id="systemRuqabbari" value="ruqabbari" checked>
+              <label class="form-check-label" for="systemRuqabbari">رُقِبّرِى</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="system" id="systemMikzoro" value="mikzoro">
+              <label class="form-check-label" for="systemMikzoro">مِکزورو</label>
+            </div>
+          </div>
           <!-- اتجاه النص الناتج ثابت (LTR) -->
           <div class="mb-4">
             <label class="form-label">اتجاه النص الناتج:</label>
@@ -202,7 +215,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="updateSystemSettings()">حفظ التغييرات</button>
         </div>
       </div>
     </div>
@@ -221,7 +234,7 @@
             <thead>
               <tr>
                 <th>الحرف/الحركة</th>
-                <th>الرقم</th>
+                <th>الرقم/الرمز</th>
               </tr>
             </thead>
             <tbody id="mappingTable">
@@ -240,8 +253,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
-    /**************** خريطة التحويل الأصلية ****************/
-    const mapping = {
+    /**************** تعريف خريطتي التحويل لكل نظام ****************/
+    // نظام "رُقِبّرِى" (النظام الافتراضي)
+    const mappingRuqabbari = {
       'أ': '1',
       'ب': '2',
       'ج': '3',
@@ -283,7 +297,6 @@
       'پ': '00003',
       'ژ': '00004',
       'ڤ': '00005',
-      // الحركات (التشكيل)
       'ٍ': '00006',
       'َ': '00007',
       'ّ': '00008',
@@ -297,54 +310,120 @@
       'ٓ': '000007'
     };
     
-    // إنشاء جدول عكسي للتحويل
-    const reverseMapping = {};
-    let maxCodeLength = 0;
-    for (let char in mapping) {
-      const code = mapping[char];
-      reverseMapping[code] = char;
-      if (code.length > maxCodeLength) maxCodeLength = code.length;
+    // نظام "مِکزورو"
+    const mappingMikzoro = {
+      'ا': 'ꓙ',
+      'ب': 'ꓘ',
+      'ج': 'ꓗ',
+      'د': 'ꓖ',
+      'ه': 'ꓕ',
+      'و': 'ꓔ',
+      'ز': 'ꓓ',
+      'ح': 'ꓒ',
+      'ط': 'ꓑ',
+      'ي': 'ꓐ',
+      'ك': 'ꓚ',
+      'ل': 'ꓜ',
+      'م': 'ꓝ',
+      'ن': 'ꓞ',
+      'س': 'ꓟ',
+      'ع': 'ꓠ',
+      'ف': 'ꓡ',
+      'ص': 'ꓢ',
+      'ق': 'ꓣ',
+      'ر': 'ꓷ',
+      'ش': 'ꓶ',
+      'ت': 'ꓵ',
+      'ث': 'ꓴ',
+      'خ': 'ꓳ',
+      'ذ': 'ꓭ',
+      'ض': 'ꓬ',
+      'ظ': 'ꓫ',
+      'غ': 'ꓪ',
+      'گ': 'ꓩ',
+      'ة': 'ꓨ',
+      'چ': 'ꓧ',
+      'پ': 'ꓦ',
+      'ژ': 'ꓥ',
+      'ء': 'ꓮ',
+      'ى': 'ꓯ',
+      'ئ': 'ꓱ',
+      'ؤ': 'ꓰ',
+      'ڤ': 'ꓲ'
+    };
+    // بالنسبة للحركات في نظام "مِکزورو" نُبقيها كما هي (أي نقوم بعمل mapping هوية)
+    const diacritics = ['ٍ','َ','ّ','ً','ُ','ِ','ْ','ٌ','ـ','ٰ','ٓ'];
+    diacritics.forEach(diacritic => {
+      mappingMikzoro[diacritic] = diacritic;
+    });
+    
+    // إنشاء جداول عكسية لكل نظام
+    function createReverseMapping(mappingObj) {
+      const reverse = {};
+      let maxLen = 0;
+      for (let char in mappingObj) {
+        const code = mappingObj[char];
+        reverse[code] = char;
+        if (code.length > maxLen) maxLen = code.length;
+      }
+      return { reverse, maxLen };
+    }
+    const { reverse: reverseMappingRuqabbari, maxLen: maxCodeLengthRuqabbari } = createReverseMapping(mappingRuqabbari);
+    const { reverse: reverseMappingMikzoro, maxLen: maxCodeLengthMikzoro } = createReverseMapping(mappingMikzoro);
+    
+    // دالة للحصول على الخريطة والنظام الحالي
+    function getCurrentMapping() {
+      const system = document.querySelector('input[name="system"]:checked').value;
+      if(system === "mikzoro"){
+        return { mapping: mappingMikzoro, reverseMapping: reverseMappingMikzoro, maxCodeLength: maxCodeLengthMikzoro };
+      } else {
+        return { mapping: mappingRuqabbari, reverseMapping: reverseMappingRuqabbari, maxCodeLength: maxCodeLengthRuqabbari };
+      }
     }
     
-    /**************** الوظيفة الرئيسية للترجمة ****************/
+    /**************** الوظيفة الرئيسية للترجمة مع debounce ****************/
+    let debounceTimer;
     function translateText() {
-      const inputElem = document.getElementById("inputText");
-      const input = inputElem.value;
-      let output = "";
-      const direction = document.querySelector('input[name="translationDirection"]:checked').value;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        const { mapping, reverseMapping, maxCodeLength } = getCurrentMapping();
+        const inputElem = document.getElementById("inputText");
+        const input = inputElem.value;
+        let output = "";
+        const direction = document.querySelector('input[name="translationDirection"]:checked').value;
       
-      if (direction === "lettersToDigits") {
-        for (let char of input) {
-          if (mapping[char]) {
-            output += mapping[char];
-          } else {
-            output += char;
-          }
-        }
-      } else {
-        let processedInput = "";
-        for (let ch of input) {
-          if (/[0-9]/.test(ch)) processedInput += ch;
-          else processedInput += ch;
-        }
-        let idx = 0;
-        while (idx < processedInput.length) {
-          let found = false;
-          for (let len = maxCodeLength; len > 0; len--) {
-            const substr = processedInput.substr(idx, len);
-            if (reverseMapping.hasOwnProperty(substr)) {
-              output += reverseMapping[substr];
-              idx += len;
-              found = true;
-              break;
+        if (direction === "lettersToDigits") {
+          for (let char of input) {
+            if (mapping[char]) {
+              output += mapping[char];
+            } else {
+              output += char;
             }
           }
-          if (!found) { output += processedInput[idx]; idx++; }
+        } else {
+          let processedInput = "";
+          for (let ch of input) {
+            processedInput += ch;
+          }
+          let idx = 0;
+          while (idx < processedInput.length) {
+            let found = false;
+            for (let len = maxCodeLength; len > 0; len--) {
+              const substr = processedInput.substr(idx, len);
+              if (reverseMapping.hasOwnProperty(substr)) {
+                output += reverseMapping[substr];
+                idx += len;
+                found = true;
+                break;
+              }
+            }
+            if (!found) { output += processedInput[idx]; idx++; }
+          }
         }
-      }
-      document.getElementById("resultText").dir = "ltr";
-      document.getElementById("resultText").innerText = output;
-      addToHistory("الترجمة", output);
+        document.getElementById("resultText").dir = "ltr";
+        document.getElementById("resultText").innerText = output;
+        addToHistory("الترجمة", output);
+      }, 300);
     }
     
     /**************** ضبط اتجاه الإدخال ****************/
@@ -381,7 +460,7 @@
       localStorage.removeItem("conversionHistory");
       renderHistory();
     }
-    // تصدير سجل التحويلات بصيغة REQS (السجل الحقيقي)
+    // تصدير سجل التحويل (السجل الحقيقي) بصيغة REQS
     function exportHistory() {
       const history = localStorage.getItem("conversionHistory") || "[]";
       const blob = new Blob([history], { type: "text/plain;charset=utf-8" });
@@ -403,7 +482,7 @@
         .then(() => alert("تم نسخ الناتج!"))
         .catch(() => alert("فشل النسخ."));
     }
-    // تنزيل الناتج بصيغة REQR (يحتوي فقط على المحتوى الحقيقي)
+    // تنزيل الناتج الحقيقي بصيغة REQR
     function downloadResult() {
       const result = document.getElementById("resultText").innerText;
       const blob = new Blob([result], { type: "text/plain;charset=utf-8" });
@@ -440,20 +519,30 @@
       alert("لإضافة التطبيق إلى الشاشة الرئيسية:\n1. اضغط على زر المشاركة في متصفح سفاري.\n2. اختر 'أضف إلى الشاشة الرئيسية'.\n3. استخدم شعار التطبيق (002.png) كأيقونة.");
     }
     
-    /**************** إعدادات المظهر في نافذة الإعدادات ****************/
-    document.getElementById("fontSizeRange").addEventListener("input", function() {
-      const size = this.value;
-      document.documentElement.style.setProperty("--custom-font-size", size + "px");
-      document.getElementById("fontSizeValue").innerText = size;
-    });
-    document.getElementById("fontFamilySelect").addEventListener("change", function() {
-      document.documentElement.style.setProperty("--font-family", this.value);
-    });
-    document.getElementById("lineHeightRange").addEventListener("input", function() {
-      const lh = this.value;
-      document.documentElement.style.setProperty("--line-height", lh);
-      document.getElementById("lineHeightValue").innerText = lh;
-    });
+    /**************** تحديث الإعدادات بناءً على اختيار النظام ****************/
+    function updateSystemSettings() {
+      const system = document.querySelector('input[name="system"]:checked').value;
+      const headerTitle = document.getElementById("headerTitle");
+      const labelLTR = document.getElementById("labelLTR");
+      const labelRTL = document.getElementById("labelRTL");
+      if(system === "mikzoro"){
+        headerTitle.innerHTML = `<img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
+          <h1 class="mb-0">محول مِکزورو الفائق</h1>`;
+        document.title = "محول مِکزورو الفائق";
+        document.querySelector('meta[name="apple-mobile-web-app-title"]').content = "محول مِکزورو الفائق";
+        // تحديث تسميات الترجمة
+        labelLTR.innerText = "من عربي إلى مِکزورو";
+        labelRTL.innerText = "من مِکزورو إلى عربي";
+      } else {
+        headerTitle.innerHTML = `<img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
+          <h1 class="mb-0">محول رُقِبّرِى الفائق</h1>`;
+        document.title = "محول رُقِبّرِى الفائق";
+        document.querySelector('meta[name="apple-mobile-web-app-title"]').content = "محول رُقِبّرِى الفائق";
+        labelLTR.innerText = "من حروف إلى أرقام";
+        labelRTL.innerText = "من أرقام إلى حروف";
+      }
+      translateText();
+    }
     
     /**************** تفعيل الأحداث الرئيسية ****************/
     document.getElementById("translateBtn").addEventListener("click", translateText);
@@ -472,14 +561,16 @@
       new bootstrap.Modal(document.getElementById("settingsModal")).show();
     });
     document.getElementById("showMappingBtn").addEventListener("click", () => {
+      const system = document.querySelector('input[name="system"]:checked').value;
+      const currentMapping = (system === "mikzoro") ? mappingMikzoro : mappingRuqabbari;
       const tableBody = document.getElementById("mappingTable");
       tableBody.innerHTML = "";
-      for (let key in mapping) {
+      for (let key in currentMapping) {
         const tr = document.createElement("tr");
         const tdChar = document.createElement("td");
         tdChar.innerText = key;
         const tdNum = document.createElement("td");
-        tdNum.innerText = mapping[key];
+        tdNum.innerText = currentMapping[key];
         tr.appendChild(tdChar);
         tr.appendChild(tdNum);
         tableBody.appendChild(tr);
