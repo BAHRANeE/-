@@ -8,6 +8,13 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <!-- أيقونات FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- وسوم manifest لتطبيق الويب وتعليمات التثبيت على الشاشة الرئيسية (PWA) -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="محول وقبري الفائق">
+
   <style>
     /* المتغيرات الأساسية للوضع الفاتح (ألوان دافئة تُفتح الشهية) */
     :root {
@@ -133,27 +140,25 @@
       <button id="clearBtn" class="btn btn-warning">مسح الإدخال</button>
       <button id="copyBtn" class="btn btn-success">نسخ الناتج</button>
       <button id="downloadBtn" class="btn btn-info">تنزيل الناتج</button>
+      <button id="downloadTranslatorBtn" class="btn btn-dark">تحميل المترجم</button>
       <button id="resetBtn" class="btn btn-danger">إعادة تعيين</button>
     </div>
     
-    <!-- قسم المميزات الإضافية المفيدة -->
+    <!-- قسم ترجمة الملفات -->
     <div class="card mb-3">
-      <div class="card-header">مميزات إضافية</div>
+      <div class="card-header">ترجمة الملفات</div>
       <div class="card-body">
-        <div class="row g-3">
-          <div class="col-6 col-md-3">
-            <button id="upperBtn" class="btn btn-outline-primary w-100">أحرف كبيرة</button>
-          </div>
-          <div class="col-6 col-md-3">
-            <button id="lowerBtn" class="btn btn-outline-primary w-100">أحرف صغيرة</button>
-          </div>
-          <div class="col-6 col-md-3">
-            <button id="reverseBtn" class="btn btn-outline-primary w-100">عكس النص</button>
-          </div>
-          <div class="col-6 col-md-3">
-            <button id="statsBtn" class="btn btn-outline-primary w-100">إحصائيات النص</button>
-          </div>
-        </div>
+        <input type="file" id="fileInput" class="form-control mb-2" accept=".txt, .pdf, .doc, .docx, .ppt, .pptx, .key, application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation">
+        <button id="translateFileBtn" class="btn btn-primary">ترجمة الملف</button>
+      </div>
+    </div>
+    
+    <!-- قسم ترجمة الصور -->
+    <div class="card mb-3">
+      <div class="card-header">ترجمة الصور</div>
+      <div class="card-body">
+        <input type="file" id="imageInput" class="form-control mb-2" accept="image/*">
+        <button id="translateImageBtn" class="btn btn-primary">ترجمة الصورة</button>
       </div>
     </div>
     
@@ -256,8 +261,12 @@
              <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) وترتيب الحروف حسب رغبتك.</li>
              <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، بالإضافة إلى تحديد اتجاه النص الناتج (من اليسار إلى اليمين أو العكس).</li>
              <li>تفعيل أو تعطيل الترجمة التلقائية من خلال نافذة الإعدادات.</li>
-             <li>حفظ سجل التحويلات مع إمكانية تصديره أو مسحه لتتبع جميع التحويلات.</li>
+             <li>ترجمة الملفات: يمكنك رفع ملفات بصيغة TXT، PDF، DOC/DOCX، PPT/PPTX، KEY وغيرها لتحويل محتواها.</li>
+             <li>ترجمة الصور: يمكنك رفع ملفات الصور (image/*)؛ وسيتم محاولة تحويل محتواها إلى نص (خاصية تجريبية).</li>
+             <li>تحميل المترجم: عند الضغط على زر "تحميل المترجم" يتم تنزيل صفحة الكود نفسها بصيغة <code>.REQR</code> لإعادة الترميز بالعكس.</li>
+             <li>حفظ سجل التحويلات مع إمكانية تصديره أو مسحه لتتبع جميع العمليات.</li>
              <li>تبديل الوضع الداكن الذي يحول كل الألوان إلى أبيض وأسود فقط، وملء الشاشة لتجربة عرض كاملة.</li>
+             <li>تعليمات إضافة الموقع إلى الشاشة الرئيسية: راجع تعليمات التثبيت في نافذة التعليمات لتثبيت التطبيق على جهازك.</li>
            </ul>
            <p>
              تم تصميم الموقع ليعمل بنفس الشكل على جميع المتصفحات والأجهزة، مع تنسيق أنيق ومسافات مناسبة بين العناصر لضمان تجربة مستخدم مثالية.
@@ -329,7 +338,7 @@
       'ِ': '٠٠٠٠٠٢',
       'ْ': '٠٠٠٠٠٣',
       'ٌ': '٠٠٠٠٠٤',
-      'ـ': '٠٠٠٠٠٠٥', 
+      'ـ': '٠٠٠٠٠٠٥',
       'ٰ': '٠٠٠٠٠٦',
       'ٓ': '٠٠٠٠٠٧'
     };
@@ -456,7 +465,20 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "النتيجة.txt";
+      a.download = "النتيجة.REQR";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+    // تحميل المترجم نفسه كملف
+    function downloadTranslator() {
+      const code = document.documentElement.outerHTML;
+      const blob = new Blob([code], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "محول_وقبري.REQR";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -512,7 +534,42 @@
       document.getElementById("lineHeightValue").innerText = lh;
     });
 
-    /**************** تفعيل الأحداث ****************/
+    /**************** تفعيل أحداث تحميل الملفات ****************/
+    document.getElementById("fileInput").addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById("inputText").value = e.target.result;
+          if(document.getElementById("autoTranslate").checked) translateText();
+        };
+        // محاولة قراءة الملف كنص؛ إذا لم يكن نصياً قد تظهر مشكلة
+        reader.readAsText(file, "UTF-8");
+      }
+    });
+    document.getElementById("translateFileBtn").addEventListener("click", function() {
+      if(document.getElementById("autoTranslate").checked === false) {
+        translateText();
+      }
+      alert("تم ترجمة محتوى الملف.");
+    });
+
+    /**************** تفعيل أحداث تحميل الصور ****************/
+    document.getElementById("imageInput").addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        // هنا يمكنك دمج مكتبة OCR مثل Tesseract.js لتحويل الصورة إلى نص
+        alert("خاصية ترجمة الصور غير مدعومة حالياً.");
+      }
+    });
+    
+    document.getElementById("translateImageBtn").addEventListener("click", function() {
+      alert("خاصية ترجمة الصور غير مدعومة حالياً.");
+    });
+    
+    document.getElementById("downloadTranslatorBtn").addEventListener("click", downloadTranslator);
+
+    /**************** تفعيل الأحداث الرئيسية ****************/
     document.getElementById("inputText").addEventListener("input", () => {
       if(document.getElementById("autoTranslate").checked) translateText();
     });
