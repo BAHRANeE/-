@@ -15,7 +15,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <!-- أيقونات FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <!-- مكتبات PDF.js و Mammoth.js و Tesseract.js -->
+  
+  <!-- مكتبات PDF.js، Mammoth.js، و Tesseract.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@v2.1.4/dist/tesseract.min.js"></script>
@@ -63,6 +64,7 @@
     header h1 {
       color: var(--accent-color);
     }
+    /* تنسيقات لعناصر النوافذ المنبثقة (Modal) */
     .modal-header, .modal-footer {
       background: var(--container-bg);
       color: var(--text-color);
@@ -261,18 +263,18 @@
            </p>
            <ul>
              <li>ضبط خيارات الترجمة (اتجاه الترجمة ونوع الأرقام) وترتيب الحروف حسب رغبتك.</li>
-             <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، بالإضافة إلى تحديد اتجاه النص الناتج (من اليسار إلى اليمين أو العكس).</li>
+             <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، بالإضافة إلى تحديد اتجاه النص الناتج.</li>
              <li>تفعيل أو تعطيل الترجمة التلقائية من خلال نافذة الإعدادات.</li>
-             <li>ترجمة الملفات: يمكنك رفع ملفات بصيغ TXT، PDF، DOC/DOCX، PPT/PPTX، KEY وغيرها؛ سيتم قراءة محتواها وترجمته.</li>
-             <li>ترجمة الصور: يمكنك رفع ملفات الصور؛ يتم استخدام Tesseract.js لاستخراج النص (خاصية تجريبية دقيقة).</li>
-             <li>تنزيل النتائج: عند الضغط على زر "تنزيل الناتج" يتم تنزيل النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>، بحيث يمكنك رفعها لاحقًا لإعادة الترجمة بالعكس.</li>
-             <li>تنزيل سجل التحويلات: عند تصديره، يتم تنزيل سجل التحويلات مع 1500 سطر معلومات إضافية بصيغة <code>.REQS</code>.</li>
-             <li>تنزيل "المترجم": عند الضغط على زر "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج مع معلومات إضافية (1500 سطر) بصيغة <code>.REQR</code>.</li>
+             <li>ترجمة الملفات: يمكنك رفع ملفات بصيغ TXT، PDF، DOC/DOCX، PPT/PPTX، KEY وغيرها؛ سيتم قراءة محتواها وترجمتها (قد تحتاج هذه الخاصية لمكتبات متخصصة).</li>
+             <li>ترجمة الصور: يمكنك رفع ملفات الصور؛ يتم استخدام Tesseract.js لاستخراج النص (خاصية تجريبية).</li>
+             <li>تنزيل النتائج: عند الضغط على زر "تنزيل الناتج" يتم تنزيل النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>، ويمكن رفعها لاحقًا لإعادة الترجمة بالعكس.</li>
+             <li>تصدير سجل التحويلات: عند الضغط على زر "تصدير السجل" يتم تنزيل سجل التحويلات مع 1500 سطر معلومات إضافية بصيغة <code>.REQS</code>.</li>
+             <li>تحميل المترجم: عند الضغط على زر "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج مع معلومات إضافية (1500 سطر) بصيغة <code>.REQR</code>.</li>
              <li>تبديل الوضع الداكن الذي يحول كل الألوان إلى أبيض وأسود فقط، وملء الشاشة لتجربة عرض كاملة.</li>
-             <li>تعليمات إضافة الموقع إلى الشاشة الرئيسية: راجع التعليمات لتثبيت التطبيق على جهازك.</li>
+             <li>تعليمات إضافة الموقع إلى الشاشة الرئيسية: راجع التعليمات لتثبيت التطبيق على جهازك (يعمل كتطبيق ويب).</li>
            </ul>
            <p>
-             تم تصميم الموقع ليعمل بنفس الشكل على جميع المتصفحات والأجهزة، مع تنسيق أنيق ومسافات مناسبة بين العناصر لضمان تجربة مستخدم مثالية.
+             تم تصميم الموقع ليعمل بنفس الشكل على جميع المتصفحات والأجهزة، مع تنسيق أنيق ومسافات مناسبة لضمان تجربة مستخدم مثالية.
            </p>
            <p class="small text-muted">
              ملاحظة: تُطبَّق جميع التغييرات والإعدادات فوراً وتُحفظ في المتصفح لاستمرارها عند إعادة فتح الموقع.
@@ -287,7 +289,6 @@
   
   <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
   <script>
     /**************** خريطة التحويل (Mapping) ****************/
     // الحروف والحركات كما زودتنا بها
@@ -342,7 +343,7 @@
       'ِ': '٠٠٠٠٠٢',
       'ْ': '٠٠٠٠٠٣',
       'ٌ': '٠٠٠٠٠٤',
-      'ـ': '٠٠٠٠٠٠٥', 
+      'ـ': '٠٠٠٠٠٠٥',
       'ٰ': '٠٠٠٠٠٦',
       'ٓ': '٠٠٠٠٠٧'
     };
@@ -487,7 +488,7 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-    // تنزيل "المترجم" (النتائج مع معلومات إضافية) بصيغة REQR
+    // تنزيل "المترجم" (النتائج مع المعلومات الإضافية) بصيغة REQR
     function downloadTranslator() {
       const result = document.getElementById("resultText").innerText;
       let extraInfo = "";
@@ -560,52 +561,64 @@
       const file = this.files[0];
       if (file) {
         const fileType = file.type;
-        if (fileType === "text/plain") {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            document.getElementById("inputText").value = e.target.result;
-            if(document.getElementById("autoTranslate").checked) translateText();
-          };
-          reader.readAsText(file, "UTF-8");
-        } else if (fileType === "application/pdf") {
-          const reader = new FileReader();
-          reader.onload = function() {
-            const typedarray = new Uint8Array(this.result);
-            pdfjsLib.getDocument(typedarray).promise.then(pdf => {
-              pdf.getPage(1).then(page => {
-                page.getTextContent().then(textContent => {
-                  let text = textContent.items.map(item => item.str).join(" ");
-                  document.getElementById("inputText").value = text;
+        try {
+          if (fileType === "text/plain") {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              document.getElementById("inputText").value = e.target.result;
+              if(document.getElementById("autoTranslate").checked) translateText();
+            };
+            reader.readAsText(file, "UTF-8");
+          } else if (fileType === "application/pdf") {
+            const reader = new FileReader();
+            reader.onload = function() {
+              const typedarray = new Uint8Array(this.result);
+              pdfjsLib.getDocument(typedarray).promise.then(pdf => {
+                let allText = "";
+                let numPages = pdf.numPages;
+                let count = 0;
+                for (let i = 1; i <= numPages; i++) {
+                  pdf.getPage(i).then(page => {
+                    page.getTextContent().then(textContent => {
+                      let pageText = textContent.items.map(item => item.str).join(" ");
+                      allText += pageText + "\n";
+                      count++;
+                      if(count === numPages) {
+                        document.getElementById("inputText").value = allText;
+                        if(document.getElementById("autoTranslate").checked) translateText();
+                      }
+                    });
+                  });
+                }
+              }).catch(err => alert("فشل قراءة PDF: " + err));
+            };
+            reader.readAsArrayBuffer(file);
+          } else if (fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+                     fileType === "application/msword") {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+              mammoth.extractRawText({arrayBuffer: event.target.result})
+                .then(result => {
+                  document.getElementById("inputText").value = result.value;
                   if(document.getElementById("autoTranslate").checked) translateText();
-                });
-              });
-            }).catch(err => alert("فشل قراءة PDF: " + err));
-          };
-          reader.readAsArrayBuffer(file);
-        } else if (fileType === "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-                   fileType === "application/msword") {
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            mammoth.extractRawText({arrayBuffer: event.target.result})
-              .then(result => {
-                document.getElementById("inputText").value = result.value;
-                if(document.getElementById("autoTranslate").checked) translateText();
-              })
-              .catch(err => alert("فشل قراءة الملف: " + err));
-          };
-          reader.readAsArrayBuffer(file);
-        } else {
-          // محاولة قراءة الملف كنص افتراضي
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            document.getElementById("inputText").value = e.target.result;
-            if(document.getElementById("autoTranslate").checked) translateText();
-          };
-          reader.readAsText(file, "UTF-8");
+                })
+                .catch(err => alert("فشل قراءة الملف: " + err));
+            };
+            reader.readAsArrayBuffer(file);
+          } else {
+            // محاولة قراءة الملف كنص افتراضي
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              document.getElementById("inputText").value = e.target.result;
+              if(document.getElementById("autoTranslate").checked) translateText();
+            };
+            reader.readAsText(file, "UTF-8");
+          }
+        } catch (ex) {
+          alert("حدث خطأ أثناء قراءة الملف: " + ex);
         }
       }
     });
-
     document.getElementById("translateFileBtn").addEventListener("click", function() {
       if(document.getElementById("autoTranslate").checked === false) {
         translateText();
@@ -626,8 +639,9 @@
       }
     });
     document.getElementById("translateImageBtn").addEventListener("click", function() {
-      // في حال عدم رفع صورة مسبقاً
-      alert("الرجاء اختيار صورة أولاً.");
+      if(!document.getElementById("imageInput").files.length) {
+        alert("الرجاء اختيار صورة أولاً.");
+      }
     });
     
     document.getElementById("downloadTranslatorBtn").addEventListener("click", downloadTranslator);
@@ -650,6 +664,7 @@
     document.getElementById("clearBtn").addEventListener("click", clearText);
     document.getElementById("copyBtn").addEventListener("click", copyResult);
     document.getElementById("downloadBtn").addEventListener("click", downloadResult);
+    document.getElementById("downloadTranslatorBtn").addEventListener("click", downloadTranslator);
     document.getElementById("resetBtn").addEventListener("click", resetSettings);
     document.getElementById("clearHistoryBtn").addEventListener("click", clearHistory);
     document.getElementById("exportHistoryBtn").addEventListener("click", exportHistory);
