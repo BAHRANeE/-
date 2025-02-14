@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>محول وقبري الفائق</title>
-  <!-- أيقونة التطبيق -->
+  <!-- أيقونة التطبيق وشعار الموقع -->
   <link rel="icon" href="002.png">
-  <!-- وسوم manifest لتطبيق الويب وتعليمات التثبيت على الشاشة الرئيسية -->
+  <!-- وسوم manifest وتطبيق الويب لإضافة الموقع إلى الشاشة الرئيسية -->
   <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="محول وقبري الفائق">
-  <!-- تضمين Bootstrap 5 مع دعم RTL -->
+  
+  <!-- تضمين Bootstrap 5 مع دعم RTL وأيقونات FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-  <!-- أيقونات FontAwesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   
   <style>
@@ -56,6 +56,7 @@
     }
     header h1 {
       color: var(--accent-color);
+      margin: 0;
     }
     .modal-header, .modal-footer {
       background: var(--container-bg);
@@ -74,15 +75,18 @@
 </head>
 <body>
   <div class="container my-3">
-    <!-- رأس الصفحة -->
+    <!-- رأس الصفحة مع الشعار -->
     <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-      <h1 class="mb-2">محول وقبري الفائق</h1>
+      <div class="d-flex align-items-center">
+        <img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
+        <h1 class="mb-0">محول وقبري الفائق</h1>
+      </div>
       <div class="d-flex gap-2">
         <button id="darkModeToggle" class="btn btn-secondary" title="تبديل الوضع الداكن">
           <i class="fas fa-moon"></i>
         </button>
-        <button id="fullscreenBtn" class="btn btn-secondary" title="ملء الشاشة">
-          <i class="fas fa-expand"></i>
+        <button id="fullscreenBtn" class="btn btn-secondary" title="أضف إلى الشاشة الرئيسية">
+          <i class="fas fa-plus-square"></i>
         </button>
         <button id="settingsBtn" class="btn btn-secondary" title="الإعدادات">
           <i class="fas fa-cog"></i>
@@ -99,7 +103,7 @@
       <textarea id="inputText" class="form-control" rows="5" placeholder="أدخل النص هنا..."></textarea>
     </div>
     
-    <!-- قسم خيارات الترجمة (تمت إزالة اختيار نوع الأرقام) -->
+    <!-- قسم خيارات الترجمة (خيار نوع الأرقام مُزال) -->
     <div class="card mb-3">
       <div class="card-body">
          <h5 class="card-title">خيارات الترجمة</h5>
@@ -129,7 +133,7 @@
       <button id="resetBtn" class="btn btn-danger">إعادة تعيين</button>
     </div>
     
-    <!-- عرض الناتج -->
+    <!-- عرض الناتج (دائمًا من اليسار إلى اليمين) -->
     <div class="card mb-3">
       <div class="card-header">الناتج</div>
       <div class="card-body">
@@ -152,7 +156,7 @@
     </footer>
   </div>
   
-  <!-- نافذة الإعدادات (Settings Modal) -->
+  <!-- نافذة الإعدادات -->
   <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
@@ -161,7 +165,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
         </div>
         <div class="modal-body">
-          <!-- إعدادات المظهر الأساسية -->
+          <!-- إعدادات المظهر -->
           <div class="mb-4">
             <label for="fontSizeRange" class="form-label">حجم الخط: <span id="fontSizeValue">16</span>px</label>
             <input type="range" class="form-range" min="12" max="32" value="16" id="fontSizeRange">
@@ -186,21 +190,17 @@
               <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
             </div>
           </div>
-          <!-- خيار اتجاه النص الناتج -->
+          <!-- خيار اتجاه النص الناتج (يكون دائمًا LTR في النتيجة) -->
           <div class="mb-4">
             <label class="form-label">اتجاه النص الناتج:</label>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" name="outputDirection" id="outputLTR" value="ltr" checked>
               <label class="form-check-label" for="outputLTR">من اليسار إلى اليمين</label>
             </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="outputDirection" id="outputRTL" value="rtl">
-              <label class="form-check-label" for="outputRTL">من اليمين إلى اليسار</label>
-            </div>
           </div>
           <div class="mb-4">
             <p class="small text-muted">
-              ملاحظة: تُطبَّق جميع الإعدادات فوراً وتُحفظ في المتصفح لضمان تناسق المظهر على كافة الأجهزة.
+              تُطبَّق جميع الإعدادات فوراً وتُحفظ في المتصفح لضمان تناسق المظهر على كافة الأجهزة.
             </p>
           </div>
         </div>
@@ -211,7 +211,7 @@
     </div>
   </div>
   
-  <!-- نافذة التعليمات (Help Modal) -->
+  <!-- نافذة التعليمات -->
   <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
        <div class="modal-content">
@@ -221,23 +221,22 @@
          </div>
          <div class="modal-body">
            <p>
-             تطبيق "محول وقبري الفائق" يتيح لك تحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس بدقة وفق خريطتك الخاصة.
+             يُتيح لك تطبيق "محول وقبري الفائق" تحويل الحروف العربية (بما في ذلك الحركات) إلى أرقام والعكس بدقة باستخدام نظام رقمي مبني على الأرقام الغربية الأصلية.
            </p>
            <ul>
-             <li>يُستخدم نظام الأرقام الغربي فقط في الترجمة.</li>
-             <li>التحكم الكامل في إعدادات المظهر: تغيير حجم الخط، نوع الخط وتباعد الأسطر، بالإضافة إلى تحديد اتجاه النص الناتج.</li>
-             <li>تفعيل أو تعطيل الترجمة التلقائية من خلال نافذة الإعدادات.</li>
-             <li>تنزيل النتائج: عند الضغط على زر "تنزيل الناتج" يتم تنزيل النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code> لإعادة الترجمة بالعكس.</li>
-             <li>تصدير سجل التحويلات: عند الضغط على زر "تصدير السجل" يتم تنزيل سجل التحويلات مع 1500 سطر معلومات إضافية بصيغة <code>.REQS</code>.</li>
-             <li>تحميل المترجم: عند الضغط على زر "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>.</li>
-             <li>تبديل الوضع الداكن وملء الشاشة لتجربة عرض كاملة.</li>
-             <li>تعليمات إضافة الموقع إلى الشاشة الرئيسية: راجع التعليمات لتثبيت التطبيق على جهازك كتطبيق ويب.</li>
+             <li>تُستخدم الأرقام الغربية فقط.</li>
+             <li>يُعرض الناتج دائمًا من اليسار إلى اليمين.</li>
+             <li>خانة الإدخال تُضبط تلقائيًا؛ فإذا كان النص عبارة عن أرقام تُكتب من اليسار، وإذا كان عربيًا تُكتب من اليمين.</li>
+             <li>تنزيل النتائج: عند الضغط على "تنزيل الناتج" يتم حفظ النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>.</li>
+             <li>تصدير سجل التحويلات: عند الضغط على "تصدير السجل" يتم حفظ سجل التحويلات مع 1500 سطر معلومات إضافية بصيغة <code>.REQS</code>.</li>
+             <li>تحميل المترجم: عند الضغط على "تحميل المترجم" يتم تنزيل الملف الذي يحتوي على النتائج مع 1500 سطر معلومات إضافية بصيغة <code>.REQR</code>.</li>
+             <li>زر "ملء الشاشة" يعرض تعليمات إضافة الموقع إلى الشاشة الرئيسية (خاصًة في iOS) مع استخدام شعار "002.png".</li>
            </ul>
            <p>
-             تم تصميم الموقع ليعمل بنفس الشكل على جميع المتصفحات والأجهزة، مع تنسيق أنيق ومسافات مناسبة لضمان تجربة مستخدم مثالية.
+             تم تصميم التطبيق ليعمل بنفس الشكل على جميع المتصفحات والأجهزة مع تنسيق أنيق.
            </p>
            <p class="small text-muted">
-             ملاحظة: تُطبَّق جميع التغييرات فوراً وتُحفظ في المتصفح لاستمرارها عند إعادة فتح الموقع.
+             تُطبَّق جميع التغييرات فوراً وتُحفظ في المتصفح.
            </p>
          </div>
          <div class="modal-footer">
@@ -251,65 +250,22 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
-    /**************** خريطة التحويل (Mapping) ****************/
-    // الحروف والحركات كما زودتنا بها
-    const mapping = {
-      'أ': '١',
-      'ب': '٢',
-      'ج': '٣',
-      'د': '٤',
-      'ه': '٥',
-      'و': '٦',
-      'ز': '٧',
-      'ح': '٨',
-      'ط': '٩',
-      'ي': '٠01', // يمكنك ضبط النمط كما تفضل
-      'ك': '٠02',
-      'ل': '٠03',
-      'م': '٠04',
-      'ن': '٠05',
-      'س': '٠06',
-      'ع': '٠07',
-      'ف': '٠08',
-      'ص': '٠09',
-      'ق': '٠001',
-      'ر': '٠002',
-      'ش': '٠003',
-      'ت': '٠004',
-      'ث': '٠005',
-      'خ': '٠006',
-      'ذ': '٠007',
-      'ض': '٠008',
-      'ظ': '٠009',
-      'غ': '٠0001',
-      'ة': '٠0002',
-      'ء': '٠0003',
-      'ؤ': '٠0004',
-      'ئ': '٠0005',
-      'ى': '٠0006',
-      'آ': '٠0007',
-      'إ': '٠0008',
-      'ا': '٠0009',
-      'چ': '٠00001',
-      'گ': '٠00002',
-      'پ': '٠00003',
-      'ژ': '٠00004',
-      'ڤ': '٠00005',
-      // الحركات (العلامات التشكيلية)
-      'ٍ': '٠00006',
-      'َ': '٠00007',
-      'ّ': '٠00008',
-      'ً': '٠00009',
-      'ُ': '٠000001',
-      'ِ': '٠000002',
-      'ْ': '٠000003',
-      'ٌ': '٠000004',
-      'ـ': '٠000005',
-      'ٰ': '٠000006',
-      'ٓ': '٠000007'
-    };
-
-    // إنشاء جدول عكسي للتحويل (من الأرقام إلى الحروف)
+    /**************** إنشاء خريطة التحويل باستخدام الأرقام الغربية الأصلية ****************/
+    const digitSeq = "3829193473801";
+    const letters = ['أ','ب','ج','د','ه','و','ز','ح','ط','ي','ك','ل','م','ن','س','ع','ف','ص','ق','ر','ش','ت','ث','خ','ذ','ض','ظ','غ','ة','ء','ؤ','ئ','ى','آ','إ','ا','چ','گ','پ','ژ','ڤ'];
+    const movements = ['ٍ','َ','ّ','ً','ُ','ِ','ْ','ٌ','ـ','ٰ','ٓ'];
+    let mapping = {};
+    let i = 0;
+    for (let char of letters) {
+      mapping[char] = digitSeq[i % digitSeq.length];
+      i++;
+    }
+    for (let char of movements) {
+      mapping[char] = digitSeq[i % digitSeq.length];
+      i++;
+    }
+    
+    // إنشاء جدول عكسي للتحويل
     const reverseMapping = {};
     let maxCodeLength = 0;
     for (let char in mapping) {
@@ -317,27 +273,20 @@
       reverseMapping[code] = char;
       if (code.length > maxCodeLength) maxCodeLength = code.length;
     }
-
-    function convertToWestern(numStr) {
-      const digitsMap = { '٠':'0','١':'1','٢':'2','٣':'3','٤':'4','٥':'5','٦':'6','٧':'7','٨':'8','٩':'9' };
-      return numStr.split('').map(ch => digitsMap[ch] || ch).join('');
-    }
-    function convertToArabic(numStr) {
-      const digitsMap = { '0':'٠','1':'١','2':'٢','3':'٣','4':'٤','5':'٥','6':'٦','7':'٧','8':'٨','9':'٩' };
-      return numStr.split('').map(ch => digitsMap[ch] || ch).join('');
-    }
-
-    /**************** الوظيفة الرئيسية للترجمة ****************/
+    
+    // لا حاجة لدوال تحويل الأرقام لأننا نستخدم الأرقام الغربية مباشرةً.
+    
+    /**************** وظيفة الترجمة ****************/
     function translateText() {
-      const input = document.getElementById("inputText").value;
-      const direction = document.querySelector('input[name="translationDirection"]:checked').value;
+      const inputElem = document.getElementById("inputText");
+      const input = inputElem.value;
       let output = "";
+      const direction = document.querySelector('input[name="translationDirection"]:checked').value;
+      
       if (direction === "lettersToDigits") {
         for (let char of input) {
           if (mapping[char]) {
-            // نستخدم دائمًا الأرقام الغربية
-            let code = convertToWestern(mapping[char]);
-            output += code;
+            output += mapping[char];
           } else {
             output += char;
           }
@@ -345,7 +294,7 @@
       } else {
         let processedInput = "";
         for (let ch of input) {
-          if (/[0-9]/.test(ch)) processedInput += convertToArabic(ch);
+          if (/[0-9]/.test(ch)) processedInput += ch;
           else processedInput += ch;
         }
         let i = 0;
@@ -360,15 +309,31 @@
               break;
             }
           }
-          if (!found) { output += processedInput[i]; i++; }
+          if (!found) {
+            output += processedInput[i];
+            i++;
+          }
         }
       }
-      const outDir = document.querySelector('input[name="outputDirection"]:checked').value;
-      document.getElementById("resultText").dir = outDir;
+      
+      // دائمًا يكون اتجاه الناتج من اليسار إلى اليمين
+      document.getElementById("resultText").dir = "ltr";
       document.getElementById("resultText").innerText = output;
       addToHistory("الترجمة", output);
     }
-
+    
+    /**************** ضبط اتجاه خانة الإدخال بناءً على المحتوى ****************/
+    document.getElementById("inputText").addEventListener("input", function() {
+      const value = this.value.trim();
+      // إذا كانت كل الحروف أرقام ومسافات فقط، اجعلها LTR، وإلا RTL
+      if (/^[0-9\s]+$/.test(value) && value.length > 0) {
+        this.dir = "ltr";
+      } else {
+        this.dir = "rtl";
+      }
+      if(document.getElementById("autoTranslate").checked) translateText();
+    });
+    
     /**************** سجل التحويلات ****************/
     function addToHistory(action, result) {
       const history = JSON.parse(localStorage.getItem("conversionHistory")) || [];
@@ -392,7 +357,7 @@
       localStorage.removeItem("conversionHistory");
       renderHistory();
     }
-    // تصدير سجل التحويلات بصيغة REQS مع إضافة 1500 سطر معلومات إضافية
+    // تصدير سجل التحويلات بصيغة REQS مع 1500 سطر معلومات إضافية
     function exportHistory() {
       const history = localStorage.getItem("conversionHistory") || "[]";
       let extraInfo = "";
@@ -410,7 +375,7 @@
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
-
+    
     /**************** وظائف إضافية ****************/
     function clearText() {
       document.getElementById("inputText").value = "";
@@ -422,7 +387,7 @@
         .then(() => alert("تم نسخ الناتج!"))
         .catch(() => alert("فشل النسخ."));
     }
-    // تنزيل الناتج بصيغة REQR مع إضافة 1500 سطر معلومات إضافية
+    // تنزيل الناتج بصيغة REQR مع 1500 سطر معلومات إضافية
     function downloadResult() {
       const result = document.getElementById("resultText").innerText;
       let extraInfo = "";
@@ -467,7 +432,6 @@
       document.getElementById("lineHeightRange").value = 1.5;
       document.getElementById("lineHeightValue").innerText = 1.5;
       document.getElementById("autoTranslate").checked = true;
-      document.querySelector('input[name="outputDirection"][value="ltr"]').checked = true;
       localStorage.removeItem("conversionHistory");
       renderHistory();
       handleAutoTranslate();
@@ -481,14 +445,11 @@
       document.body.classList.toggle("dark");
       localStorage.setItem("darkMode", document.body.classList.contains("dark"));
     }
+    // زر "ملء الشاشة" يعرض تعليمات إضافة الموقع إلى الشاشة الرئيسية
     function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => alert(`فشل الدخول في وضع ملء الشاشة: ${err.message}`));
-      } else {
-        document.exitFullscreen();
-      }
+      alert("لإضافة التطبيق إلى الشاشة الرئيسية:\n1. اضغط على زر المشاركة في متصفح سفاري.\n2. اختر 'أضف إلى الشاشة الرئيسية'.\n3. استخدم شعار التطبيق (002.png) كما أيقونة.");
     }
-
+    
     /**************** إعدادات المظهر في نافذة الإعدادات ****************/
     document.getElementById("fontSizeRange").addEventListener("input", function() {
       const size = this.value;
@@ -503,18 +464,8 @@
       document.documentElement.style.setProperty("--line-height", lh);
       document.getElementById("lineHeightValue").innerText = lh;
     });
-
+    
     /**************** تفعيل الأحداث الرئيسية ****************/
-    document.getElementById("inputText").addEventListener("input", () => {
-      if(document.getElementById("autoTranslate").checked) translateText();
-    });
-    document.querySelectorAll('input[name="translationDirection"]').forEach(radio => {
-      radio.addEventListener("change", () => {
-        // لا حاجة لتغيير عرض خيار الأرقام لأنه دائمًا غربية
-        if(document.getElementById("autoTranslate").checked) translateText();
-      });
-    });
-    document.getElementById("autoTranslate").addEventListener("change", handleAutoTranslate);
     document.getElementById("translateBtn").addEventListener("click", translateText);
     document.getElementById("clearBtn").addEventListener("click", clearText);
     document.getElementById("copyBtn").addEventListener("click", copyResult);
@@ -532,11 +483,13 @@
       new bootstrap.Modal(document.getElementById("settingsModal")).show();
     });
     window.addEventListener("load", () => {
-      if(localStorage.getItem("darkMode") === "true") document.body.classList.add("dark");
+      if(localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark");
+      }
       renderHistory();
       handleAutoTranslate();
     });
-
+    
     /**************** تسجيل Service Worker (لتطبيق الويب) ****************/
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
