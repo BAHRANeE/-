@@ -381,15 +381,10 @@
       localStorage.removeItem("conversionHistory");
       renderHistory();
     }
-    // تصدير سجل التحويلات بصيغة REQS مع 1500 سطر معلومات إضافية
+    // تصدير سجل التحويلات بصيغة REQS (السجل الحقيقي)
     function exportHistory() {
       const history = localStorage.getItem("conversionHistory") || "[]";
-      let extraInfo = "";
-      for (let i = 1; i <= 1500; i++) {
-        extraInfo += `ميزة مفيدة ${i}\n`;
-      }
-      const finalData = history + "\n" + extraInfo;
-      const blob = new Blob([finalData], { type: "text/plain;charset=utf-8" });
+      const blob = new Blob([history], { type: "text/plain;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "conversion_history.REQS";
@@ -408,15 +403,10 @@
         .then(() => alert("تم نسخ الناتج!"))
         .catch(() => alert("فشل النسخ."));
     }
-    // تنزيل الناتج بصيغة REQR مع 1500 سطر معلومات إضافية
+    // تنزيل الناتج بصيغة REQR (يحتوي فقط على المحتوى الحقيقي)
     function downloadResult() {
       const result = document.getElementById("resultText").innerText;
-      let extraInfo = "";
-      for (let i = 1; i <= 1500; i++) {
-        extraInfo += `ميزة مفيدة ${i}\n`;
-      }
-      const finalData = result + "\n" + extraInfo;
-      const blob = new Blob([finalData], { type: "text/plain;charset=utf-8" });
+      const blob = new Blob([result], { type: "text/plain;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "النتيجة.REQR";
