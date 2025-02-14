@@ -309,13 +309,6 @@
       'ٓ': '٠000007'
     };
 
-    // التأكد من أن أي قيمة تنتهي برقم صفر يتم تعديلها (تستبدل 0 ب 1)
-    for (let key in mapping) {
-      if (mapping[key].endsWith("0")) {
-        mapping[key] = mapping[key].slice(0, -1) + "1";
-      }
-    }
-
     // إنشاء جدول عكسي للتحويل (من الأرقام إلى الحروف)
     const reverseMapping = {};
     let maxCodeLength = 0;
