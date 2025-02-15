@@ -14,6 +14,8 @@
   <!-- تضمين Bootstrap 5 مع دعم RTL وأيقونات FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- مكتبة Confetti لإضافة تأثير احتفالي -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
     :root {
       --main-bg: #fff8e1;
@@ -73,6 +75,14 @@
 </head>
 <body>
   <div class="container my-3">
+    <!-- قائمة النظام في أعلى الصفحة -->
+    <div class="d-flex justify-content-end mb-3">
+      <select id="systemSelect" class="form-select" style="width:220px;">
+        <option value="ruqabbari" selected>نظام: رُقِبّرِى</option>
+        <option value="mikzoro">نظام: مِکزورو</option>
+      </select>
+    </div>
+    
     <!-- رأس الصفحة مع الشعار -->
     <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
       <div id="headerTitle" class="d-flex align-items-center">
@@ -86,9 +96,6 @@
         <!-- زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية -->
         <button id="fullscreenBtn" class="btn btn-secondary" title="أضف إلى الشاشة الرئيسية">
           <i class="fas fa-plus-square"></i>
-        </button>
-        <button id="settingsBtn" class="btn btn-secondary" title="تعديل النظام والإعدادات">
-          <i class="fas fa-cog"></i>
         </button>
         <button id="helpBtn" class="btn btn-info" title="تعليمات الاستخدام">
           <i class="fas fa-question-circle"></i>
@@ -108,7 +115,7 @@
          <h5 class="card-title">خيارات الترجمة</h5>
          <div class="mb-2">
            <div class="form-check form-check-inline">
-             <!-- سيتم تغيير التسميات ديناميكيًا بناءً على النظام -->
+             <!-- يتم تغيير التسميات ديناميكيًا بناءً على النظام -->
              <input class="form-check-input" type="radio" name="translationDirection" id="ltr" value="lettersToDigits" checked>
              <label id="labelLTR" class="form-check-label" for="ltr">من حروف إلى أرقام</label>
            </div>
@@ -125,7 +132,7 @@
     
     <!-- أزرار التحكم الرئيسية -->
     <div class="text-center mb-3">
-      <button id="translateBtn" class="btn btn-primary">ترجم</button>
+      <!-- لن يظهر زر "ترجم" لأن الترجمة تلقائية -->
       <button id="clearBtn" class="btn btn-warning">مسح الإدخال</button>
       <button id="copyBtn" class="btn btn-success">نسخ الناتج</button>
       <button id="downloadBtn" class="btn btn-info">تنزيل الناتج</button>
@@ -156,66 +163,33 @@
     </footer>
   </div>
   
-  <!-- نافذة الإعدادات -->
-  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+  <!-- نافذة تعليمات الاستخدام -->
+  <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="settingsModalLabel">إعدادات الموقع</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" onclick="updateSystemSettings()"></button>
+          <h5 class="modal-title" id="helpModalLabel">تعليمات الاستخدام</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
         </div>
         <div class="modal-body">
-          <!-- إعدادات المظهر -->
-          <div class="mb-4">
-            <label for="fontSizeRange" class="form-label">حجم الخط: <span id="fontSizeValue">16</span>px</label>
-            <input type="range" class="form-range" min="12" max="32" value="16" id="fontSizeRange">
-          </div>
-          <div class="mb-4">
-            <label for="fontFamilySelect" class="form-label">نوع الخط:</label>
-            <select id="fontFamilySelect" class="form-select">
-              <option value="'Arial', sans-serif" selected>Arial</option>
-              <option value="'Tahoma', sans-serif">Tahoma</option>
-              <option value="'Courier New', monospace">Courier New</option>
-              <option value="'Times New Roman', serif">Times New Roman</option>
-            </select>
-          </div>
-          <div class="mb-4">
-            <label for="lineHeightRange" class="form-label">تباعد الأسطر: <span id="lineHeightValue">1.5</span></label>
-            <input type="range" class="form-range" min="1" max="2" step="0.1" value="1.5" id="lineHeightRange">
-          </div>
-          <!-- خيار الترجمة التلقائية -->
-          <div class="mb-4">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="autoTranslate" checked>
-              <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
-            </div>
-          </div>
-          <!-- تعديل النظام -->
-          <div class="mb-4">
-            <label class="form-label">تعديل النظام:</label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="system" id="systemRuqabbari" value="ruqabbari" checked>
-              <label class="form-check-label" for="systemRuqabbari">رُقِبّرِى</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="system" id="systemMikzoro" value="mikzoro">
-              <label class="form-check-label" for="systemMikzoro">مِکزورو</label>
-            </div>
-          </div>
-          <!-- اتجاه النص الناتج ثابت (LTR) -->
-          <div class="mb-4">
-            <label class="form-label">اتجاه النص الناتج:</label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="outputDirection" id="outputLTR" value="ltr" checked>
-              <label class="form-check-label" for="outputLTR">من اليسار إلى اليمين</label>
-            </div>
-          </div>
-          <div class="mb-4">
-            <p class="small text-muted">تُطبَّق جميع الإعدادات فوراً وتُحفظ في المتصفح.</p>
-          </div>
+          <p>
+            هذا التطبيق يتيح لك تحويل النصوص العربية باستخدام نظام "رُقِبّرِى" أو "مِکزورو". 
+          </p>
+          <ul>
+            <li>يمكنك اختيار النظام من القائمة المنسدلة في أعلى الصفحة.</li>
+            <li>في نظام "مِکزورو" ستتغير تسميات خيارات الترجمة إلى "من عربي إلى مِکزورو" و"من مِکزورو إلى عربي".</li>
+            <li>خانة الإدخال تُضبط تلقائيًا؛ إذا كان النص يحتوي على أرقام فقط تظهر من اليسار (LTR) وإذا كان يحتوي على حروف تظهر من اليمين (RTL).</li>
+            <li>الناتج يُعرض دائمًا من اليسار إلى اليمين.</li>
+            <li>زر "تنزيل الناتج" يحفظ المحتوى الحقيقي فقط في ملف بصيغة REQR.</li>
+            <li>زر "تصدير السجل" يحفظ سجل التحويلات الحقيقي في ملف بصيغة REQS.</li>
+            <li>زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية (خاصًا في متصفح سفاري) باستخدام شعار "002.png".</li>
+            <li>زر "عرض معنى الأرقام" يُظهر نافذة تحتوي على جدول خريطة التحويل الخاصة بالنظام الحالي (بما في ذلك الحركات).</li>
+            <li>تتغير إعدادات المظهر (حجم الخط، نوع الخط، وتباعد الأسطر) من خلال قائمة الإعدادات داخل الصفحة؛ وقد تمت إضافة مجموعة واسعة من الخطوط العربية والإنجليزية والرقمية.</li>
+            <li>كما يتم إطلاق تأثير احتفالي (Confetti) عند حدوث ترجمة ناجحة لجعل تجربة الموقع خرافية!</li>
+          </ul>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="updateSystemSettings()">حفظ التغييرات</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
         </div>
       </div>
     </div>
@@ -351,7 +325,7 @@
       'ؤ': 'ꓰ',
       'ڤ': 'ꓲ'
     };
-    // بالنسبة للحركات في نظام "مِکزورو" نُبقيها كما هي (أي نقوم بعمل mapping هوية)
+    // بالنسبة للحركات في نظام "مِکزورو" نتركها كما هي (mapping هوية)
     const diacritics = ['ٍ','َ','ّ','ً','ُ','ِ','ْ','ٌ','ـ','ٰ','ٓ'];
     diacritics.forEach(diacritic => {
       mappingMikzoro[diacritic] = diacritic;
@@ -371,9 +345,9 @@
     const { reverse: reverseMappingRuqabbari, maxLen: maxCodeLengthRuqabbari } = createReverseMapping(mappingRuqabbari);
     const { reverse: reverseMappingMikzoro, maxLen: maxCodeLengthMikzoro } = createReverseMapping(mappingMikzoro);
     
-    // دالة للحصول على الخريطة والنظام الحالي
+    // دالة للحصول على الخريطة والنظام الحالي من القائمة المنسدلة
     function getCurrentMapping() {
-      const system = document.querySelector('input[name="system"]:checked').value;
+      const system = document.getElementById("systemSelect").value;
       if(system === "mikzoro"){
         return { mapping: mappingMikzoro, reverseMapping: reverseMappingMikzoro, maxCodeLength: maxCodeLengthMikzoro };
       } else {
@@ -423,6 +397,12 @@
         document.getElementById("resultText").dir = "ltr";
         document.getElementById("resultText").innerText = output;
         addToHistory("الترجمة", output);
+        // إطلاق تأثير confetti لجعل التجربة خرافية
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
       }, 300);
     }
     
@@ -434,7 +414,7 @@
       } else {
         this.dir = "rtl";
       }
-      if(document.getElementById("autoTranslate").checked) translateText();
+      translateText();
     });
     
     /**************** سجل التحويلات ****************/
@@ -495,20 +475,13 @@
     function resetSettings() {
       document.getElementById("inputText").value = "";
       document.getElementById("resultText").innerText = "";
-      document.getElementById("fontSizeRange").value = 16;
-      document.getElementById("fontSizeValue").innerText = 16;
-      document.getElementById("fontFamilySelect").value = "'Arial', sans-serif";
-      document.getElementById("lineHeightRange").value = 1.5;
-      document.getElementById("lineHeightValue").innerText = 1.5;
       document.getElementById("autoTranslate").checked = true;
       localStorage.removeItem("conversionHistory");
       renderHistory();
       handleAutoTranslate();
     }
     function handleAutoTranslate() {
-      const auto = document.getElementById("autoTranslate").checked;
-      document.getElementById("translateBtn").style.display = auto ? "none" : "inline-block";
-      if(auto) translateText();
+      translateText();
     }
     function toggleDarkMode() {
       document.body.classList.toggle("dark");
@@ -521,7 +494,7 @@
     
     /**************** تحديث الإعدادات بناءً على اختيار النظام ****************/
     function updateSystemSettings() {
-      const system = document.querySelector('input[name="system"]:checked').value;
+      const system = document.getElementById("systemSelect").value;
       const headerTitle = document.getElementById("headerTitle");
       const labelLTR = document.getElementById("labelLTR");
       const labelRTL = document.getElementById("labelRTL");
@@ -530,7 +503,6 @@
           <h1 class="mb-0">محول مِکزورو الفائق</h1>`;
         document.title = "محول مِکزورو الفائق";
         document.querySelector('meta[name="apple-mobile-web-app-title"]').content = "محول مِکزورو الفائق";
-        // تحديث تسميات الترجمة
         labelLTR.innerText = "من عربي إلى مِکزورو";
         labelRTL.innerText = "من مِکزورو إلى عربي";
       } else {
@@ -545,7 +517,6 @@
     }
     
     /**************** تفعيل الأحداث الرئيسية ****************/
-    document.getElementById("translateBtn").addEventListener("click", translateText);
     document.getElementById("clearBtn").addEventListener("click", clearText);
     document.getElementById("copyBtn").addEventListener("click", copyResult);
     document.getElementById("downloadBtn").addEventListener("click", downloadResult);
@@ -561,7 +532,7 @@
       new bootstrap.Modal(document.getElementById("settingsModal")).show();
     });
     document.getElementById("showMappingBtn").addEventListener("click", () => {
-      const system = document.querySelector('input[name="system"]:checked').value;
+      const system = document.getElementById("systemSelect").value;
       const currentMapping = (system === "mikzoro") ? mappingMikzoro : mappingRuqabbari;
       const tableBody = document.getElementById("mappingTable");
       tableBody.innerHTML = "";
