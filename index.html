@@ -14,8 +14,7 @@
   <!-- تضمين Bootstrap 5 مع دعم RTL وأيقونات FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <!-- مكتبة Confetti لإضافة تأثير احتفالي -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- (يمكنك إضافة مكتبات إضافية إن رغبت) -->
   <style>
     :root {
       --main-bg: #fff8e1;
@@ -71,19 +70,14 @@
     @media (max-width: 600px) {
       header h1 { font-size: 1.5em; }
     }
+    /* تنسيق لقسم تعديل ألوان الموقع */
+    #colorControlSection { border: 1px dashed var(--accent-color); padding: 10px; margin-top: 1rem; }
+    #colorControlSection h6 { margin-top: 0; }
   </style>
 </head>
 <body>
   <div class="container my-3">
-    <!-- قائمة النظام في أعلى الصفحة -->
-    <div class="d-flex justify-content-end mb-3">
-      <select id="systemSelect" class="form-select" style="width:220px;">
-        <option value="ruqabbari" selected>نظام: رُقِبّرِى</option>
-        <option value="mikzoro">نظام: مِکزورو</option>
-      </select>
-    </div>
-    
-    <!-- رأس الصفحة مع الشعار -->
+    <!-- رأس الصفحة -->
     <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
       <div id="headerTitle" class="d-flex align-items-center">
         <img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
@@ -93,9 +87,13 @@
         <button id="darkModeToggle" class="btn btn-secondary" title="تبديل الوضع الداكن">
           <i class="fas fa-moon"></i>
         </button>
-        <!-- زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية -->
+        <!-- زر "ملء الشاشة" -->
         <button id="fullscreenBtn" class="btn btn-secondary" title="أضف إلى الشاشة الرئيسية">
           <i class="fas fa-plus-square"></i>
+        </button>
+        <!-- زر الإعدادات -->
+        <button id="settingsBtn" class="btn btn-secondary" title="تعديل الإعدادات">
+          <i class="fas fa-cog"></i>
         </button>
         <button id="helpBtn" class="btn btn-info" title="تعليمات الاستخدام">
           <i class="fas fa-question-circle"></i>
@@ -115,7 +113,6 @@
          <h5 class="card-title">خيارات الترجمة</h5>
          <div class="mb-2">
            <div class="form-check form-check-inline">
-             <!-- يتم تغيير التسميات ديناميكيًا بناءً على النظام -->
              <input class="form-check-input" type="radio" name="translationDirection" id="ltr" value="lettersToDigits" checked>
              <label id="labelLTR" class="form-check-label" for="ltr">من حروف إلى أرقام</label>
            </div>
@@ -132,7 +129,7 @@
     
     <!-- أزرار التحكم الرئيسية -->
     <div class="text-center mb-3">
-      <!-- لن يظهر زر "ترجم" لأن الترجمة تلقائية -->
+      <!-- الترجمة تعمل تلقائيًا -->
       <button id="clearBtn" class="btn btn-warning">مسح الإدخال</button>
       <button id="copyBtn" class="btn btn-success">نسخ الناتج</button>
       <button id="downloadBtn" class="btn btn-info">تنزيل الناتج</button>
@@ -163,6 +160,99 @@
     </footer>
   </div>
   
+  <!-- نافذة الإعدادات -->
+  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="settingsModalLabel">إعدادات الموقع</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق" onclick="updateSystemSettings()"></button>
+        </div>
+        <div class="modal-body">
+          <!-- إعدادات المظهر -->
+          <div class="mb-4">
+            <label for="fontSizeRange" class="form-label">حجم الخط: <span id="fontSizeValue">16</span>px</label>
+            <input type="range" class="form-range" min="12" max="32" value="16" id="fontSizeRange">
+          </div>
+          <div class="mb-4">
+            <label for="fontFamilySelect" class="form-label">نوع الخط:</label>
+            <select id="fontFamilySelect" class="form-select">
+              <option value="'Arial', sans-serif" selected>Arial</option>
+              <option value="'Tahoma', sans-serif">Tahoma</option>
+              <option value="'Courier New', monospace">Courier New</option>
+              <option value="'Times New Roman', serif">Times New Roman</option>
+              <option value="'Amiri', serif">Amiri</option>
+              <option value="'Scheherazade', serif">Scheherazade</option>
+              <option value="'Cairo', sans-serif">Cairo</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="lineHeightRange" class="form-label">تباعد الأسطر: <span id="lineHeightValue">1.5</span></label>
+            <input type="range" class="form-range" min="1" max="2" step="0.1" value="1.5" id="lineHeightRange">
+          </div>
+          <!-- خيار الترجمة التلقائية -->
+          <div class="mb-4">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="autoTranslate" checked>
+              <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
+            </div>
+          </div>
+          <!-- إعدادات النظام -->
+          <div class="mb-4">
+            <label class="form-label">تعديل النظام:</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="system" id="systemRuqabbari" value="ruqabbari" checked>
+              <label class="form-check-label" for="systemRuqabbari">رُقِبّرِى</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="system" id="systemMikzoro" value="mikzoro">
+              <label class="form-check-label" for="systemMikzoro">مِکزورو</label>
+            </div>
+          </div>
+          <!-- خيار تعديل ألوان الموقع (فوق الخيال) -->
+          <div class="mb-4">
+            <h6>تعديل ألوان الموقع (فوق الخيال)</h6>
+            <p class="small text-muted">
+              أدخل رمز التحكم للوصول إلى خيارات تغيير الألوان:
+              <br>
+              التحكم الخفيف: <code>CcV57gi7</code>
+              <br>
+              التحكم المتوسط: <code>S38uy68gord7</code>
+              <br>
+              التحكم العالي: <code>GoT5HDKio74h99j07</code>
+              <br>
+              التحكم الكامل: <code>Sajjad75gorte0one1piece</code>
+              <br>
+              التحكم الفائق: <code>Xhe72UD738jdi899oredol34io3you</code>
+            </p>
+            <input type="text" id="colorTokenInput" class="form-control mb-2" placeholder="أدخل رمز التحكم">
+            <button id="activateColorControlButton" class="btn btn-primary btn-sm">تفعيل التحكم بالألوان</button>
+            <!-- القسم الذي سيظهر فيه أدوات تعديل الألوان حسب مستوى التحكم -->
+            <div id="colorControlSection" style="display:none; margin-top:1rem;">
+              <h6>تعديل ألوان الموقع</h6>
+              <div id="colorInputsContainer"></div>
+              <button id="applyColorsButton" class="btn btn-success btn-sm mt-2">تطبيق التغييرات</button>
+            </div>
+          </div>
+          <!-- اتجاه النص الناتج ثابت (LTR) -->
+          <div class="mb-4">
+            <label class="form-label">اتجاه النص الناتج:</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="outputDirection" id="outputLTR" value="ltr" checked>
+              <label class="form-check-label" for="outputLTR">من اليسار إلى اليمين</label>
+            </div>
+          </div>
+          <div class="mb-4">
+            <p class="small text-muted">تُطبَّق جميع الإعدادات فوراً وتُحفظ في المتصفح.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="updateSystemSettings()">حفظ التغييرات</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <!-- نافذة تعليمات الاستخدام -->
   <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -173,19 +263,19 @@
         </div>
         <div class="modal-body">
           <p>
-            هذا التطبيق يتيح لك تحويل النصوص العربية باستخدام نظام "رُقِبّرِى" أو "مِکزورو". 
+            هذا التطبيق يتيح لك تحويل النصوص باستخدام نظام "رُقِبّرِى" أو "مِکزورو" مع إمكانية تعديل المظهر.
           </p>
           <ul>
-            <li>يمكنك اختيار النظام من القائمة المنسدلة في أعلى الصفحة.</li>
+            <li>يمكنك اختيار النظام من نافذة الإعدادات.</li>
             <li>في نظام "مِکزورو" ستتغير تسميات خيارات الترجمة إلى "من عربي إلى مِکزورو" و"من مِکزورو إلى عربي".</li>
-            <li>خانة الإدخال تُضبط تلقائيًا؛ إذا كان النص يحتوي على أرقام فقط تظهر من اليسار (LTR) وإذا كان يحتوي على حروف تظهر من اليمين (RTL).</li>
+            <li>تتغير إعدادات المظهر (حجم الخط، نوع الخط، وتباعد الأسطر) من خلال القائمة داخل نافذة الإعدادات.</li>
+            <li>يمكنك تعديل ألوان الموقع من خلال قسم "تعديل ألوان الموقع (فوق الخيال)" إذا أدخلت رمز التحكم الصحيح.</li>
+            <li>خانة الإدخال تُضبط تلقائيًا؛ إذا كان النص أرقاماً تظهر من اليسار (LTR) وإذا كان نصاً عربياً تظهر من اليمين (RTL).</li>
             <li>الناتج يُعرض دائمًا من اليسار إلى اليمين.</li>
             <li>زر "تنزيل الناتج" يحفظ المحتوى الحقيقي فقط في ملف بصيغة REQR.</li>
             <li>زر "تصدير السجل" يحفظ سجل التحويلات الحقيقي في ملف بصيغة REQS.</li>
-            <li>زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية (خاصًا في متصفح سفاري) باستخدام شعار "002.png".</li>
-            <li>زر "عرض معنى الأرقام" يُظهر نافذة تحتوي على جدول خريطة التحويل الخاصة بالنظام الحالي (بما في ذلك الحركات).</li>
-            <li>تتغير إعدادات المظهر (حجم الخط، نوع الخط، وتباعد الأسطر) من خلال قائمة الإعدادات داخل الصفحة؛ وقد تمت إضافة مجموعة واسعة من الخطوط العربية والإنجليزية والرقمية.</li>
-            <li>كما يتم إطلاق تأثير احتفالي (Confetti) عند حدوث ترجمة ناجحة لجعل تجربة الموقع خرافية!</li>
+            <li>زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية (خاصاً في متصفح سفاري) باستخدام شعار "002.png".</li>
+            <li>زر "عرض معنى الأرقام" يفتح نافذة تحتوي على جدول خريطة التحويل الخاصة بالنظام الحالي (بما في ذلك الحركات).</li>
           </ul>
         </div>
         <div class="modal-footer">
@@ -325,7 +415,7 @@
       'ؤ': 'ꓰ',
       'ڤ': 'ꓲ'
     };
-    // بالنسبة للحركات في نظام "مِکزورو" نتركها كما هي (mapping هوية)
+    // نترك الحركات في نظام "مِکزورو" كما هي (هوية)
     const diacritics = ['ٍ','َ','ّ','ً','ُ','ِ','ْ','ٌ','ـ','ٰ','ٓ'];
     diacritics.forEach(diacritic => {
       mappingMikzoro[diacritic] = diacritic;
@@ -345,7 +435,7 @@
     const { reverse: reverseMappingRuqabbari, maxLen: maxCodeLengthRuqabbari } = createReverseMapping(mappingRuqabbari);
     const { reverse: reverseMappingMikzoro, maxLen: maxCodeLengthMikzoro } = createReverseMapping(mappingMikzoro);
     
-    // دالة للحصول على الخريطة والنظام الحالي من القائمة المنسدلة
+    // دالة للحصول على الخريطة والنظام الحالي من القائمة
     function getCurrentMapping() {
       const system = document.getElementById("systemSelect").value;
       if(system === "mikzoro"){
@@ -397,12 +487,6 @@
         document.getElementById("resultText").dir = "ltr";
         document.getElementById("resultText").innerText = output;
         addToHistory("الترجمة", output);
-        // إطلاق تأثير confetti لجعل التجربة خرافية
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
       }, 300);
     }
     
@@ -478,45 +562,127 @@
       document.getElementById("autoTranslate").checked = true;
       localStorage.removeItem("conversionHistory");
       renderHistory();
-      handleAutoTranslate();
-    }
-    function handleAutoTranslate() {
       translateText();
     }
     function toggleDarkMode() {
       document.body.classList.toggle("dark");
       localStorage.setItem("darkMode", document.body.classList.contains("dark"));
     }
-    // زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية
+    // زر "ملء الشاشة"
     function toggleFullscreen() {
       alert("لإضافة التطبيق إلى الشاشة الرئيسية:\n1. اضغط على زر المشاركة في متصفح سفاري.\n2. اختر 'أضف إلى الشاشة الرئيسية'.\n3. استخدم شعار التطبيق (002.png) كأيقونة.");
     }
     
-    /**************** تحديث الإعدادات بناءً على اختيار النظام ****************/
-    function updateSystemSettings() {
-      const system = document.getElementById("systemSelect").value;
-      const headerTitle = document.getElementById("headerTitle");
-      const labelLTR = document.getElementById("labelLTR");
-      const labelRTL = document.getElementById("labelRTL");
-      if(system === "mikzoro"){
-        headerTitle.innerHTML = `<img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
-          <h1 class="mb-0">محول مِکزورو الفائق</h1>`;
-        document.title = "محول مِکزورو الفائق";
-        document.querySelector('meta[name="apple-mobile-web-app-title"]').content = "محول مِکزورو الفائق";
-        labelLTR.innerText = "من عربي إلى مِکزورو";
-        labelRTL.innerText = "من مِکزورو إلى عربي";
-      } else {
-        headerTitle.innerHTML = `<img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
-          <h1 class="mb-0">محول رُقِبّرِى الفائق</h1>`;
-        document.title = "محول رُقِبّرِى الفائق";
-        document.querySelector('meta[name="apple-mobile-web-app-title"]').content = "محول رُقِبّرِى الفائق";
-        labelLTR.innerText = "من حروف إلى أرقام";
-        labelRTL.innerText = "من أرقام إلى حروف";
+    /**************** قسم تعديل ألوان الموقع (فوق الخيال) ****************/
+    // دالة لفحص رمز التحكم وإظهار أدوات تغيير الألوان بحسب المستوى
+    function checkColorToken() {
+      const token = document.getElementById("colorTokenInput").value.trim();
+      let controlLevel = 0;
+      // تحديد مستوى التحكم بناءً على الرمز
+      if(token === "CcV57gi7") {
+        controlLevel = 1; // التحكم الخفيف: تغيير الخلفية الرئيسية
+      } else if(token === "S38uy68gord7") {
+        controlLevel = 2; // التحكم المتوسط: إضافة تغيير لون الحاوية
+      } else if(token === "GoT5HDKio74h99j07") {
+        controlLevel = 3; // التحكم العالي: إضافة تغيير لون النص والتمييز
+      } else if(token === "Sajjad75gorte0one1piece") {
+        controlLevel = 4; // التحكم الكامل: إضافة تغيير نوع الخط (بصيغة نصية) بالإضافة إلى السابق
+      } else if(token === "Xhe72UD738jdi899oredol34io3you") {
+        controlLevel = 5; // التحكم الفائق: إضافة تغيير تباعد الأسطر أيضاً
       }
-      translateText();
+      
+      if(controlLevel === 0) {
+        alert("رمز التحكم غير صحيح!");
+        document.getElementById("colorControlSection").style.display = "none";
+      } else {
+        populateColorControls(controlLevel);
+        document.getElementById("colorControlSection").style.display = "block";
+      }
     }
     
+    // دالة لإنشاء حقول تعديل الألوان بناءً على مستوى التحكم
+    function populateColorControls(level) {
+      const container = document.getElementById("colorInputsContainer");
+      container.innerHTML = ""; // تفريغ المحتوى
+      
+      // مستوى 1: تغيير الخلفية الرئيسية
+      if(level >= 1) {
+        container.innerHTML += `
+          <div class="mb-2">
+            <label>لون الخلفية الرئيسية:</label>
+            <input type="color" id="mainBgColor" value="#fff8e1" class="form-control form-control-color" title="اختر لون الخلفية">
+          </div>
+        `;
+      }
+      // مستوى 2: تغيير لون الحاوية
+      if(level >= 2) {
+        container.innerHTML += `
+          <div class="mb-2">
+            <label>لون الحاوية:</label>
+            <input type="color" id="containerBgColor" value="#ffecb3" class="form-control form-control-color" title="اختر لون الحاوية">
+          </div>
+        `;
+      }
+      // مستوى 3: تغيير لون النص ولون التمييز
+      if(level >= 3) {
+        container.innerHTML += `
+          <div class="mb-2">
+            <label>لون النص:</label>
+            <input type="color" id="textColor" value="#4e342e" class="form-control form-control-color" title="اختر لون النص">
+          </div>
+          <div class="mb-2">
+            <label>لون التمييز:</label>
+            <input type="color" id="accentColor" value="#ff6f00" class="form-control form-control-color" title="اختر لون التمييز">
+          </div>
+        `;
+      }
+      // مستوى 4: تغيير نوع الخط (يمكن إدخال اسم خط مخصص)
+      if(level >= 4) {
+        container.innerHTML += `
+          <div class="mb-2">
+            <label>نوع الخط المخصص:</label>
+            <input type="text" id="customFont" class="form-control" placeholder="مثلاً 'Amiri', serif">
+          </div>
+        `;
+      }
+      // مستوى 5: تغيير تباعد الأسطر
+      if(level >= 5) {
+        container.innerHTML += `
+          <div class="mb-2">
+            <label>تباعد الأسطر:</label>
+            <input type="number" id="customLineHeight" class="form-control" step="0.1" min="1" max="3" value="1.5">
+          </div>
+        `;
+      }
+    }
+    
+    // دالة لتطبيق ألوان الموقع حسب الحقول الموجودة
+    function applyCustomColors() {
+      if(document.getElementById("mainBgColor"))
+        document.documentElement.style.setProperty("--main-bg", document.getElementById("mainBgColor").value);
+      if(document.getElementById("containerBgColor"))
+        document.documentElement.style.setProperty("--container-bg", document.getElementById("containerBgColor").value);
+      if(document.getElementById("textColor"))
+        document.documentElement.style.setProperty("--text-color", document.getElementById("textColor").value);
+      if(document.getElementById("accentColor"))
+        document.documentElement.style.setProperty("--accent-color", document.getElementById("accentColor").value);
+      if(document.getElementById("customFont")) {
+        let fontVal = document.getElementById("customFont").value;
+        if(fontVal.trim() !== "")
+          document.documentElement.style.setProperty("--font-family", fontVal);
+      }
+      if(document.getElementById("customLineHeight"))
+        document.documentElement.style.setProperty("--line-height", document.getElementById("customLineHeight").value);
+      alert("تم تحديث ألوان الموقع بنجاح!");
+    }
+    
+    // حدث زر تفعيل التحكم بالألوان
+    document.getElementById("activateColorControlButton").addEventListener("click", checkColorToken);
+    // حدث زر تطبيق التغييرات في قسم تعديل الألوان
+    document.getElementById("applyColorsButton").addEventListener("click", applyCustomColors);
+    
     /**************** تفعيل الأحداث الرئيسية ****************/
+    document.getElementById("translateBtn").addEventListener("click", translateText);
     document.getElementById("clearBtn").addEventListener("click", clearText);
     document.getElementById("copyBtn").addEventListener("click", copyResult);
     document.getElementById("downloadBtn").addEventListener("click", downloadResult);
@@ -554,7 +720,7 @@
         document.body.classList.add("dark");
       }
       renderHistory();
-      handleAutoTranslate();
+      translateText();
     });
     
     /**************** تسجيل Service Worker (لتطبيق الويب) ****************/
