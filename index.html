@@ -11,10 +11,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="محول رُقِبّرِى الفائق">
-  <!-- تضمين Bootstrap 5 مع دعم RTL وأيقونات FontAwesome -->
+  <!-- تضمين Bootstrap 5 وأيقونات FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <!-- (يمكنك إضافة مكتبات إضافية إن رغبت) -->
+  <!-- تم إزالة تأثير confetti -->
   <style>
     :root {
       --main-bg: #fff8e1;
@@ -77,7 +77,7 @@
 </head>
 <body>
   <div class="container my-3">
-    <!-- رأس الصفحة -->
+    <!-- رأس الصفحة مع الشعار -->
     <header class="d-flex justify-content-between align-items-center flex-wrap mb-3">
       <div id="headerTitle" class="d-flex align-items-center">
         <img src="002.png" alt="شعار الموقع" style="width:50px; height:50px; margin-left:10px;">
@@ -87,12 +87,11 @@
         <button id="darkModeToggle" class="btn btn-secondary" title="تبديل الوضع الداكن">
           <i class="fas fa-moon"></i>
         </button>
-        <!-- زر "ملء الشاشة" -->
         <button id="fullscreenBtn" class="btn btn-secondary" title="أضف إلى الشاشة الرئيسية">
           <i class="fas fa-plus-square"></i>
         </button>
-        <!-- زر الإعدادات -->
-        <button id="settingsBtn" class="btn btn-secondary" title="تعديل الإعدادات">
+        <!-- زر الإعدادات يعرض نافذة الإعدادات -->
+        <button id="settingsBtn" class="btn btn-secondary" title="عرض الإعدادات">
           <i class="fas fa-cog"></i>
         </button>
         <button id="helpBtn" class="btn btn-info" title="تعليمات الاستخدام">
@@ -129,7 +128,7 @@
     
     <!-- أزرار التحكم الرئيسية -->
     <div class="text-center mb-3">
-      <!-- الترجمة تعمل تلقائيًا -->
+      <!-- بما أن الترجمة تلقائية فلا يظهر زر "ترجم" -->
       <button id="clearBtn" class="btn btn-warning">مسح الإدخال</button>
       <button id="copyBtn" class="btn btn-success">نسخ الناتج</button>
       <button id="downloadBtn" class="btn btn-info">تنزيل الناتج</button>
@@ -197,19 +196,12 @@
               <label class="form-check-label" for="autoTranslate">تفعيل الترجمة التلقائية</label>
             </div>
           </div>
-          <!-- إعدادات النظام -->
+          <!-- إعدادات النظام: بما أن النظام ثابت على "رُقِبّرِى" يتم عرضه فقط -->
           <div class="mb-4">
-            <label class="form-label">تعديل النظام:</label>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="system" id="systemRuqabbari" value="ruqabbari" checked>
-              <label class="form-check-label" for="systemRuqabbari">رُقِبّرِى</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="system" id="systemMikzoro" value="mikzoro">
-              <label class="form-check-label" for="systemMikzoro">مِکزورو</label>
-            </div>
+            <label class="form-label">النظام:</label>
+            <p class="form-control">رُقِبّرِى (ثابت)</p>
           </div>
-          <!-- خيار تعديل ألوان الموقع (فوق الخيال) -->
+          <!-- قسم تعديل ألوان الموقع (فوق الخيال) -->
           <div class="mb-4">
             <h6>تعديل ألوان الموقع (فوق الخيال)</h6>
             <p class="small text-muted">
@@ -227,7 +219,6 @@
             </p>
             <input type="text" id="colorTokenInput" class="form-control mb-2" placeholder="أدخل رمز التحكم">
             <button id="activateColorControlButton" class="btn btn-primary btn-sm">تفعيل التحكم بالألوان</button>
-            <!-- القسم الذي سيظهر فيه أدوات تعديل الألوان حسب مستوى التحكم -->
             <div id="colorControlSection" style="display:none; margin-top:1rem;">
               <h6>تعديل ألوان الموقع</h6>
               <div id="colorInputsContainer"></div>
@@ -263,19 +254,18 @@
         </div>
         <div class="modal-body">
           <p>
-            هذا التطبيق يتيح لك تحويل النصوص باستخدام نظام "رُقِبّرِى" أو "مِکزورو" مع إمكانية تعديل المظهر.
+            هذا التطبيق يتيح لك تحويل النصوص باستخدام نظام "رُقِبّرِى" مع إمكانية تعديل المظهر.
           </p>
           <ul>
-            <li>يمكنك اختيار النظام من نافذة الإعدادات.</li>
-            <li>في نظام "مِکزورو" ستتغير تسميات خيارات الترجمة إلى "من عربي إلى مِکزورو" و"من مِکزورو إلى عربي".</li>
-            <li>تتغير إعدادات المظهر (حجم الخط، نوع الخط، وتباعد الأسطر) من خلال القائمة داخل نافذة الإعدادات.</li>
-            <li>يمكنك تعديل ألوان الموقع من خلال قسم "تعديل ألوان الموقع (فوق الخيال)" إذا أدخلت رمز التحكم الصحيح.</li>
-            <li>خانة الإدخال تُضبط تلقائيًا؛ إذا كان النص أرقاماً تظهر من اليسار (LTR) وإذا كان نصاً عربياً تظهر من اليمين (RTL).</li>
+            <li>يمكنك تعديل إعدادات المظهر (حجم الخط، نوع الخط، تباعد الأسطر) من نافذة الإعدادات.</li>
+            <li>النظام ثابت على "رُقِبّرِى".</li>
+            <li>خانة الإدخال تُضبط تلقائيًا؛ إذا كان النص يحتوي على أرقام فقط تظهر من اليسار (LTR) وإذا كان يحتوي على حروف تظهر من اليمين (RTL).</li>
             <li>الناتج يُعرض دائمًا من اليسار إلى اليمين.</li>
             <li>زر "تنزيل الناتج" يحفظ المحتوى الحقيقي فقط في ملف بصيغة REQR.</li>
-            <li>زر "تصدير السجل" يحفظ سجل التحويلات الحقيقي في ملف بصيغة REQS.</li>
+            <li>زر "تصدير السجل" يحفظ سجل التحويل الحقيقي في ملف بصيغة REQS.</li>
             <li>زر "ملء الشاشة" يعرض تعليمات إضافة التطبيق إلى الشاشة الرئيسية (خاصاً في متصفح سفاري) باستخدام شعار "002.png".</li>
-            <li>زر "عرض معنى الأرقام" يفتح نافذة تحتوي على جدول خريطة التحويل الخاصة بالنظام الحالي (بما في ذلك الحركات).</li>
+            <li>زر "عرض معنى الأرقام" يفتح نافذة تحتوي على جدول خريطة التحويل الخاصة بالنظام (بما في ذلك الحركات).</li>
+            <li>يمكنك تعديل ألوان الموقع عبر قسم "تعديل ألوان الموقع (فوق الخيال)" إذا أدخلت رمز التحكم الصحيح.</li>
           </ul>
         </div>
         <div class="modal-footer">
@@ -302,7 +292,7 @@
               </tr>
             </thead>
             <tbody id="mappingTable">
-              <!-- تعبئة الجدول بواسطة جافا سكريبت -->
+              <!-- سيتم تعبئة الجدول بواسطة جافا سكريبت -->
             </tbody>
           </table>
         </div>
@@ -317,8 +307,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   
   <script>
-    /**************** تعريف خريطتي التحويل لكل نظام ****************/
-    // نظام "رُقِبّرِى" (النظام الافتراضي)
+    /**************** تعريف خريطة التحويل لنظام "رُقِبّرِى" ****************/
     const mappingRuqabbari = {
       'أ': '1',
       'ب': '2',
@@ -374,54 +363,7 @@
       'ٓ': '000007'
     };
     
-    // نظام "مِکزورو"
-    const mappingMikzoro = {
-      'ا': 'ꓙ',
-      'ب': 'ꓘ',
-      'ج': 'ꓗ',
-      'د': 'ꓖ',
-      'ه': 'ꓕ',
-      'و': 'ꓔ',
-      'ز': 'ꓓ',
-      'ح': 'ꓒ',
-      'ط': 'ꓑ',
-      'ي': 'ꓐ',
-      'ك': 'ꓚ',
-      'ل': 'ꓜ',
-      'م': 'ꓝ',
-      'ن': 'ꓞ',
-      'س': 'ꓟ',
-      'ع': 'ꓠ',
-      'ف': 'ꓡ',
-      'ص': 'ꓢ',
-      'ق': 'ꓣ',
-      'ر': 'ꓷ',
-      'ش': 'ꓶ',
-      'ت': 'ꓵ',
-      'ث': 'ꓴ',
-      'خ': 'ꓳ',
-      'ذ': 'ꓭ',
-      'ض': 'ꓬ',
-      'ظ': 'ꓫ',
-      'غ': 'ꓪ',
-      'گ': 'ꓩ',
-      'ة': 'ꓨ',
-      'چ': 'ꓧ',
-      'پ': 'ꓦ',
-      'ژ': 'ꓥ',
-      'ء': 'ꓮ',
-      'ى': 'ꓯ',
-      'ئ': 'ꓱ',
-      'ؤ': 'ꓰ',
-      'ڤ': 'ꓲ'
-    };
-    // نترك الحركات في نظام "مِکزورو" كما هي (هوية)
-    const diacritics = ['ٍ','َ','ّ','ً','ُ','ِ','ْ','ٌ','ـ','ٰ','ٓ'];
-    diacritics.forEach(diacritic => {
-      mappingMikzoro[diacritic] = diacritic;
-    });
-    
-    // إنشاء جداول عكسية لكل نظام
+    // إنشاء جدول عكسي لنظام "رُقِبّرِى"
     function createReverseMapping(mappingObj) {
       const reverse = {};
       let maxLen = 0;
@@ -433,16 +375,10 @@
       return { reverse, maxLen };
     }
     const { reverse: reverseMappingRuqabbari, maxLen: maxCodeLengthRuqabbari } = createReverseMapping(mappingRuqabbari);
-    const { reverse: reverseMappingMikzoro, maxLen: maxCodeLengthMikzoro } = createReverseMapping(mappingMikzoro);
     
-    // دالة للحصول على الخريطة والنظام الحالي من القائمة
+    // دالة للحصول على الخريطة الحالية (النظام ثابت على "رُقِبّرِى")
     function getCurrentMapping() {
-      const system = document.getElementById("systemSelect").value;
-      if(system === "mikzoro"){
-        return { mapping: mappingMikzoro, reverseMapping: reverseMappingMikzoro, maxCodeLength: maxCodeLengthMikzoro };
-      } else {
-        return { mapping: mappingRuqabbari, reverseMapping: reverseMappingRuqabbari, maxCodeLength: maxCodeLengthRuqabbari };
-      }
+      return { mapping: mappingRuqabbari, reverseMapping: reverseMappingRuqabbari, maxCodeLength: maxCodeLengthRuqabbari };
     }
     
     /**************** الوظيفة الرئيسية للترجمة مع debounce ****************/
@@ -465,10 +401,7 @@
             }
           }
         } else {
-          let processedInput = "";
-          for (let ch of input) {
-            processedInput += ch;
-          }
+          let processedInput = input;
           let idx = 0;
           while (idx < processedInput.length) {
             let found = false;
@@ -524,7 +457,7 @@
       localStorage.removeItem("conversionHistory");
       renderHistory();
     }
-    // تصدير سجل التحويل (السجل الحقيقي) بصيغة REQS
+    // تصدير سجل التحويل بصيغة REQS
     function exportHistory() {
       const history = localStorage.getItem("conversionHistory") || "[]";
       const blob = new Blob([history], { type: "text/plain;charset=utf-8" });
@@ -546,7 +479,6 @@
         .then(() => alert("تم نسخ الناتج!"))
         .catch(() => alert("فشل النسخ."));
     }
-    // تنزيل الناتج الحقيقي بصيغة REQR
     function downloadResult() {
       const result = document.getElementById("resultText").innerText;
       const blob = new Blob([result], { type: "text/plain;charset=utf-8" });
@@ -568,27 +500,24 @@
       document.body.classList.toggle("dark");
       localStorage.setItem("darkMode", document.body.classList.contains("dark"));
     }
-    // زر "ملء الشاشة"
     function toggleFullscreen() {
       alert("لإضافة التطبيق إلى الشاشة الرئيسية:\n1. اضغط على زر المشاركة في متصفح سفاري.\n2. اختر 'أضف إلى الشاشة الرئيسية'.\n3. استخدم شعار التطبيق (002.png) كأيقونة.");
     }
     
     /**************** قسم تعديل ألوان الموقع (فوق الخيال) ****************/
-    // دالة لفحص رمز التحكم وإظهار أدوات تغيير الألوان بحسب المستوى
     function checkColorToken() {
       const token = document.getElementById("colorTokenInput").value.trim();
       let controlLevel = 0;
-      // تحديد مستوى التحكم بناءً على الرمز
       if(token === "CcV57gi7") {
-        controlLevel = 1; // التحكم الخفيف: تغيير الخلفية الرئيسية
+        controlLevel = 1;
       } else if(token === "S38uy68gord7") {
-        controlLevel = 2; // التحكم المتوسط: إضافة تغيير لون الحاوية
+        controlLevel = 2;
       } else if(token === "GoT5HDKio74h99j07") {
-        controlLevel = 3; // التحكم العالي: إضافة تغيير لون النص والتمييز
+        controlLevel = 3;
       } else if(token === "Sajjad75gorte0one1piece") {
-        controlLevel = 4; // التحكم الكامل: إضافة تغيير نوع الخط (بصيغة نصية) بالإضافة إلى السابق
+        controlLevel = 4;
       } else if(token === "Xhe72UD738jdi899oredol34io3you") {
-        controlLevel = 5; // التحكم الفائق: إضافة تغيير تباعد الأسطر أيضاً
+        controlLevel = 5;
       }
       
       if(controlLevel === 0) {
@@ -600,12 +529,9 @@
       }
     }
     
-    // دالة لإنشاء حقول تعديل الألوان بناءً على مستوى التحكم
     function populateColorControls(level) {
       const container = document.getElementById("colorInputsContainer");
-      container.innerHTML = ""; // تفريغ المحتوى
-      
-      // مستوى 1: تغيير الخلفية الرئيسية
+      container.innerHTML = "";
       if(level >= 1) {
         container.innerHTML += `
           <div class="mb-2">
@@ -614,7 +540,6 @@
           </div>
         `;
       }
-      // مستوى 2: تغيير لون الحاوية
       if(level >= 2) {
         container.innerHTML += `
           <div class="mb-2">
@@ -623,7 +548,6 @@
           </div>
         `;
       }
-      // مستوى 3: تغيير لون النص ولون التمييز
       if(level >= 3) {
         container.innerHTML += `
           <div class="mb-2">
@@ -636,7 +560,6 @@
           </div>
         `;
       }
-      // مستوى 4: تغيير نوع الخط (يمكن إدخال اسم خط مخصص)
       if(level >= 4) {
         container.innerHTML += `
           <div class="mb-2">
@@ -645,7 +568,6 @@
           </div>
         `;
       }
-      // مستوى 5: تغيير تباعد الأسطر
       if(level >= 5) {
         container.innerHTML += `
           <div class="mb-2">
@@ -656,7 +578,6 @@
       }
     }
     
-    // دالة لتطبيق ألوان الموقع حسب الحقول الموجودة
     function applyCustomColors() {
       if(document.getElementById("mainBgColor"))
         document.documentElement.style.setProperty("--main-bg", document.getElementById("mainBgColor").value);
@@ -676,13 +597,10 @@
       alert("تم تحديث ألوان الموقع بنجاح!");
     }
     
-    // حدث زر تفعيل التحكم بالألوان
     document.getElementById("activateColorControlButton").addEventListener("click", checkColorToken);
-    // حدث زر تطبيق التغييرات في قسم تعديل الألوان
     document.getElementById("applyColorsButton").addEventListener("click", applyCustomColors);
     
-    /**************** تفعيل الأحداث الرئيسية ****************/
-    document.getElementById("translateBtn").addEventListener("click", translateText);
+    /**************** تفعيل الأحداث ****************/
     document.getElementById("clearBtn").addEventListener("click", clearText);
     document.getElementById("copyBtn").addEventListener("click", copyResult);
     document.getElementById("downloadBtn").addEventListener("click", downloadResult);
@@ -698,8 +616,7 @@
       new bootstrap.Modal(document.getElementById("settingsModal")).show();
     });
     document.getElementById("showMappingBtn").addEventListener("click", () => {
-      const system = document.getElementById("systemSelect").value;
-      const currentMapping = (system === "mikzoro") ? mappingMikzoro : mappingRuqabbari;
+      const currentMapping = mappingRuqabbari;
       const tableBody = document.getElementById("mappingTable");
       tableBody.innerHTML = "";
       for (let key in currentMapping) {
@@ -723,7 +640,7 @@
       translateText();
     });
     
-    /**************** تسجيل Service Worker (لتطبيق الويب) ****************/
+    /**************** تسجيل Service Worker ****************/
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js')
         .then(function(registration) {
